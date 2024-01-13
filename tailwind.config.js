@@ -1,15 +1,16 @@
 /** @type {import('tailwindcss').Config} */
 import colors from 'tailwindcss/colors';
+import { colors as colorapp } from './src/app/config/app';
 export default {
   content: ['./src/**/*.jsx', './src/modules/**/*.jsx'],
   theme: {
     extend: {
       colors:{
         ...colors,
-        primary: '#0b56a7',
-        secondary: '#389fae',
-        primarylite: '#207ba8',
-        secondarylite: '#4dc9b1'
+        ...colorapp
+      },
+      zIndex:{
+        '100': '9999999'
       }
     },
   },

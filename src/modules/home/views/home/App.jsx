@@ -1,12 +1,12 @@
 import Layout from '@app/app/layouts/Layout';
 import img from '@app/assets/imgs/undraw_gifts_0ceh.svg';
-import { ChakraProvider } from '@chakra-ui/react';
 import AppTable from '@appcomponents/Core/AppTable';
 import TableHelper from './TableHelper';
 import { MdDelete } from "react-icons/md";
 import { FiEdit } from "react-icons/fi";
 import { FaFilePdf } from "react-icons/fa6";
-
+import AppCard from '@app/app/app_components/Core/AppCard';
+import { useEffect, useState } from 'react';
 const actions = [
     {
         name: 'Editar',
@@ -34,15 +34,43 @@ const actions = [
 
 function App() {
     let {columns,actionColumns} = TableHelper.data();
-  
    actionColumns.list = actions;
+
+   const [load,setLoad] = useState(false);
+
+   useEffect(() => {
+        setTimeout(() => {
+            setLoad(true);
+        },5000)
+   },[])
+
+//    useEffect(() => {
+//     // Encuentra el elemento y desplázate hacia él
+//     const targetElement = document.getElementById('plans');
+//     if (targetElement) {
+//       targetElement.scrollIntoView({ behavior: 'smooth' });
+//     }
+//   }, []); 
+
   return (
     <>
-    <ChakraProvider >
       <Layout>
+
       <section className="bg-white dark:bg-gray-900">
           <div className="grid max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 lg:pt-28">
               <div className="mr-auto place-self-center lg:col-span-7">
+                  <h1 className="max-w-2xl mb-4 text-4xl font-extrabold leading-none tracking-tight md:text-5xl xl:text-6xl dark:text-white"><br/> Modernizando la experiencia de sorteos. </h1>
+                  <p className="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">Bienvenidos al Sistema de Rifas Online. <br />
+                  La plataforma ofrece una forma conveniente y segura de organizar rifas, permitiendo una participación fácil desde cualquier lugar.
+                  <br />
+                  Con funcionalidades automáticas y transparentes, el sistema garantiza la equidad en los resultados, brindando a los organizadores la confianza necesaria.
+                  </p>
+                  <h1 className="max-w-2xl mb-4 text-4xl font-extrabold leading-none tracking-tight md:text-5xl xl:text-6xl dark:text-white"><br/> Modernizando la experiencia de sorteos. </h1>
+                  <p className="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">Bienvenidos al Sistema de Rifas Online. <br />
+                  La plataforma ofrece una forma conveniente y segura de organizar rifas, permitiendo una participación fácil desde cualquier lugar.
+                  <br />
+                  Con funcionalidades automáticas y transparentes, el sistema garantiza la equidad en los resultados, brindando a los organizadores la confianza necesaria.
+                  </p>
                   <h1 className="max-w-2xl mb-4 text-4xl font-extrabold leading-none tracking-tight md:text-5xl xl:text-6xl dark:text-white"><br/> Modernizando la experiencia de sorteos. </h1>
                   <p className="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">Bienvenidos al Sistema de Rifas Online. <br />
                   La plataforma ofrece una forma conveniente y segura de organizar rifas, permitiendo una participación fácil desde cualquier lugar.
@@ -59,16 +87,19 @@ function App() {
                   </div> */}
               </div>
               <div className="hidden lg:mt-0 lg:col-span-5 lg:flex">
-                  <img src={img} alt="hero image" />
+                  <img src={img} alt="hero image" className='' />
               </div>  
 
           </div>
-          <div className='w-full m-auto'>
+          {/* <div className='w-full flex gap-4 flex-wrap' >
+          <AppCard url='https://jsonplaceholder.typicode.com/posts' />
+
+          </div> */}
+          {/* <div id='plans' className='w-full m-auto'>
                   <AppTable url='https://jsonplaceholder.typicode.com/users' columns={columns} actionColumns={actionColumns}  />
-          </div>
+          </div> */}
       </section>
       </Layout>
-    </ChakraProvider>
     </>
   )
 }

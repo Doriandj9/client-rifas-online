@@ -1,3 +1,34 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+@layer components {
+ .link-active{
+    @apply text-secondaryop-700;
+ }
+ .sidebar-inactive{
+   @apply w-full flex items-center h-10 pl-4 hover:bg-primaryop-100 rounded-lg cursor-pointer block;
+ }
+ .sidebar-inactive:hover > *:first-child {
+   @apply text-secondary;
+ } 
+ .sidebar-inactive:hover > *:last-child {
+   @apply text-primary;
+ } 
+ .sidebar-inactive > *:first-child {
+   @apply text-blue-400;
+ }
+ .sidebar-inactive > *:last-child {
+   @apply text-white;
+ }
+ .sidebar-active{
+   @apply w-full flex items-center h-10 pl-4 bg-primaryop-100 hover:bg-primaryop-100 rounded-lg cursor-pointer block;
+ }
+ .sidebar-active > *:first-child {
+   @apply text-secondary;
+ }
+ .sidebar-active > *:last-child {
+   @apply text-primary;
+ }
+}

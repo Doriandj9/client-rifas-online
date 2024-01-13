@@ -1,8 +1,7 @@
+import SkeletonCard from "../../app_components/Core/SkeletonCard";
 import SkeletonTable from "../../app_components/Core/SkeletonTable";
 
 const withAPIFeedback = (Component) => ({ hasError, isLoading, data }) => {
-
-    console.log(Component);
 
     if (isLoading) return <p>Loading…</p>;
     if (hasError) return <p>Sorry, data could not be fetched.</p>;
@@ -10,11 +9,15 @@ const withAPIFeedback = (Component) => ({ hasError, isLoading, data }) => {
     return <Component {...{...data}} />;
 }
 
-const withAPIFeedbackTable = (Component) => ({ hasError, isLoading, data }) => {
+const withAPIFeedbackTable = (Component) => ({ hasError, isLoading, data,type='default' }) => {
 
-    console.log(Component);
+    const elementsLoad  = {
+        'table': <SkeletonTable />,
+        'card': <SkeletonCard />,
+        'default': <p>Cargando..</p>
+    };
 
-    if (isLoading) return <SkeletonTable />;
+    if (isLoading) return elementsLoad[type] ?? elementsLoad['default'];
     if (hasError) return <p>{hasError}</p>;
     if (!data) return <p>No data found.</p>;
     return <Component {...{...data}} />;

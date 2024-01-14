@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 import { MdLockReset } from "react-icons/md";
 import routesweb from "../../config/routesweb";
 import { FaRegIdCard, FaRegFilePdf } from "react-icons/fa";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GrUserSettings } from "react-icons/gr";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { MdCreditScore } from "react-icons/md";
@@ -13,7 +13,11 @@ import { BsTicketPerforated } from "react-icons/bs";
 import { TbPigMoney } from "react-icons/tb";
 import { FcMoneyTransfer } from "react-icons/fc";
 import { BiMoneyWithdraw } from "react-icons/bi";
+import { useAuth } from "../../store/app/userStore";
 const SidebarRaffles = () => {
+    const user = useAuth((state) => state.user);
+
+    const [block, setBlock] = useState(false);
     const [objRoutes, setObjRoutes] = useState({
         admin_plans: false,
         admin_reports: false
@@ -24,9 +28,19 @@ const SidebarRaffles = () => {
     const handleRoute = ({ isActive, isPending, isTransitioning }) => {
        return isActive ? 'sidebar-active' : 'sidebar-inactive';
     };
+    useEffect(() => {
+        if(user && !user.organize_riffs){
+            setBlock(true);
+        }
+    }, [user])
     return (
         <>
-   <div className="mb-4 px-4">
+   <div className="mb-4 px-4 relative">
+            {
+                block &&
+                <div title="Este menú no se encuentra disponible hasta que se verifique tu comprobante de pago "
+                className="absolute h-full top-0 left-0 w-full opacity-25 bg-white"></div>
+            }
             <p className="pl-4 text-md font-semibold text-white mb-1">Menú rifas</p>
             <NavLink to={prefix + '/' + routes.plans} 
             className={(props) => handleRoute(props)}

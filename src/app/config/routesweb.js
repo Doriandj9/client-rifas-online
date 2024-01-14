@@ -20,6 +20,9 @@ export default {
             authentication: {
                 root: 'authentication/user',
             },
+            authentication_raffles: {
+                root: 'authentication/raffles',
+            },
             dashboard: {
                 root: 'dashboard'
             },

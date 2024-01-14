@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AppModal from "../../../../app/app_components/Core/AppModal";
 import { IoCheckmarkDoneCircle } from "react-icons/io5";
 import DisplayToast from "../../../../app/app_components/Core/DisplayToast";
@@ -18,7 +18,7 @@ import { Form } from "react-router-dom";
 
 
 const url  = credentials.server + routesapi.subscriptions;
-const Modal = ({id}) => {
+const Modal = () => {
     //hooks
     const user = useAuth(state => state.user);
     const updateUser = useAuth(state => state.save);
@@ -30,7 +30,7 @@ const Modal = ({id}) => {
         isClosable: true
     });
     //state
-    const [open,setOpen] = useState(true);
+    const [open,setOpen] = useState(false);
     const [loadingFetch, setLoadingFetch] = useState(false);
     const [errorFetch, setErrorFetch] = useState(null);
     const [openPayment, setOpenPayment] = useState(false);
@@ -38,6 +38,10 @@ const Modal = ({id}) => {
     const [file, setFile] = useState('');
     const { data, error, loading,total, refetch: fetchData } = useFetch(url,{method: 'GET'},'data');
     
+    //code 
+    
+
+    //handlers
     const handleClose = () => {
         toast({
             title: 'Advertencia',
@@ -113,6 +117,13 @@ const Modal = ({id}) => {
             setLoadingFetch(false);
         }
     }
+    //effects
+
+    useEffect(() => {
+        if(user && user.is_new){
+            setOpen(true);
+        }
+    },[])
     
     return (
         <>
@@ -125,10 +136,11 @@ const Modal = ({id}) => {
                 Selecciona una de las siguientes suscripciones.
             </div>
             </>
-        } isOpen={false} size={'full'}
+        } isOpen={true} size={'full'}
         onClose= {handleClose}
         >
-            <div className="flex gap-5 w-9/12 m-auto justify-around">
+            {/* <div className="flex gap-5 w-9/12 m-auto justify-around xl:flex-nowrap lg:flex-wrap md:flex-wrap"> */}
+        <div className="grid grid-rows-1 2xl:grid-cols-3 xl:grid-cols-3 gap-2 md:grid-cols-2 sm:grid-cols-1 md:place-items-center sm:place-items-center">
                 {
                     data.map((plan) =>  (<AppDisplayPlan key={plan.id} plan={plan} handleClick={handleClick(plan)} />))
                 }

@@ -23,6 +23,8 @@ import Default from "../views/Dashboard/Default";
 import ListPlans from "../views/Plans/tabs/ListPlans";
 import NewPlans from "../views/Plans/tabs/NewPlans";
 import AppAuth from "../views/AuthenticationUser/App";
+import AppAuthRaffles from "../views/AuthenticationRaffles/App";
+
 /**
  * @constant home rutas del home
  */
@@ -50,6 +52,10 @@ export default {
         {
             path: routesweb.admin.children.authentication.root,
             element: <AppAuth />
+        },
+        {
+            path: routesweb.admin.children.authentication_raffles.root,
+            element: <AppAuthRaffles />
         },
         {
             path: routesweb.admin.children.dashboard.root,

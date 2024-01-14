@@ -43,7 +43,7 @@ const SidebarAdmin = () => {
                 <GiSecurityGate className="text-2xl mr-2" />
                 <span className="text-white hover:text-gray-700">Autenticaciones</span>
             </NavLink>
-            <NavLink to={'pendiente'}
+            <NavLink to={routes.children.authentication_raffles.root}
             className={(props) => handleRoute(props)}
             >
                 <MdOutlineCreditScore className="text-2xl mr-2" />

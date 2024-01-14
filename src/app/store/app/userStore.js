@@ -6,6 +6,7 @@ const accessToken = getAccessTokenFromCookie() ? jwtDecode(getAccessTokenFromCoo
 const keyToken = atob(getKeyTokenFromCookie() ?? '');
 const useAuth = create((set) => ({
     user: accessToken,
+    login: accessToken ? true : false,
     save: (data) => set((state) => {
         const {token} = data;
         document.cookie = `accessToken=${token}; Secure; SameSite=Strict; path=/`;

@@ -10,5 +10,6 @@ export default {
     subscriptions: '/api/subscriptions',
     raffles_update_plans: '/api/raffles/subscriptions/plans',
     raffles_subscriptions_voucher: '/api/raffles/subscriptions/plans/voucher',
-    logout: '/api/logout'
+    logout: '/api/logout',
+    admin_auth_raffles: '/api/admin/user/authorization/raffles'
 };

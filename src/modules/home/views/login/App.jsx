@@ -5,7 +5,7 @@ import { Form, Link, useNavigate } from 'react-router-dom';
 import { FiLogIn } from "react-icons/fi";
 import { FaGoogle,FaWindows } from "react-icons/fa";
 import {initialFetch} from '../../../../app/utilities/web/fetchQuery';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { credentials } from '../../../../app/config/app';
 import routes from '../../../../app/config/routesapi';
 import Loader from '../../../../app/app_components/Core/Loader';
@@ -16,6 +16,7 @@ import { useAccessToken, useAuth } from '../../../../app/store/app/userStore';
 import routesweb from '../../../../app/config/routesweb';
 const App = () => {
     const navigate = useNavigate();
+    const user = useAuth((state) => state.user);
     const login = useAuth((state) => state.save)
     const accToken = useAccessToken((state) => state.save)
     const[loading, setLoading] = useState(false);
@@ -66,6 +67,12 @@ const App = () => {
         )
     }
 
+    useEffect(() => {
+        if(user){
+            navigateRoutes(navigate,user)
+        }
+    },[user])
+
     return (
         <>
             <Layout >
@@ -73,16 +80,16 @@ const App = () => {
             // style={{ position: 'fixed', top: '50%', left: '50%', translate: '-50%,-50%'}}
              />
             <Loader loading={loading} />
-            <section className="bg-gray-100 dark:bg-gray-900 p-[3rem]">
-            <div className="max-w-screen-xl px-4 pt-20 pb-8 mx-auto">
+            <section className="bg-gray-100 dark:bg-gray-900 md:p-[3rem] p-0">
+            <div className="md:max-w-screen-xl px-4 pt-20 pb-8 mx-auto w-full">
               <div className='flex items-center mt-12 border border-primary'>
-                <div className='bg-primary w-2/5 flex flex-col justify-center items-center h-[38rem] gap-5'>
+                <div className='bg-primary w-2/5 md:flex flex-col justify-center items-center h-[38rem] gap-5 hidden'>
                     <img className='w-1/2' src={img} alt="" />
                     <p className='text-white text-3xl italic font-bold shadow'><span className='text-secondary'>H</span>AYU24</p>
                     <p className='text-center text-white'>¡Bienvenido/a a nuestra plataforma! Estamos emocionados/as de tenerte aquí. </p>
                 </div>
                 <div className='bg-white h-[38rem] flex-grow'>
-                    <p className='p-4 text-center w-full  m-auto text-2xl font-bold text-black mt-4'>Ingresa con tu cuenta para explorar todas las increíbles oportunidades que te esperan. </p>
+                    <p className='p-4 text-center w-full  m-auto md:text-2xl text-xl font-bold text-black mt-4'>Ingresa con tu cuenta para explorar todas las increíbles oportunidades que te esperan. </p>
 
                     <div className='p-2 w-11/12 m-auto'>
                         <Form onSubmit={handleSubmit}>

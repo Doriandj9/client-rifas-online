@@ -10,7 +10,10 @@ import { GrUserSettings } from "react-icons/gr";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { ImTicket } from "react-icons/im";
 import { FaListCheck } from "react-icons/fa6";
+import { MdOutlinePayment } from "react-icons/md";
+import { useAuth } from "../../store/app/userStore";
 const SidebarClient = () => {
+    const user = useAuth(state => state.user);
     const [objRoutes, setObjRoutes] = useState({
         admin_plans: false,
         admin_reports: false
@@ -22,13 +25,21 @@ const SidebarClient = () => {
     };
     return (
         <>
-   <div className="mb-4 px-4">
+        { user.is_client &&
+            <div className="mb-4 px-4">
             <p className="pl-4 text-md font-semibold text-white mb-1">Menú cliente</p>
             <NavLink to={routes.children.plans.root} 
             className={(props) => handleRoute(props)}
             >
                 {/* <Home_Medium className="text-secondary" /> */}
                 <ImTicket className="text-xl mr-2" />
+                 <span>Mis boletos</span>
+            </NavLink>
+            <NavLink to={routes.children.plans.root} 
+            className={(props) => handleRoute(props)}
+            >
+                {/* <Home_Medium className="text-secondary" /> */}
+                <MdOutlinePayment className="text-xl mr-2" />
                  <span>Compra de rifas</span>
             </NavLink>
             <NavLink to={routes.children.reports.root}
@@ -38,6 +49,7 @@ const SidebarClient = () => {
                 <span className="text-white hover:text-gray-700">Detalles</span>
             </NavLink>
             </div>
+        }
         </>
     );
 }

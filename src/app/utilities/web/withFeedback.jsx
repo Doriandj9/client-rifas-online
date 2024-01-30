@@ -1,5 +1,8 @@
+import Lottie from "react-lottie";
 import SkeletonCard from "../../app_components/Core/SkeletonCard";
 import SkeletonTable from "../../app_components/Core/SkeletonTable";
+import { lottieOptions } from "./configs";
+import aError from '@app/assets/imgs/animations/error.json';
 
 const withAPIFeedback = (Component) => ({ hasError, isLoading, data }) => {
 
@@ -18,10 +21,22 @@ const withAPIFeedbackTable = (Component) => ({ hasError, isLoading, data,type='d
     };
 
     if (isLoading) return elementsLoad[type] ?? elementsLoad['default'];
-    if (hasError) return <p>{hasError}</p>;
+    if (hasError) return  <ErrorBundle  error={hasError} />;
     if (!data) return <p>No data found.</p>;
     return <Component {...{...data}} />;
 }
 
+
+const ErrorBundle =({error}) => {
+    
+    return (
+        <>
+        <Lottie options={{animationData: aError, ...lottieOptions}}  width={200} height={200} />
+        <p>
+            {error.message}
+        </p>
+        </>
+    );
+}
 
 export {withAPIFeedback,withAPIFeedbackTable};1

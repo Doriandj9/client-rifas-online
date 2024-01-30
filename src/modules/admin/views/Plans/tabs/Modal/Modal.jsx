@@ -4,11 +4,17 @@ import { credentials } from "../../../../../../app/config/app";
 import routesapi from "../../../../../../app/config/routesapi";
 import { useAccessToken } from "../../../../../../app/store/app/userStore";
 import { useFetch } from "../../../../../../app/utilities/hooks/data/useFetch";
-import { Checkbox, FormControl, FormLabel, Input, Radio, RadioGroup, Stack } from "@chakra-ui/react";
+import { Checkbox, FormControl, FormLabel, IconButton, Input, Radio, RadioGroup, Stack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { MdEditDocument } from "react-icons/md";
+import { MdDelete, MdEditDocument } from "react-icons/md";
+import { IoAddCircle } from "react-icons/io5";
+
 const Modal = ({id, open,onClose, buttons}) => {
     //states
+    const[items, setItems] = useState([]);
+    const [itemDelete, setItemDelete] = useState(-1);
+    const[count, setCount] = useState(0);
+
     const [inputs,setInputs] = useState({
         title: '',
         subject: '',
@@ -32,14 +38,62 @@ const Modal = ({id, open,onClose, buttons}) => {
             [e.target.name]: e.target.value
         });
     }
+    const removeItem = (e, id,itemsForm) => {
+        e.preventDefault();
+        e.stopPropagation();       
+        setItemDelete(id);
+    }
+    const handleInput = (e) => {
+        setInputs(
+            {
+                ...inputs,
+                [e.target.name]: e.target.value,
+            }
+        )
+    }
+    const moreItem = (e,value) => {
+        let num = count + 1;
+        setCount(num);
+        let itemsForm = [...items];
+        itemsForm.push({
+            id: count,
+            element: <Item value={value} handleRemove={(e) => removeItem(e,num,items)} key={ num + '-item'} />
+        });
+        setItems(itemsForm);
+
+    }
     //effects
+    useEffect(() => {
+        setItems([]);
+       },[open])
     useEffect(() => {
         if(data !== null &&  data['id'] !== null){
             setInputs({...data,is_inactive: data.is_active ? '0' : '1',
                 is_active: data.is_active ? '1' : '0',
             });
+            const plans = JSON.parse(data.description ?? "[]");
+            let itemsForm = [...items];
+            plans.forEach(plan => {
+                let num = count + 1;
+                setCount(num);
+                itemsForm.push({
+                    id: count,
+                    element: <Item value={plan} handleRemove={(e) => removeItem(e,num,items)} key={ num + '-fetch-item'} />
+                });
+            })
+            setItems(itemsForm);
         }
     },[data])
+
+    useEffect(() => {
+        if(items.length > 0){
+            const itemsForm = [...items].filter((item) => item.id !== (itemDelete - 1));
+            setItems(itemsForm);
+        }
+
+   },[itemDelete])
+
+   
     return (
         <>
             <AppModal isOpen={open} onClose={onClose}
@@ -125,9 +179,46 @@ const Modal = ({id, open,onClose, buttons}) => {
                         value={inputs.maximum_tickets}/>
                     </FormControl>
                 </div>
-
+                <FormControl isRequired marginTop={15}>
+                        <FormLabel fontWeight={'bold'}>Funciones principales</FormLabel>
+                            <div className="flex ">
+                                <Input name='descriptionInit'
+                                    value={inputs.descriptionInit}
+                                    onInput={handleInput}
+                                    className='shadow w-4/5' height={50} placeholder='Por ejemplo: Rifas ilimitadas'
+                                    />
+                                <IconButton
+                                onClick={moreItem}
+                                 height={50} aria-label='Nuevo Item' className="w-14"
+                                  icon={<IoAddCircle className="w-8 h-8 text-primary" />} />
+                            </div>
+                            {items.map((item) => {
+                                
+                                return (
+                                    item.element
+                                ); 
+                            })}
+                    </FormControl>
                 </Form>
             </AppModal>
+        </>
+    );
+}
+
+const Item = ({handleRemove, value}) => {
+    // const [inputs,setInputs] = useState({});
+    return (
+        <>
+        <div className="flex mt-2">
+            <Input name='list[]' data-list
+                value={value}
+                className='shadow w-4/5' height={50} placeholder='Por ejemplo: Rifas ilimitadas'
+            />
+            <IconButton
+            onClick={handleRemove}
+            height={50} aria-label='Borrar Item' className="w-14"
+            icon={<MdDelete className="w-8 h-8 text-secondary" />} />
+        </div>
         </>
     );
 }

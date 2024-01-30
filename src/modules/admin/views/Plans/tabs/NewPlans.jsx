@@ -67,14 +67,16 @@ const NewPlans = () => {
         try{
           const list =  Array.from(e.target.querySelectorAll('input[data-list]'));
           const itemsF = list.map(item => {
-            return (`<li> ${item.value} </li>`);
+            return (item.value);
           })
-          const description = [`<li> ${inputs.descriptionInit}</li>`,...itemsF];
-          const inputsQuery ={ ...inputs,description: description}
+          const description = [inputs.descriptionInit,...itemsF];
+          const inputsQuery ={ ...inputs,description: JSON.stringify(description)}
+          console.log(inputsQuery);
           setInputs(inputsQuery);
           for( const[key,value] of Object.entries(inputsQuery)){
             form.append(key,value);
           }
+
            const data = await fetchQuery(accToken,url,{method: 'POST',body: form},setLoading,setError);
            if(data.status){
                toast.success(data.message, {

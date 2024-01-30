@@ -11,10 +11,10 @@ const Footer  = () => {
                                 <h3 className="mb-6 text-sm font-semibold text-white uppercase dark:text-white">Ayuda</h3>
                                 <ul className="text-gray-200 dark:text-gray-400">
                                     <li className="mb-4">
-                                        <a href="#" className="hover:underline">Twitter</a>
+                                        <a href="https://twitter.com/digital_educas" className="hover:underline">Twitter</a>
                                     </li>
                                     <li className="mb-4">
-                                        <a href="#" className="hover:underline">Facebook </a>
+                                        <a href="https://www.facebook.com/digitaleducas.oficial" className="hover:underline">Facebook </a>
                                     </li>
                                     <li className="mb-4">
                                         <a href="#" className="hover:underline">Contact Us</a>
@@ -40,17 +40,17 @@ const Footer  = () => {
                     <span className="block text-sm text-center text-gray-500 dark:text-gray-400">© 2023-2024 Digital Educas | Todos los derechos reservados </span>
                     <ul className="flex justify-center mt-5 space-x-5">
                         <li>
-                            <a href="#" className="text-gray-500 hover:text-gray-900 dark:hover:text-white dark:text-gray-400">
+                            <a href="https://www.facebook.com/digitaleducas.oficial" className="text-gray-500 hover:text-gray-900 dark:hover:text-white dark:text-gray-400">
                                 <FacebookSVG_Small />
                             </a>
                         </li>
                         <li>
-                            <a href="#" className="text-gray-500 hover:text-gray-900 dark:hover:text-white dark:text-gray-400">
+                            <a href="https://www.instagram.com/digitaleducas/" className="text-gray-500 hover:text-gray-900 dark:hover:text-white dark:text-gray-400">
                                 <InstagramSVG_Small />
                             </a>
                         </li>
                         <li>
-                            <a href="#" className="text-gray-500 hover:text-gray-900 dark:hover:text-white dark:text-gray-400">
+                            <a href="https://twitter.com/digital_educas" className="text-gray-500 hover:text-gray-900 dark:hover:text-white dark:text-gray-400">
                                 <Twitter_Small />
                             </a>
                         </li>

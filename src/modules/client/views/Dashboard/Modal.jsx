@@ -120,7 +120,7 @@ const Modal = () => {
     //effects
 
     useEffect(() => {
-        if(user && user.is_new){
+        if(user && user.is_new && user.is_raffles){
             setOpen(true);
         }
     },[])
@@ -136,7 +136,7 @@ const Modal = () => {
                 Selecciona una de las siguientes suscripciones.
             </div>
             </>
-        } isOpen={true} size={'full'}
+        } isOpen={open} size={'full'}
         onClose= {handleClose}
         >
             {/* <div className="flex gap-5 w-9/12 m-auto justify-around xl:flex-nowrap lg:flex-wrap md:flex-wrap"> */}

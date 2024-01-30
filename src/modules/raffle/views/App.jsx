@@ -22,7 +22,7 @@ const App = () => {
     }
     
         
-        return (<div className="min-h-[70.85vh]">
+        return (<div className="min-h-[70.85vh] relative">
                 <Outlet />
         </div>);
 }

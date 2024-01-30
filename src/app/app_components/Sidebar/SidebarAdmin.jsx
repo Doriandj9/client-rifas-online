@@ -1,7 +1,7 @@
 import { Home_Medium, Analytics_Medium, Inventory_Medium } from "@app/components/ImgSVG";
 import { useMenuStore } from "../../store/menuStore"
 import logo from "@app/assets/imgs/DigitalEducas-Logos/hayu24.png"
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { MdLockReset } from "react-icons/md";
 import routesweb from "../../config/routesweb";
 import { FaRegIdCard, FaRegFilePdf } from "react-icons/fa";
@@ -25,7 +25,10 @@ const SidebarAdmin = () => {
             <div className={`w-1/2 md:w-1/3 lg:w-64 fixed md:top-0 md:left-0 h-screen lg:block bg-primary border-r z-30 ${sideBarOpen ? '' : 'hidden'}`} id="main-nav">
             <div className="w-full h-28 border-b flex px-4 py items-center mb-8 bg-gray-50">
             <p className="font-semibold text-3xl text-blue-400 pl-4">
-                <img src={logo} className="w-44" alt="" /></p>
+               <Link to={routesweb.admin.children.dashboard.root}>
+               <img src={logo} className="w-44" alt="" />
+               </Link> 
+               </p>
             </div>
 
             <div className="mb-4 px-4">

@@ -6,4 +6,11 @@ const toastConfig = {
         isClosable: true
 };
 
-export {toastConfig};
+const lottieOptions = {
+        loop: true,
+        autoplay: true,
+        rendererSettings: {
+            preserveAspectRatio: 'xMidYMid slice'
+        }
+    };
+export {toastConfig,lottieOptions};

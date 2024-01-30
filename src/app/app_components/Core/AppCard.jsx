@@ -7,14 +7,23 @@ import { FaMoneyBillAlt } from "react-icons/fa";
 import { useFetch } from '../../utilities/hooks/data/useFetch';
 import { withAPIFeedbackTable } from '../../utilities/web/withFeedback';
 import AppButton from './AppButon';
+import { credentials } from '../../config/app';
+import logoRaffle from '@app/assets/imgs/biglietti-lotteria.png';
+import { BsFillGiftFill } from "react-icons/bs";
+import { lottieOptions } from '../../utilities/web/configs';
+import empty from '@app/assets/imgs/animations/empty.json';
+import Lottie from 'react-lottie';
+import { GiNextButton, GiPreviousButton } from "react-icons/gi";
+import { useNavigate } from 'react-router-dom';
+import routesweb from '../../config/routesweb';
+
 
 const AppCard = ({url,options={} }) => {
-  const {data,error,loading,refetch} = useFetch(url,options);
+  const {data,error,loading,refetch} = useFetch(url,options,'data');
   const FillCardWithFeedback = withAPIFeedbackTable(TotalCards);
-  
     return (
         <>
-            <FillCardWithFeedback {...{data:{data}}} hasError={error} isLoading={loading} type='card'  />
+                <FillCardWithFeedback {...{data:{data}}} hasError={error} isLoading={loading} type='card'  />
         </>
     );
 }
@@ -23,19 +32,37 @@ const TotalCards = ({data}) => {
     
     return (
         <>
-            {data.map((item, i) => {
-                const {img,title, body,price} = item;
-                return (
-                    <CardApp img={img} title={title} description={body} price={price} key={item.id ?? i} />
-                )
-            })}
+            {
+                data.length > 0 ? 
+                <>
+                {
+                    data.map((item, i) => {
+                        return (
+                            <CardApp key={i} item={item} />
+                        )
+                    })
+                }
+                <div className='absolute bottom-[-50px] md:bottom-0 left-0 w-full flex justify-center gap-12'  >
+                        <div className='shadow-sm shadow-primary px-8 rounded-lg hover:shadow-lg hover:shadow-primary'>
+                        <GiPreviousButton title=' Anterior' className='text-5xl text-primary cursor-pointer hover:text-green-500 ease-in-out duration-500' />
+                        </div>
+                        <div className='shadow-sm shadow-primary px-8 rounded-lg hover:shadow-lg hover:shadow-primary '>
+                            <GiNextButton title='Siguiente' className='text-5xl text-primary cursor-pointer hover:text-green-500 ease-in-out duration-500' />
+                        </div>
+                </div>
+                </>
+                :
+                <EmptyData />
+                
+            }
         </>
     );
 }
 
-const CardApp = ({img,title,description='',price}) => {
-    const [moreText, setMoreText] = useState(description);
+const CardApp = ({item}) => {
+    const [moreText, setMoreText] = useState(item.description);
     const lengthText = 140;
+    const navigate = useNavigate();
     useEffect(() => {
         if(moreText.length > lengthText) {
             const text = moreText.substring(0,lengthText) + '...';
@@ -44,39 +71,57 @@ const CardApp = ({img,title,description='',price}) => {
 
     },[])
     const handleClick = () =>{
-        setMoreText(description);
+        setMoreText(item.description);
     } 
     const handleClickDismuis = () => {
         const text = moreText.substring(0,lengthText) + '...';
         setMoreText(text);
     }
 
+    const handlePayment = (e,item) => {
+        const url = routesweb.pay_raffles.replace(':id', item.id);
+        navigate(url);
+    }
+
     return (
         <>
-        <Card className='w-72' >
-        <CardBody>
+        <Card className='w-72 card-animate' >
+        <CardBody> 
             <Image 
-            src='https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80'
+            src={item.logo_raffles !== 'logo-raffle.png' ? `${credentials.server}${item.logo_raffles}` : logoRaffle}
             alt='Green double couch with wooden legs'
             borderRadius='lg'
             />
             <Stack mt='6' spacing='3'>
-            <Heading size='sm'>{title}</Heading>
+            <Heading size='sm'>{item.name}</Heading>
             <Text className='text-xs'>
                {moreText}
-                { moreText !== description  && <button className='text-black/50' onClick={handleClick}>(Ver más)</button>}
-                { (moreText === description && lengthText < description.length ) && <button className='text-black/50' onClick={handleClickDismuis}>(Ver menos)</button>}
+                { moreText !== item.description  && <button className='text-black/50' onClick={handleClick}>(Ver más)</button>}
+                { (moreText === item.description && lengthText < item.description.length ) && <button className='text-black/50' onClick={handleClickDismuis}>(Ver menos)</button>}
                              
             </Text>
-            <Text className='text-primary' fontSize='lg'>
-                {price ?? 4}
+            <Heading size='sm'>Premios</Heading>
+                <ul>
+                    { JSON.parse(item.awards).map((award,i) => {
+
+                        return (
+                            <li key={i} className='flex gap-2'>
+                                <BsFillGiftFill className='w-4 h-4 text-yellow-500' />
+                                {award.description}
+                            </li>
+                        );
+                    }) }
+                </ul>
+            <Text className='text-primary font-bold' fontSize='lg'>
+                {item.price ?? 4}$
             </Text>
             </Stack>
         </CardBody>
         <Divider />
         <CardFooter justifyContent='flex-end'>
                 {/* <Button className="mb-2"  colorScheme="facebook" leftIcon={<FaMoneyBillAlt />}> Comprar </Button>     */}
-                <AppButton className='mb-2' leftIcon={<FaMoneyBillAlt />} >
+                <AppButton onClick={(e) => handlePayment(e, item)}
+                className='mb-2' leftIcon={<FaMoneyBillAlt />} >
                     Comprar
                 </AppButton>
         </CardFooter>
@@ -84,6 +129,39 @@ const CardApp = ({img,title,description='',price}) => {
         </>
     );
 
+}
+
+
+const EmptyData = () => {
+
+    return (
+        <>
+        <div className='flex flex-col gap-4 justify-center w-full items-center'>
+                <Lottie options={{animationData: empty, ...lottieOptions}}  width={200} height={200} />
+                <h2 className='text-secondary'>
+                    ! OH NO DE MOMENTO NO DISPONEMOS DE RIFAS !
+                </h2>
+        </div>
+        <div className='flex flex-col gap-4 justify-center w-full items-center'>
+                <Lottie options={{animationData: empty, ...lottieOptions}}  width={200} height={200} />
+                <h2 className='text-secondary'>
+                    ! OH NO DE MOMENTO NO DISPONEMOS DE RIFAS !
+                </h2>
+        </div>
+        <div className='flex flex-col gap-4 justify-center w-full items-center'>
+                <Lottie options={{animationData: empty, ...lottieOptions}}  width={200} height={200} />
+                <h2 className='text-secondary'>
+                    ! OH NO DE MOMENTO NO DISPONEMOS DE RIFAS !
+                </h2>
+        </div>
+        <div className='flex flex-col gap-4 justify-center w-full items-center'>
+                <Lottie options={{animationData: empty, ...lottieOptions}}  width={200} height={200} />
+                <h2 className='text-secondary'>
+                    ! OH NO DE MOMENTO NO DISPONEMOS DE RIFAS !
+                </h2>
+        </div>
+        </>
+    );
 }
 
 export default AppCard;

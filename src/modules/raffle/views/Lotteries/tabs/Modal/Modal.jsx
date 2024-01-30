@@ -1,54 +1,100 @@
-import Lottie from "react-lottie";
-import { lottieOptions, toastConfig } from "../../../../../app/utilities/web/configs";
-import presentation from '@app/assets/imgs/animations/presentation.json';
-import party from '@app/assets/imgs/animations/party.json';
-import { FaTicketAlt } from "react-icons/fa"; 
 import { Form } from "react-router-dom";
-import { FormControl, FormLabel, IconButton, Input, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Textarea, useToast } from "@chakra-ui/react";
-import { useState } from "react";
-import { MdDelete } from "react-icons/md";
+import AppModal from "@appcomponents/Core/AppModal";
+import { Button, FormControl, FormLabel, IconButton, Input, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Textarea, useToast } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { MdDelete, MdEditDocument, MdOutlineAddCircle } from "react-icons/md";
+import { FaCircleCheck } from "react-icons/fa6";
+import { MdCancel } from "react-icons/md";
+import { toast } from "react-toastify";
+import Loader from "@appcomponents/Core/Loader";
+import { FaRegImages } from "react-icons/fa6";
+import { credentials } from "../../../../../../app/config/app";
+import { useAccessToken } from "../../../../../../app/store/app/userStore";
+import { useFetch } from "../../../../../../app/utilities/hooks/data/useFetch";
+import routesapi from "../../../../../../app/config/routesapi";
+import { fetchQuery } from "../../../../../../app/utilities/web/fetchQuery";
+import { reloadTable } from "../../../../../../app/utilities/events/customs";
+import { toastConfig } from "../../../../../../app/utilities/web/configs";
 import { IoAddCircle } from "react-icons/io5";
 import { BsImage } from "react-icons/bs";
-import { FaRegImages } from "react-icons/fa6";
-import { useEffect } from "react";
-import AppButton from "../../../../../app/app_components/Core/AppButon";
-import { MdOutlineAddCircle } from "react-icons/md";
-import { fetchQuery } from "../../../../../app/utilities/web/fetchQuery";
-import { useAccessToken, useAuth } from "../../../../../app/store/app/userStore";
-import { credentials } from "../../../../../app/config/app";
-import routesapi from "../../../../../app/config/routesapi";
-import Loader from "../../../../../app/app_components/Core/Loader";
+import AppButton from "../../../../../../app/app_components/Core/AppButon";
+import { IoTicketOutline } from "react-icons/io5";
 
-const url = credentials.server + routesapi.raffles_lottery;
-
-const NewLottery = () => {
-
-    const accToken = useAccessToken(state => state.token);
-    const user = useAuth(state => state.user);
+const Modal = ({id, open,onClose, setUpdate}) => {
+    const [showObserver, setShowObserver] = useState(false);
+    const [loadingFetch, setLoadingFetch] = useState(false);
+    const [errorFetch, setErrorFetch] = useState(null);
     const[count, setCount] = useState(0);
     const[items, setItems] = useState([]);
     const [itemDelete, setItemDelete] = useState(-1);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const toast = useToast(toastConfig);
-
-    const[inputs, setInputs] = useState({
-        name: '',
+    //states
+    const [inputs,setInputs] = useState({
+        name: '',  
+        draw_date: '',
+        is_complete: '',
+        logo_raffles: '',
         description: '',
         summary: '',
-        draw_date: '',
-        logo_raffles: '',
         price: '',
         commission_sellers: '',
         number_tickets: '',
         awards: '',
-    })
+    });
     const[awards, setAwards] = useState({
         title: 'Primer lugar',
         description: '',
         img: ''
     })
-    const [logoRaffles , setLogoRaffles] = useState(null);
+    //code
+    const url = credentials.server + routesapi.raffles_lottery + `/${id}`;
+    const token = useAccessToken((state) => state.token);
+    const {data, error:erroFetch, loading:loadingUseFetch, refetch } = useFetch(url,{method:'GET'},'data',true,token,[id]);
+
+    const handleSubmit = async () => {
+        const url = credentials.server + routesapi.raffles_lottery + `/${id}`;
+        if(showObserver && inputs.observation === ''){
+            setUpdate({
+                status: false,
+                message: 'Ingrese una observación para continuar'
+            });
+            return;
+        }
+        setLoadingFetch(true);
+        try{
+          const params = {user_id: data.user.id, organize_riffs: inputs.organize_riffs, observation: inputs.observation};
+          const response = await fetchQuery(token,url,{method:'PATCH',body:new URLSearchParams(params)},setLoadingFetch,setErrorFetch);
+           if(response.status){
+                document.dispatchEvent(reloadTable);
+                setUpdate({
+                    status: response.status,
+                    message: response.message
+                });
+                onClose();
+                refetch();
+           }
+        }catch(e){
+            setUpdate({
+                status: false,
+                message: e.message
+            })
+        }finally{
+            setLoadingFetch(false);
+        }
+
+    }
+
+    const buttons = <>
+    <Button colorScheme='red' mr={3} onClick={onClose}>
+        Cerrar
+    </Button>
+    <Button colorScheme='blue' onClick={handleSubmit} >
+        Guardar
+      </Button>
+    </>;
+    //handlers
     const handleInput = (e) => {
         setInputs(
             {
@@ -91,87 +137,12 @@ const NewLottery = () => {
         e.stopPropagation();       
         setItemDelete(id);
     }
-
-
-    const handleSubmit =  async (e) => {
-        e.preventDefault();
-        setLoading(true);
-        const form = new FormData();
-        let dataAwards = [{id:0, title: awards.title, description: awards.description, imgId: 'award0', img: awards.img, path: ''}];
-        const awardsTotal = Array.from(document.querySelectorAll('div[data-content-items]'));
-        
-        awardsTotal.forEach((award,i) => {
-            const id = i + 1;
-            const title = award.querySelector('input[data-header-item ]').value;
-            const description = award.querySelector('input[data-header-content]').value;
-            const img = award.querySelector('input[type=file]').files[0];
-            const imgId = `award${i + 1}`;
-            dataAwards.push({id,title,description,img,imgId,path: ''});
-        })
-
-        dataAwards.forEach((item,i) => {
-            if(item.img){
-                form.append(item.imgId, item.img);
-                delete dataAwards[i]['img'];
-            }
-        })
-
-        const dataInputs = {...inputs,awards: JSON.stringify(dataAwards),subscription_id: user.subscription_id};
-        if(logoRaffles){
-            dataInputs.logo_raffles = logoRaffles;
+    //effects
+    useEffect(() => {
+        if(data !== null &&  data['id'] > 0){
+            setInputs({...data});
         }
-
-        for(let [key,value] of Object.entries(dataInputs) ){
-            form.append(key,value);
-        }
-        try {
-            const data = await fetchQuery(accToken,url,{method: 'POST',body: form},() => {},setError);
-            if(data.status){
-                toast({
-                    title: 'Nueva Rifa',
-                    description: 'Se organizo correctamente la nueva rifa.',
-                    status: 'success'
-                });
-
-                setInputs({
-                    name: '',
-                    description: '',
-                    summary: '',
-                    draw_date: '',
-                    logo_raffles: '',
-                    price: '',
-                    commission_sellers: '',
-                    number_tickets: '',
-                    awards: '',
-                });
-
-                setAwards({
-                    title: 'Primer lugar',
-                    description: '',
-                    img: ''
-                })
-                document.querySelectorAll('input[type=file]').forEach(item => item.value = '');
-                setItems([]);
-
-                return;
-            }
-
-            toast({
-                title: 'Error',
-                description: data.message,
-                status: 'error'
-            })
-        } catch (error) {
-            toast({
-                title: 'Error',
-                description: error
-            })
-            
-        } finally {
-            setLoading(false);
-        }
-
-    }
+    },[data])
 
     useEffect(() => {
         if(items.length > 0){
@@ -181,21 +152,20 @@ const NewLottery = () => {
 
    },[itemDelete]);
 
-
     return (
         <>
-            <Loader loading={loading} />
-
-            <div className="xl:w-8/12 lg:w-full md:w-full m-auto">
-                <header className="flex items-center justify-center gap-2">
-                    <FaTicketAlt className="text-4xl text-secondary" />
-                    <h2 className="italic text-2xl text-primary font-bold">Organiza una nueva rifa a tu gusto.</h2>
-                </header>
-                <div className="">
-                <div className="">
-                <Lottie options={{animationData: presentation, ...lottieOptions}}  width={150} height={150} />
+            <Loader loading={loadingFetch} />
+            <AppModal   isOpen={open} onClose={onClose} scrollBehavior={'inside'}
+                header={<><IoTicketOutline className="text-secondary text-3xl" /> Edita tu rifa.</>}
+                buttons={buttons}
+                size='4xl'
+            >
+                <div className="fixed w-full h-screen top-0 left-0 bg-white/75 flex justify-center items-center" style={{zIndex: '999999'}}>
+                   <span className="text-2xl font-bold"> 
+                   Funcionalidad en desarrolló (Presione la tecla ESC para salir)
+                    </span> 
                 </div>
-                    <Form onSubmit={handleSubmit}>
+                <Form onSubmit={handleSubmit}>
                             <FormControl isRequired>
                                 <FormLabel fontWeight={'bold'}>
                                 Asígnele un nombre a su rifa
@@ -343,8 +313,7 @@ const NewLottery = () => {
                                     Crear rifa
                             </AppButton>
                     </Form>
-                </div>
-            </div>
+            </AppModal>
         </>
     );
 }
@@ -374,6 +343,6 @@ const Item = ({handleRemove}) => {
         </div>
         </>
     );
-}
 
-export default NewLottery;
+}
+export default Modal;

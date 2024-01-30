@@ -10,10 +10,11 @@ import register from "../../modules/home/routes/register";
 import verify from "../../modules/home/routes/verify";
 import confirmRegister from "../../modules/home/routes/confirmRegister";
 import client from "../../modules/client/routes/client";
+import payRaffles from "../../modules/home/routes/payRaffles";
 
 /**
  * @var {Array} rootRoutes rutas de todo el sistema
  */
-const rootRoutes = [home,admin,login, register,verify, confirmRegister, client];
+const rootRoutes = [home,admin,login, register,verify, confirmRegister, client, payRaffles];
 
 export default rootRoutes;

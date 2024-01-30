@@ -2,6 +2,7 @@
 export default {
     inicio: '/',
     login: '/security/login',
+    pay_raffles: 'payment/raffles/:id',
     register: '/security/register',
     success_register: '/security/register/success',
     confirm_register: '/security/register/confirm',
@@ -51,7 +52,8 @@ export default {
                             create: 'create',
                             list: 'list'
                         }
-                    }
+                    },
+                    confirm_payment: 'payment/confirm'
                 }
             },
             seller: {

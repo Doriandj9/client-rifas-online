@@ -11,7 +11,9 @@ import { RiLockPasswordLine } from "react-icons/ri";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
 import { MdOutlineRequestPage } from "react-icons/md";
 import { TfiMoney } from "react-icons/tfi";
+import { useAuth } from "../../store/app/userStore";
 const SidebarSeller = () => {
+    const user = useAuth(state => state.user);
     const [objRoutes, setObjRoutes] = useState({
         admin_plans: false,
         admin_reports: false
@@ -23,7 +25,9 @@ const SidebarSeller = () => {
     };
     return (
         <>
-<div className="mb-4 px-4">
+        {
+            user.is_seller &&
+            <div className="mb-4 px-4">
             <p className="pl-4 text-md font-semibold text-white mb-1">Menú vendedores</p>
             <NavLink to={routes.children.plans.root} 
             className={(props) => handleRoute(props)}
@@ -59,6 +63,7 @@ const SidebarSeller = () => {
                 <span className="text-white">Calender</span>
             </NavLink>
             </div>
+        }
         </>
     );
 }

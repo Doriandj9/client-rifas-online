@@ -22,6 +22,8 @@ import routesweb from "../../../app/config/routesweb";
 import AppLottery from "../views/Lotteries/App";
 import NewLottery from "../views/Lotteries/tabs/NewLottery";
 import ListLottery from "../views/Lotteries/tabs/ListLottery";
+import AppPayment from "../views/PaymentConfirm/App";
+
 
 const routes = routesweb.dashboard.children.raffles.children;
 
@@ -49,8 +51,12 @@ export default {
                 {
                     path: routes.lottery.children.list,
                     element: <ListLottery />
-                }
+                },
             ]
         },
+        {
+            path: routes.confirm_payment,
+            element: <AppPayment />
+        }
     ]
 }

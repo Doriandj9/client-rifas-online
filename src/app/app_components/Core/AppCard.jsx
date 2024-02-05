@@ -79,7 +79,7 @@ const CardApp = ({item}) => {
     }
 
     const handlePayment = (e,item) => {
-        const url = routesweb.pay_raffles.replace(':id', item.id);
+        const url = '/' + routesweb.pay_raffles.replace(':id', item.id);
         navigate(url);
     }
 

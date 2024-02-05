@@ -15,6 +15,7 @@ import { GrMoney } from "react-icons/gr";
 import { Form } from "react-router-dom";
 import { credentials } from "../../../../app/config/app";
 import routesapi from "../../../../app/config/routesapi";
+import { FaPassport, FaPiggyBank } from "react-icons/fa6";
 
 const url  = credentials.server + routesapi.subscriptions;
 
@@ -32,9 +33,6 @@ const [openPayment, setOpenPayment] = useState(false);
 const [idPlan, setIdPlan] = useState('');
 const [file, setFile] = useState('');
 const { data, error, loading,total, refetch: fetchData } = useFetch(url,{method: 'GET'},'data');
-
-//code 
-
 
 //handlers
 const handleClose = () => {
@@ -120,17 +118,27 @@ useEffect(() => {
     }
 },[])
 
+console.log(data);
 return (
     <>
     <DisplayToast />
     <Loader loading={loadingFetch} />
         <div className="flex justify-center gap-2 mt-4 items-center">  
             <IoCheckmarkDoneCircle className="text-6xl text-green-600 text-center" />
-            Selecciona una de las siguientes suscripciones.
+            <p className="mb-4 text-center">
+                <span className="text-4xl font-extrabold leading-none tracking-tight md:text-5xl xl:text-5xl dark:text-white text-center text-primary">
+                Elije un plan ideal y ayudémonos mutuamente.
+                </span>
+                <br />
+                <span className="text-xl text-primary">
+                “Juntos, podemos marcar una diferencia perdurable en la historia de quienes más necesitan nuestro apoyo”.
+                </span>
+                </p>
         </div>
 
         {/* <div className="flex gap-5 w-9/12 m-auto justify-around xl:flex-nowrap lg:flex-wrap md:flex-wrap"> */}
-        <div className="grid grid-rows-1 2xl:grid-cols-3 xl:grid-cols-3 gap-2 md:grid-cols-2 sm:grid-cols-1 md:place-items-center">
+        {/* <div className="grid grid-rows-1 2xl:grid-cols-3 xl:grid-cols-3 gap-2 md:grid-cols-2 sm:grid-cols-1 md:place-items-center"> */}
+        <div className="flex flex-wrap gap-8 justify-around">
             {
                 data.map((plan) =>  (<AppDisplayPlan key={plan.id} plan={plan} handleClick={handleClick(plan)} />))
             }
@@ -149,34 +157,71 @@ return (
                     Actualmente el sistema solo permite cancelar tu solicitud de pago por de medio de transferencia bancaria,
                     próximamente se habilitaran nuevas formas de pago, lamentamos cualquier inconveniente que te causemos.
                 </p>
+                {data && data.map( plan => {
 
+                 return plan.user.bank_accounts.map(account => {
+                                return <div key={account.id}>
+                                    <section>
+                                        <div className="flex gap-4 md:flex-row flex-col">
+                                        <p className="w-full flex gap-2 text-xl">
+                                            <span className="w-4/12 font-bold flex gap-2 block"> 
+                                                <BsBank className="text-green-600" /> Entidad Bancaria: 
+                                            </span> 
+                                            <span className="flex-grow text-primary">
+                                                {account.bank_name}
+                                            </span>
+                                        </p>
+                                        <p className="w-full flex gap-2 text-xl">
+                                            <span className="w-4/12 font-bold flex gap-2 block">
+                                            <FaPiggyBank className="text-green-600" />
+                                                Tipo Cuenta: 
+                                            </span> 
+                                            <span className="flex-grow text-primary"> {account.type} </span>
+                                        </p>
+                                      
+                                        </div>
+                                        <div className="flex gap-4 md:flex-row flex-col">
+                                        <p className="w-full flex gap-2 text-xl">
+                                            <span className="w-4/12 font-bold flex gap-2 block">
+                                            <GrMoney className="text-green-600" />
+                                                Nº Cuenta: 
+                                            </span> 
+                                            <span className="flex-grow text-primary"> {account.account_number} </span>
+                                        </p>
+                                       
+                                        <p className="w-full flex gap-2 text-xl">
+                                            <span className="w-4/12 font-bold flex gap-2 block">
+                                                <FaPassport className="text-green-600" />
+                                                Nº de Cédula: 
+                                            </span> 
+                                            <span className="flex-grow text-primary"> {account.taxid} </span>
+                                        </p>
+                                        </div>
+                                        <p className="w-full flex gap-2 text-xl">
+                                            <span className="w-4/12 font-bold flex gap-2 block">
+                                                <MdOutlineAssignmentInd className="text-green-600" />
+                                                Nombre de Cuenta: 
+                                            </span> 
+                                            <span className="flex-grow text-primary"> {account.name_account} </span>
+                                        </p>
+                                    </section>
+                                <div className="p-2 w-56 mb-2">
+                                    {
+                                        account.qr_image ? <a target="__blank"
+                                        href={credentials.server + account.qr_image}>
+                                            <img className="block w-40 h-40 max-w-full max-h-full"
+                                            src={credentials.server + account.qr_image} alt="auth" />
+                                        </a> 
+                                        : 
+                                        <div className="font-bold text-secondary">
+                                            {/* No se ha registrado la imagen QR. */}
+                                        </div>
+                                    }
+                                </div>
+                                </div>
+                            })})}
                 <article className="mt-6">
-                    <header>
-                        <h2 className="text-xl font-bold text-primary">Datos Bancarios</h2>
-                        <section>
-                            <p className="w-full flex gap-2 text-xl">
-                                <span className="w-3/12 font-bold flex gap-2 block"> 
-                                    <BsBank className="text-green-600" /> Entidad Bancaria: 
-                                </span> 
-                                <span className="flex-grow text-primary">
-                                     Banco Pichincha 
-                                </span>
-                            </p>
-                            <p className="w-full flex gap-2 text-xl">
-                                <span className="w-3/12 font-bold flex gap-2 block">
-                                <GrMoney className="text-green-600" />
-                                    Nº Cuenta: 
-                                </span> 
-                                <span className="flex-grow text-primary"> 22084762580 </span>
-                            </p>
-                            <p className="w-full flex gap-2 text-xl">
-                                <span className="w-3/12 font-bold flex gap-2 block">
-                                    <MdOutlineAssignmentInd className="text-green-600" />
-                                    Nombre de Cuenta: 
-                                </span> 
-                                <span className="flex-grow text-primary"> Barragán Coloma Josue Pedro </span>
-                            </p>
-                        </section>
+                    <div>
                         <Alert className="mt-6" status='warning' variant='left-accent'>
                             <AlertIcon />
                             Posterior a la realización de la transferencia adjuntar el comprobante de pago, caso contrario 
@@ -201,7 +246,7 @@ return (
                                 </div>
                             </Form>
                         </div>
-                    </header>
+                    </div>
                 </article>
         </AppModal>
     </>

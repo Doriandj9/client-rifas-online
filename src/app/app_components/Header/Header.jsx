@@ -8,7 +8,8 @@ import AppButton from '../Core/AppButon';
 import { LuLayoutPanelLeft } from "react-icons/lu";
 import { CgLogIn } from "react-icons/cg";
 import { navigateRoutes } from '../../utilities/web/navigateRoutes';
-
+import { IoIosContacts } from "react-icons/io";
+import { FaAward } from "react-icons/fa";
 const Header  = () => {
     const user = useAuth((state) => state.user);
     const navigate = useNavigate();
@@ -54,6 +55,18 @@ const Header  = () => {
                                     <NavLink  to={routesweb.inicio} className="py-2 pl-3 pr-4 text-secondaryop-700 bg-primary rounded lg:bg-transparent lg:text-secondarylite lg:p-0 dark:text-white flex items-center gap-1" aria-current="page">
                                     <IoHomeSharp className='h-6 w-6' />
                                         <span className='mt-2'>Inicio</span>
+                                    </NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to={routesweb.plans} className="py-2 pl-3 pr-4 text-primary bg-primary rounded lg:bg-transparent lg:text-secondarylite lg:p-0 dark:text-white flex items-center gap-1">
+                                        <IoIosContacts className='w-6 h-6' />
+                                        <span className='mt-2'> Acerca de </span>
+                                    </NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to={routesweb.plans} className="py-2 pl-3 pr-4 text-primary bg-primary rounded lg:bg-transparent lg:text-secondarylite lg:p-0 dark:text-white flex items-center gap-1">
+                                        <FaAward className='w-6 h-6' />
+                                        <span className='mt-2'> Beneficios </span>
                                     </NavLink>
                                 </li>
                                 <li>

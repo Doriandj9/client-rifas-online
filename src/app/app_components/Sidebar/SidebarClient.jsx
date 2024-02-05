@@ -19,7 +19,8 @@ const SidebarClient = () => {
         admin_reports: false
     })
     const sideBarOpen = useMenuStore((state) => state.sideBarOpen);
-    const routes = routesweb.admin;
+    const routes = routesweb.dashboard.children.client;
+    const prefix = routesweb.dashboard.children.client.root;
     const handleRoute = ({ isActive, isPending, isTransitioning }) => {
        return isActive ? 'sidebar-active' : 'sidebar-inactive';
     };
@@ -28,21 +29,21 @@ const SidebarClient = () => {
         { user.is_client &&
             <div className="mb-4 px-4">
             <p className="pl-4 text-md font-semibold text-white mb-1">Menú cliente</p>
-            <NavLink to={routes.children.plans.root} 
+            <NavLink to={ prefix + '/' +routes.children.tickets} 
             className={(props) => handleRoute(props)}
             >
                 {/* <Home_Medium className="text-secondary" /> */}
                 <ImTicket className="text-xl mr-2" />
                  <span>Mis boletos</span>
             </NavLink>
-            <NavLink to={routes.children.plans.root} 
+            <NavLink to={prefix + '/' + routes.children.payment_tickets} 
             className={(props) => handleRoute(props)}
             >
                 {/* <Home_Medium className="text-secondary" /> */}
                 <MdOutlinePayment className="text-xl mr-2" />
                  <span>Compra de rifas</span>
             </NavLink>
-            <NavLink to={routes.children.reports.root}
+            <NavLink to={'p'}
             className={(props) => handleRoute(props)}
             >
                 <FaListCheck className="text-xl mr-2" />

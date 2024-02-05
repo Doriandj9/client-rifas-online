@@ -2,13 +2,14 @@ import { Home_Medium, Analytics_Medium, Inventory_Medium } from "@app/components
 import { useMenuStore } from "../../store/menuStore"
 import logo from "@app/assets/imgs/DigitalEducas-Logos/hayu24.png"
 import { Link, NavLink } from "react-router-dom";
-import { MdLockReset } from "react-icons/md";
+import { MdCreditScore, MdLockReset } from "react-icons/md";
 import routesweb from "../../config/routesweb";
 import { FaRegIdCard, FaRegFilePdf } from "react-icons/fa";
 import { useState } from "react";
 import { GrUserSettings } from "react-icons/gr";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { GiSecurityGate } from "react-icons/gi";
+import { RiBankCard2Line } from "react-icons/ri";
 import { MdOutlineCreditScore } from "react-icons/md";
 const SidebarAdmin = () => {
     const [objRoutes, setObjRoutes] = useState({
@@ -52,6 +53,13 @@ const SidebarAdmin = () => {
                 <MdOutlineCreditScore className="text-2xl mr-2" />
                 <span className="text-white hover:text-gray-700">Autorización rifas</span>
             </NavLink>
+            <NavLink to={routes.children.payment_method.root} 
+                className={(props) => handleRoute(props)}
+                >
+                    {/* <Home_Medium className="text-secondary" /> */}
+                    <RiBankCard2Line className="text-xl mr-2" />
+                    <span>Métodos de pagos</span>
+                </NavLink>
             <NavLink to={routes.children.reports.root}
             className={(props) => handleRoute(props)}
             >

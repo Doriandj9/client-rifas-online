@@ -6,7 +6,8 @@ export default {
     register: '/security/register',
     success_register: '/security/register/success',
     confirm_register: '/security/register/confirm',
-    plans: '/#plans',
+    plans: '/plans',
+    company_policy: '/company-policy',
     admin:{
         root: '/admin',
         children: {
@@ -23,6 +24,13 @@ export default {
             },
             authentication_raffles: {
                 root: 'authentication/raffles',
+            },
+            payment_method: {
+                root: 'payment-method',
+                children: {
+                    create: 'create',
+                    list: 'list'
+                }
             },
             dashboard: {
                 root: 'dashboard'
@@ -53,13 +61,26 @@ export default {
                             list: 'list'
                         }
                     },
-                    confirm_payment: 'payment/confirm'
+                    confirm_payment: 'payment/confirm',
+                    payment_method: {
+                        root: 'payment-method',
+                        children: {
+                            create: 'create',
+                            list: 'list'
+                        }
+                    }
                 }
             },
             seller: {
 
             },
             client: {
+                root: 'client',
+                children: {
+                    tickets: 'tickets',
+                    payment_tickets: 'payment-tickets',
+                    awards: 'awards'
+                },
 
             }
         }

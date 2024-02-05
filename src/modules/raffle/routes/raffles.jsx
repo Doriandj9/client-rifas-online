@@ -23,7 +23,9 @@ import AppLottery from "../views/Lotteries/App";
 import NewLottery from "../views/Lotteries/tabs/NewLottery";
 import ListLottery from "../views/Lotteries/tabs/ListLottery";
 import AppPayment from "../views/PaymentConfirm/App";
-
+import AppPaymentMethod from '../views/PaymentMethod/App';
+import NewAccount from "../views/PaymentMethod/tabs/NewAccount";
+import ListAccount from "../views/PaymentMethod/tabs/ListAccount";
 
 const routes = routesweb.dashboard.children.raffles.children;
 
@@ -57,6 +59,21 @@ export default {
         {
             path: routes.confirm_payment,
             element: <AppPayment />
-        }
+        },
+        {
+            path: routes.payment_method.root,
+            element: <AppPaymentMethod />,
+            handle:{'payment_method.default': true},
+            children:[
+                {
+                    path: routes.lottery.children.create,
+                    element: <NewAccount />
+                },
+                {
+                    path: routes.lottery.children.list,
+                    element: <ListAccount />
+                },
+            ]
+        },
     ]
 }

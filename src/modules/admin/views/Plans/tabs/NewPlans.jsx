@@ -134,11 +134,11 @@ const NewPlans = () => {
                                 />
                     </FormControl>
                     <FormControl isRequired marginTop={15}>
-                        <FormLabel fontWeight={'bold'}>Asunto</FormLabel>
-                            <Input name='subject'
+                        <FormLabel fontWeight={'bold'}>Resumen</FormLabel>
+                                <Textarea name='subject'
                                 value={inputs.subject}
                                 onInput={handleInput}
-                                 className='shadow' height={50} placeholder='Por ejemplo: El paquete perfecto para usuarios iniciales'
+                                 className='shadow' height={50} placeholder='Por ejemplo: Premium'
                                 />
                     </FormControl>
                 <div className="flex justify-between gap-2 sm:flex-row flex-col">
@@ -218,14 +218,6 @@ const NewPlans = () => {
                                     item.element
                                 ); 
                             })}
-                    </FormControl>
-                    <FormControl marginTop={15} isRequired >
-                        <FormLabel fontWeight={'bold'}>Resumen</FormLabel>
-                            <Textarea name='message'
-                                value={inputs.message}
-                                onInput={handleInput}
-                                 className='shadow' height={50} placeholder='Por ejemplo: Premium'
-                                />
                     </FormControl>
                     <AppButton type="submit" className="mt-4" leftIcon={<VscAdd />}>
                         Guardar

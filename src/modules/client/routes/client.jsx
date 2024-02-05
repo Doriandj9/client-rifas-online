@@ -19,6 +19,10 @@
 import App from "../views/App";
 import routesweb from "../../../app/config/routesweb";
 import raffles from "../../raffle/routes/raffles";
+import AppClient from "../views/AppClient";
+import AppTickets from "../views/Tickets/App";
+import AppPaymentTickets from "../views/PaymentTickets/App";
+
 // import AppPlans from "../views/Plans/App";
 // import Default from "../views/Dashboard/Default";
 // import ListPlans from "../views/Plans/tabs/ListPlans";
@@ -26,43 +30,29 @@ import raffles from "../../raffle/routes/raffles";
 /**
  * @constant home rutas del home
  */
+const routes = routesweb.dashboard.children.client;
+
 export default {
     path: routesweb.dashboard.root,
     element: <App />,
     handle: {op:true},
      children: [
-      raffles
-        // {
-        //     path: routesweb.admin.children.plans.root,
-        //     element: <AppPlans />,
-        //     handle:{'plans.default': true},
-           
-        //     children:[
-        //         {
-        //             path: routesweb.admin.children.plans.children.create,
-        //             element: <NewPlans />
-        //         },
-        //         {
-        //             path: routesweb.admin.children.plans.children.view,
-        //             element: <ListPlans />
-        //         }
-        //     ]
-        // },
-    //     {
-    //         path: routesweb.admin.children.dashboard.root,
-    //         element: <Default />
-    //     },
-    //     {
-    //         path: routesweb.admin.children.reports.root,
-    //         element: <>Reportes</>
-    //     },
-    //     {
-    //         path: routesweb.admin.children.users.root,
-    //         element: <>Usuarios</>
-    //     },
-    //     {
-    //         path: routesweb.admin.children.passwords.root,
-    //         element: <>Claves</>
-    //     }
+      raffles,
+      {
+        path: routes.root,
+        handle: {op_client:true},
+        element: <AppClient />,
+        children: [
+          {
+            path: routes.children.tickets,
+            element: <AppTickets />
+          },
+          {
+            path: routes.children.payment_tickets,
+            element: <AppPaymentTickets />
+
+          }
+        ]
+      }
      ]
 }

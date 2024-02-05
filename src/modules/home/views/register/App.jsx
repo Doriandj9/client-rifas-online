@@ -166,7 +166,8 @@ const App = () => {
                                 </Input>
                                     Aceptar términos y condiciones
                                 </FormLabel>
-                                <Link className='text-sm text-primaryop-900 mt-2'> Leer términos y condiciones  </Link>
+                                <Link target="__blank" to={routesweb.company_policy}
+                                 className='text-sm text-primaryop-900 mt-2'> Leer términos y condiciones  </Link>
                             </FormControl>
                             <AppButton type='submit' className="my-4" 
                             leftIcon={<FiLogIn />}> Registrarse </AppButton> 

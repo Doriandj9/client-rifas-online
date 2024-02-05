@@ -31,6 +31,8 @@ const SidebarRaffles = () => {
     useEffect(() => {
         if(user && !user.organize_riffs){
             setBlock(true);
+        } else {
+            setBlock(false);
         }
     }, [user])
     return (
@@ -61,6 +63,13 @@ const SidebarRaffles = () => {
                 >
                     <BiMoneyWithdraw className="text-xl mr-2" />
                     <span className="text-white hover:text-gray-700">Autorización de pagos</span>
+                </NavLink>
+                <NavLink to={prefix  + '/' + routes.payment_method.root} 
+                className={(props) => handleRoute(props)}
+                >
+                    {/* <Home_Medium className="text-secondary" /> */}
+                    <MdCreditScore className="text-xl mr-2" />
+                    <span>Métodos de pagos</span>
                 </NavLink>
                 <NavLink  to={'pending'}
                 className={(props) => handleRoute(props)}

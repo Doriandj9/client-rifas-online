@@ -72,15 +72,16 @@ const Modal = ({id, open,onClose, buttons}) => {
                 is_active: data.is_active ? '1' : '0',
             });
             const plans = JSON.parse(data.description ?? "[]");
-            let itemsForm = [...items];
+            let itemsForm = [];
+            let count = 0;
             plans.forEach(plan => {
-                let num = count + 1;
-                setCount(num);
+                count = count + 1;
                 itemsForm.push({
                     id: count,
-                    element: <Item value={plan} handleRemove={(e) => removeItem(e,num,items)} key={ num + '-fetch-item'} />
+                    element: <Item value={plan} handleRemove={(e) => removeItem(e,count,itemsForm)} key={ count + '-fetch-item'} />
                 });
             })
+            setCount(count);
             setItems(itemsForm);
         }
     },[data])
@@ -212,6 +213,7 @@ const Item = ({handleRemove, value}) => {
         <div className="flex mt-2">
             <Input name='list[]' data-list
                 value={value}
+                onInput={() => {}}
                 className='shadow w-4/5' height={50} placeholder='Por ejemplo: Rifas ilimitadas'
             />
             <IconButton

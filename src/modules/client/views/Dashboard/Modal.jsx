@@ -133,7 +133,15 @@ const Modal = () => {
             <>
             <div className="flex justify-center gap-2 mt-4 items-center">  
                 <IoCheckmarkDoneCircle className="text-6xl text-green-600 text-center" />
-                Selecciona una de las siguientes suscripciones.
+                <p className="mb-4 text-center">
+                <span className="text-4xl font-extrabold leading-none tracking-tight md:text-5xl xl:text-5xl dark:text-white text-center text-primary">
+                Elije un plan ideal y ayudémonos mutuamente.
+                </span>
+                <br />
+                <span className="text-xl text-primary">
+                “Juntos, podemos marcar una diferencia perdurable en la historia de quienes más necesitan nuestro apoyo”.
+                </span>
+                </p>
             </div>
             </>
         } isOpen={open} size={'full'}
@@ -202,7 +210,7 @@ const Modal = () => {
                                         <Input type="file" onChange={handleChange} />
                                     </FormControl>
                                     <div className=" mt-12 text-end gap-2">
-                                            <Button  className="mr-4" colorScheme="red">
+                                            <Button onClick={handleClosePayment}  className="mr-4" colorScheme="red">
                                                 Cerrar
                                             </Button>
                                             <Button type="submit" colorScheme="blue">

@@ -4,6 +4,7 @@ const fetchQuery = async (apiKey,url, options = {}, setLoading = () => {}, setEr
     const headers = new Headers();
     headers.append('Accept','application/json');
     headers.append('Authorization', `Bearer ${apiKey}`);
+    
     const optionsFetch = {...options,headers}
     try{
         const query =  await fetch(url,optionsFetch);

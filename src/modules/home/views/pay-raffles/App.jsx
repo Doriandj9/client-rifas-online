@@ -22,6 +22,7 @@ import Loader from '../../../../app/app_components/Core/Loader';
 import Modal from './components/Modal';
 import { FaTicketSimple } from "react-icons/fa6";
 import { CiSaveDown2 } from "react-icons/ci";
+import { CEDULA_REG_EXPRE, EMAIL_REG_EXPRE } from '../../../../app/utilities/validations/Expresions';
 
 const urlPayment = credentials.server + routesapi.public_payment_raffles;
 
@@ -31,6 +32,7 @@ const App = () => {
     const toast = useToast(toastConfig);
     const [displayImg, setDImage] = useState(null);
     const [idImg, setIdImg] = useState('');
+    const [openPayment, setOpenPayment] = useState(false);
     const [paymentLoading, setPaymentLoading] = useState(false);
     const [ticketsSaved, setTicketsSaved] = useState([]);
     const [openSuccess, setOpenSuccess] = useState(false);
@@ -39,7 +41,7 @@ const App = () => {
     const urlTickets = credentials.server  + routesapi.public_tickets_by_raffles.replace('{id}',params.id);
     const {data, error, loading,refetch} = useFetch(url,{method: 'GET'},null,false);
     const {data:tickets, error:ticketsError, loading:ticketsLoading,refetch:ticketsRefetch} = useFetch(urlTickets,{method: 'GET'},null,false);
-    console.log(urlTickets);
+    
     
     const handleImg = (e, img, item) => {
         e.preventDefault();
@@ -70,8 +72,17 @@ const App = () => {
         }
     }
 
+    const handleOpenModal = () => {
+        setOpenPayment(true);
+    }
+    const handleClosePayment = () => {
+        setOpenPayment(false);
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const formElement = document.querySelector('form');
+        const file = document.getElementById('voucher');
         if(ticketsSaved.length <= 0){
             toast({
                 title: 'Error',
@@ -82,8 +93,20 @@ const App = () => {
 
             return;
         }
+
+        if(!file.files[0]){
+            toast({
+                title: 'Error',
+                description: 'Por favor ingrese el comprobante de pago.',
+                status: 'error',
+                duration: 2500
+            })
+
+            return;
+        }
+
         setPaymentLoading(true);
-        const form =new FormData(e.target);
+        const form =new FormData(formElement);
         form.append('tickets',JSON.stringify(ticketsSaved));
         if(user && !form.has('email')){
             form.append('email',user.email);
@@ -98,8 +121,51 @@ const App = () => {
         form.append('total', total.toFixed(2));
         form.append('amount', amount);
         form.append('single_price', single_price);
-
+        form.append('voucher',file.files[0]);
         try {
+        
+        if(document.querySelector('#terms') && !document.querySelector('#terms').checked){
+            toast({
+                title: 'Error',
+                description: 'Por favor marque la casilla [Aceptar términos y condiciones]',
+                status: 'error',
+                duration: 2500
+            })
+            return;
+        }
+        for(let [key, value] of [...form]){
+            if(value === '') {
+                toast({
+                    title: 'Error',
+                    description: 'Por favor ingrese todos los campos requeridos que encuentran marcados con [*].',
+                    status: 'error',
+                    duration: 2500
+                })
+                return;
+            }
+
+
+            if(key === 'taxid' && !CEDULA_REG_EXPRE.test(value)){
+                toast({
+                    title: 'Error',
+                    description: 'Por favor ingrese un número de cédula valido.',
+                    status: 'error',
+                    duration: 2500
+                })
+                return;
+            }
+
+            if(key === 'email' && !EMAIL_REG_EXPRE.test(value)){
+                toast({
+                    title: 'Error',
+                    description: 'Por favor ingrese un correo electrónico valido.',
+                    status: 'error',
+                    duration: 2500
+                })
+                return;
+            }
+        }
+
             const response =  await initialFetch(urlPayment,{method: 'POST', body: form});
 
             if(!response.status){
@@ -108,9 +174,10 @@ const App = () => {
             setMessageModal(response.message);
             setOpenSuccess(true);
             ticketsRefetch();
-            e.target.querySelectorAll('input')
+            formElement.querySelectorAll('input')
             .forEach(input => input.value = '');
             setTicketsSaved([]);
+            handleClosePayment();
         } catch (e) {
             toast({
                 title: 'Error',
@@ -133,16 +200,17 @@ const App = () => {
             <Layout>
             <Loader loading={paymentLoading} />
             <Modal open={openSuccess} handleClose={handleCloseModal} message={messageModal}/>
+            <div className='min-h-[75rem]'>
             {data && data.status && 
             <section className="bg-white dark:bg-gray-900 ">
             <div className=" max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-0 lg:py-18 lg:pt-32">
                 
-                <div className='flex gap-4 items-center pl-4 justify-center'>
-                    <div className={`w-[30rem] h-[40rem] shadow-2xl rounded-3xl shadow-primary/50 p-6 relative`}  style={{backgroundImage: `url('${data.data.logo_raffles !== 'logo-raffle.png' ? credentials.server + data.data.logo_raffles : logoRaffle}')`}}>
-                    
-                        <div className=''>
-                            <span> 
-                                {data.data.price}$
+                <div className='flex lg:gap-4 items-center pl-4 justify-center flex-col lg:flex-row gap-12'>
+                    <div className={`w-[30rem] h-[40rem] lg:shadow-2xl shadow rounded-3xl shadow-primary/50 p-6 relative bg-no-repeat max-w-full`}  style={{backgroundImage: `url('${data.data.logo_raffles !== 'logo-raffle.png' ? credentials.server + data.data.logo_raffles : logoRaffle}')`}}>
+                        <div className='absolute bottom-0 right-0 bg-blue-100 px-28 py-8 rounded-tl-lg rounded-br-3xl '>
+                            <span className='text-blue-900 font-semibold text-6xl italic'> 
+                                <span className='text-4xl'>$</span>  {data.data.price} 
+                                {/* <span className='-ms-2 text-sm'> dólares  </span>  */}
                             </span>
                         </div>
                     </div>
@@ -196,7 +264,6 @@ const App = () => {
                      <span className='text-xl font-black'> ${(data.data.price * ticketsSaved.length).toFixed(2)} </span>  <FaMoneyBillAlt className='w-6 h-6 text-green-500 -ml-1'  />  </p>
                     <div className='p-4 bg-white w-full h-[32rem] rounded-2xl overflow-auto flex flex-wrap gap-2'>
                         {tickets && tickets.status && tickets.data.map((item,i) => {
-                            console.log(item);
                             return (
                                 <div key={item.id} onClick={(e) => handleSelectedTicket(e,item)}
                                 className={`${ticketsSaved.some(value => value === item.id) ? 'bg-primary text-white' : 'text-black shadow'} 
@@ -212,9 +279,9 @@ const App = () => {
                         <h3 className='text-center text-primary text-center font-black text-3xl mt-2'>Realiza el pago de tus boletos</h3>
                         <Form onSubmit={handleSubmit} className=''>
                             <Input type='hidden' name='raffles_id' value={data.data.id} />
-                            <PaymentTickets tickets={ticketsSaved.length} price={data.data.price} total={(data.data.price * ticketsSaved.length).toFixed(2)} />
+                            <PaymentTickets backAccounts={data.data.user.bank_accounts} onSubmit={handleSubmit}  openPayment={openPayment} handleClosePayment={handleClosePayment}  tickets={ticketsSaved.length} price={data.data.price} total={(data.data.price * ticketsSaved.length).toFixed(2)} />
                             <div className='text-center w-full'>
-                                <AppButton leftIcon={<CiSaveDown2 className='w-8 h-8 text-white' />} className='w-8/12 py-6 mt-6' type='submit' >
+                                <AppButton onClick={handleOpenModal} leftIcon={<CiSaveDown2 className='w-8 h-8 text-white' />} className='w-8/12 py-6 mt-6' type='button' >
                                         <span className='mt-1'>Comprar mis boletos </span>
                                 </AppButton>
                             </div>
@@ -224,6 +291,7 @@ const App = () => {
             </div>
             </section>    
             }
+            </div>
             </Layout>
         </>
     );

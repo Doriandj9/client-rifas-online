@@ -21,9 +21,16 @@ export default {
     raffles_list_raffles: '/api/raffles/list/raffles/{taxid}',
     raffles_list_payment_confirm: '/api/raffles/list/confirm/payment/{taxid}',
     raffles_receipts: '/api/raffles/receipt',
+    raffle_bank_accounts_by_user: '/api/raffles/bank-accounts/user/{user_id}',
+    raffle_bank_accounts:'/api/raffles/me/bank-accounts',
     //public
     public_raffles: '/api/public/raffles',
     public_tickets_by_raffles : '/api/public/raffles/tickets/{id}',
     //payment
     public_payment_raffles: '/api/payment/raffle',
+    //config
+    refresh_data_user: '/api/refresh/user',
+
+    //acceso de  clientes
+    client_tickets_by_user:'/api/client/me/tickets/{taxid}', 
 };

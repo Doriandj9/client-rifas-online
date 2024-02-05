@@ -1,6 +1,6 @@
 import Layout from '@app/app/layouts/Layout';
 import img from '@app/assets/imgs/DigitalEducas-Logos/hayu24.png';
-import { FormControl, FormLabel, FormErrorMessage,  Input, FormHelperText} from '@chakra-ui/react'
+import { FormControl, FormLabel, FormErrorMessage,  Input, FormHelperText, useToast} from '@chakra-ui/react'
 import { Form, Link, useNavigate, useParams } from 'react-router-dom';
 import { FiLogIn } from "react-icons/fi";
 import { FaGoogle,FaWindows } from "react-icons/fa";
@@ -14,11 +14,14 @@ import { ToastContainer,toast } from 'react-toastify'
 import AppButton from '../../../../app/app_components/Core/AppButon';
 import { useAccessToken, useAuth } from '../../../../app/store/app/userStore';
 import routesweb from '../../../../app/config/routesweb';
+import InputPassword from '../../../../components/InputPassword';
+import { toastConfig } from '../../../../app/utilities/web/configs';
 
 
 const App = () => {
     const {code} = useParams();
     const navigate = useNavigate();
+    const toast = useToast(toastConfig)
     const[loading, setLoading] = useState(false);
     const[inputs,setInputs] = useState({
         password: '',
@@ -26,6 +29,14 @@ const App = () => {
     });
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if( inputs.password !== inputs.passwordRepite ){
+            toast({
+                title: 'Error',
+                description: 'Las contraseñas no coinciden',
+                status: 'error'
+            });
+            return;
+        }
         try {
             setLoading(true);
             const form = new FormData();
@@ -80,17 +91,19 @@ const App = () => {
                         <Form onSubmit={handleSubmit}>
                         <FormControl isRequired>
                                 <FormLabel fontWeight={'bold'}>Nueva Contraseña</FormLabel>
-                                <Input name='password'
-                                value={inputs.password}
-                                onInput={handleInput}
-                                 className='shadow' height={50} placeholder='Por ejemplo: *******' />
+                                <InputPassword
+                                    handleInput={handleInput}
+                                    password={inputs.password}
+                                />
                             </FormControl>
                             <FormControl marginTop={15} isRequired>
                                 <FormLabel fontWeight={'bold'}>Repite la Contraseña</FormLabel>
-                                <Input name='passwordRepite'
+                                <Input 
+                                name='passwordRepite'
                                 value={inputs.passwordRepite}
                                 onInput={handleInput}
-                                 className='shadow' height={50} placeholder='Por ejemplo: ********' />
+                                type='password'
+                                />
                             </FormControl>
                             <AppButton type='submit' className="my-4" 
                             leftIcon={<FiLogIn />}> Confirmar </AppButton> 

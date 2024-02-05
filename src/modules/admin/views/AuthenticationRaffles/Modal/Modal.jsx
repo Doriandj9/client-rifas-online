@@ -56,7 +56,10 @@ const Modal = ({id, open,onClose, setUpdate}) => {
                 });
                 onClose();
                 refetch();
+                return;
            }
+
+           throw Error(response.message);
         }catch(e){
             setUpdate({
                 status: false,

@@ -11,10 +11,16 @@ import verify from "../../modules/home/routes/verify";
 import confirmRegister from "../../modules/home/routes/confirmRegister";
 import client from "../../modules/client/routes/client";
 import payRaffles from "../../modules/home/routes/payRaffles";
+import plans from "../../modules/home/routes/plans";
+import terms from "../../modules/home/routes/terms";
+import NoAutorice from "../../components/NoAutorice";
 
 /**
  * @var {Array} rootRoutes rutas de todo el sistema
  */
-const rootRoutes = [home,admin,login, register,verify, confirmRegister, client, payRaffles];
+const rootRoutes = [home,admin,login, register,verify, confirmRegister, client, payRaffles,plans,terms,{
+    path: '*',
+    element: <NoAutorice />
+}];
 
 export default rootRoutes;

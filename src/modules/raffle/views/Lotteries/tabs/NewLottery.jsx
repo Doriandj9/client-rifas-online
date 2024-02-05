@@ -4,7 +4,7 @@ import presentation from '@app/assets/imgs/animations/presentation.json';
 import party from '@app/assets/imgs/animations/party.json';
 import { FaTicketAlt } from "react-icons/fa"; 
 import { Form } from "react-router-dom";
-import { FormControl, FormLabel, IconButton, Input, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Textarea, useToast } from "@chakra-ui/react";
+import { FormControl, FormLabel, IconButton, Input, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Select, Textarea, useToast } from "@chakra-ui/react";
 import { useState } from "react";
 import { MdDelete } from "react-icons/md";
 import { IoAddCircle } from "react-icons/io5";
@@ -18,6 +18,7 @@ import { useAccessToken, useAuth } from "../../../../../app/store/app/userStore"
 import { credentials } from "../../../../../app/config/app";
 import routesapi from "../../../../../app/config/routesapi";
 import Loader from "../../../../../app/app_components/Core/Loader";
+import moment from "moment";
 
 const url = credentials.server + routesapi.raffles_lottery;
 
@@ -42,6 +43,7 @@ const NewLottery = () => {
         commission_sellers: '',
         number_tickets: '',
         awards: '',
+        time: ''
     })
     const[awards, setAwards] = useState({
         title: 'Primer lugar',
@@ -95,6 +97,10 @@ const NewLottery = () => {
 
     const handleSubmit =  async (e) => {
         e.preventDefault();
+        if(!validations()){
+            return;
+        }
+        const commission_sellers = document.getElementById('commission');
         setLoading(true);
         const form = new FormData();
         let dataAwards = [{id:0, title: awards.title, description: awards.description, imgId: 'award0', img: awards.img, path: ''}];
@@ -116,7 +122,12 @@ const NewLottery = () => {
             }
         })
 
-        const dataInputs = {...inputs,awards: JSON.stringify(dataAwards),subscription_id: user.subscription_id};
+        const dataInputs = {...inputs,awards: JSON.stringify(dataAwards),   
+            subscription_id: user.subscription_id,commission_sellers: commission_sellers.value,
+            draw_date: inputs.draw_date + ' ' + inputs.time
+        };
+        delete dataInputs.time;
+
         if(logoRaffles){
             dataInputs.logo_raffles = logoRaffles;
         }
@@ -143,6 +154,7 @@ const NewLottery = () => {
                     commission_sellers: '',
                     number_tickets: '',
                     awards: '',
+                    time: ''
                 });
 
                 setAwards({
@@ -152,7 +164,7 @@ const NewLottery = () => {
                 })
                 document.querySelectorAll('input[type=file]').forEach(item => item.value = '');
                 setItems([]);
-
+                commission_sellers.value = '0.3';
                 return;
             }
 
@@ -171,6 +183,30 @@ const NewLottery = () => {
             setLoading(false);
         }
 
+    }
+
+    const validations = () => {
+        
+        if(inputs.number_tickets > user.subscription.maximum_tickets){
+            toast({
+                title: 'Error',
+                description: 'No puede crear mas boletos de los que le permite su subscription',
+                status: 'error',
+                duration: 3000
+            })
+            return false;
+        }
+        if(!moment(inputs.draw_date + ' ' + inputs.time).isAfter(moment())){
+            toast({
+                title: 'Error',
+                description: 'No puede ingresar un fecha de sorteo menor a la fecha de hoy',
+                status: 'error',
+                duration: 3000
+            })
+            return false;
+        }
+
+        return true;
     }
 
     useEffect(() => {
@@ -210,14 +246,23 @@ const NewLottery = () => {
                             <div className="flex xl:flex-row md:flex-row  flex-col gap-5 mt-4">
                                 <FormControl isRequired className="">
                                     <FormLabel fontWeight={'bold'}>
-                                    Escoja una fecha del sorteo
+                                    Escoja una fecha y hora del sorteo
                                     </FormLabel>
-                                    <Input className="shadow"
-                                        name="draw_date"
-                                        value={inputs.draw_date}
-                                        onChange={handleInput}
-                                        type="date"
-                                    />
+                                    <div className="flex gap-2 items-center">
+                                        <Input className="shadow"
+                                            name="draw_date"
+                                            value={inputs.draw_date}
+                                            onChange={handleInput}
+                                            type="date"
+                                        />
+                                        <Input className="shadow"
+                                            width={'35%'}
+                                            name="time"
+                                            value={inputs.time}
+                                            onChange={handleInput}
+                                            type="time"
+                                        />
+                                    </div>
                                 </FormControl>
                                 <FormControl  className="">
                                     <FormLabel fontWeight={'bold'}>
@@ -248,13 +293,19 @@ const NewLottery = () => {
                                         </NumberInputStepper>
                                         </NumberInput>
                                 </FormControl>
-                                <FormControl  className="">
+                                <FormControl isRequired  className="">
                                     <FormLabel fontWeight={'bold'}>
                                     Porcentaje para comisiones de vendedores
                                     </FormLabel>
-                                    <NumberInput 
+                                    <Select id="commission"
+                                    isRequired>
+                                        <option value="0.03">3%</option>
+                                        <option value="0.05">5%</option>
+                                        <option value="0.1">10%</option>
+                                    </Select>
+                                    {/* <NumberInput 
                                     name="commission_sellers"
-                                    value={inputs.commission_sellers}
+                                    value={}
                                     onInput={handleInput}
                                     defaultValue={15} min={1} >
                                         <NumberInputField />
@@ -262,8 +313,8 @@ const NewLottery = () => {
                                             <NumberIncrementStepper />
                                             <NumberDecrementStepper />
                                         </NumberInputStepper>
-                                        </NumberInput>
-                                </FormControl>
+                                        </NumberInput> */}
+                                </FormControl> 
                             </div>
                             <div className="mt-4 xl:w-1/4">
                             <FormControl  className="">

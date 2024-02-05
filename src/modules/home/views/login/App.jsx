@@ -1,5 +1,5 @@
 import Layout from '@app/app/layouts/Layout';
-import img from '@app/assets/imgs/undraw_secure_login_pdn4.svg';
+import img from '@app/assets/imgs/login_hayu2024.png';
 import { FormControl, FormLabel, FormErrorMessage,  Input, FormHelperText} from '@chakra-ui/react'
 import { Form, Link, useNavigate } from 'react-router-dom';
 import { FiLogIn } from "react-icons/fi";
@@ -14,6 +14,7 @@ import { ToastContainer,toast } from 'react-toastify'
 import AppButton from '../../../../app/app_components/Core/AppButon';
 import { useAccessToken, useAuth } from '../../../../app/store/app/userStore';
 import routesweb from '../../../../app/config/routesweb';
+import InputPassword from '../../../../components/InputPassword';
 const App = () => {
     const navigate = useNavigate();
     const user = useAuth((state) => state.user);
@@ -102,10 +103,7 @@ const App = () => {
                             </FormControl>
                             <FormControl marginTop={25}  isRequired>
                                 <FormLabel fontWeight={'bold'}>Contraseña</FormLabel>
-                                <Input 
-                                onInput={handleInput}
-                                value={inputs.password}
-                                name='password' type='password' className='shadow' height={50} placeholder='*********' />
+                                <InputPassword password={inputs.password} handleInput={handleInput} />
                             </FormControl>
                             <AppButton type='submit' className="mt-4" 
                             leftIcon={<FiLogIn />}> Iniciar sesión </AppButton> 

@@ -9,7 +9,7 @@ const AppDisplayPlan = ({plan, handleClick = () => {} } ) => {
         <>
         <div className="max-w-[380px]  p-4 border border-neutral-300 shadow-lg hover:scale-[1.05] bg-white duration-300 rounded">
             <div className="w-[360px]  h-[45rem]">
-                <h2 className="text-3xl mt-8 font-black text-center text-primary">
+                <h2 className="text-3xl mt-8 font-black text-center text-secondary">
                         {plan.title}
                 </h2>
                 <p className="text-center text-primary text-sm">

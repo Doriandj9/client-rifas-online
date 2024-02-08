@@ -16,6 +16,7 @@ import { useAccessToken, useAuth } from '../../../../app/store/app/userStore';
 import routesweb from '../../../../app/config/routesweb';
 import InputPassword from '../../../../components/InputPassword';
 import { toastConfig } from '../../../../app/utilities/web/configs';
+import Modal from './components/Modal';
 
 
 const App = () => {
@@ -24,40 +25,40 @@ const App = () => {
     const toast = useToast(toastConfig)
     const[loading, setLoading] = useState(false);
     const[inputs,setInputs] = useState({
-        password: '',
-        passwordRepite: ''
+        email: '',
     });
+    const [open, setOpen] = useState(false);
+    const [message,setMessage] = useState('');
+
+    const handleCloseModal = () => {
+        setOpen(false);
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if( inputs.password !== inputs.passwordRepite ){
-            toast({
-                title: 'Error',
-                description: 'Las contraseñas no coinciden',
-                status: 'error'
-            });
-            return;
-        }
         try {
             setLoading(true);
             const form = new FormData();
             for(let [key,value] of Object.entries(inputs)){
                 form.append(key,value)
             }
-            const response = await initialFetch(credentials.server + routes.confirm + `/${atob(code)}`  ,{method: 'POST',body:form});
+            const response = await initialFetch(credentials.server + routes.public_recovery_password,{method: 'POST',body:form});
             if(response.status){
-                navigate(routesweb.success_register);
+                setMessage(response.message);
+                setOpen(true);
+                setInputs({...inputs,email: ''})
+                return;
             }
-            toast.error(response.message, {
-                    position: toast.POSITION.TOP_CENTER,
-                    className: 'p-12 w-full',
 
-                    });
-            
+            throw Error(response.message);
+          
         } catch (error) {
-            toast.error(error.message, {
-                position: toast.POSITION.TOP_CENTER,
-                className: 'p-12 w-full',
-                });
+            toast({
+                title: 'Error',
+                description: error.message,
+                status: 'error',
+                duration: 3000,
+            });
         }finally{
             setLoading(false);
         }
@@ -74,9 +75,7 @@ const App = () => {
     return (
         <>
          <Layout >
-            <ToastContainer className={'w-[32rem]'} 
-            // style={{ position: 'fixed', top: '50%', left: '50%', translate: '-50%,-50%'}}
-             />
+            <Modal open={open} handleClose={handleCloseModal} message={message}  />
             <Loader loading={loading} />
             <section className="bg-gray-100 dark:bg-gray-900 md:p-12 sm:p-0">
             <div className="max-w-screen-xl px-4 pt-20 pb-8 mx-auto sm:w-full">
@@ -85,29 +84,25 @@ const App = () => {
                     {/* <div className='flex justify-center items-center p-4'>
                         <img src={img} className='block w-48' alt="" />
                     </div> */}
-                    <p className='p-4 text-center w-full  m-auto text-xl italic font-bold text-primary mt-4'>Crea una contraseña segura y accede a la plataforma.</p>
+                    <p className='p-4 text-center w-full  m-auto text-xl italic font-bold text-primary mt-4'>Recupera tu contraseña en un simple proceso pero seguro.</p>
 
                     <div className='p-2 w-11/12 m-auto'>
                         <Form onSubmit={handleSubmit}>
-                        <FormControl isRequired>
-                                <FormLabel fontWeight={'bold'}>Nueva Contraseña</FormLabel>
-                                <InputPassword
-                                    handleInput={handleInput}
-                                    password={inputs.password}
-                                />
-                            </FormControl>
                             <FormControl marginTop={15} isRequired>
-                                <FormLabel fontWeight={'bold'}>Repite la Contraseña</FormLabel>
+                                <FormLabel fontWeight={'bold'}>Ingresa tu correo electrónico</FormLabel>
                                 <Input 
-                                name='passwordRepite'
-                                value={inputs.passwordRepite}
+                                name='email'
+                                value={inputs.email}
                                 onInput={handleInput}
-                                type='password'
+                                type='email'
                                 />
                             </FormControl>
                             <AppButton type='submit' className="my-4" 
                             leftIcon={<FiLogIn />}> Confirmar </AppButton> 
                         </Form>
+                        <p className='text-center'>
+                            <Link className='text-lg text-primary underline font-bold' to={routesweb.inicio} >Regresar</Link>
+                        </p>
                     </div>
                 </div>
               </div>

@@ -163,16 +163,16 @@ return (
                                 return <div key={account.id}>
                                     <section>
                                         <div className="flex gap-4 md:flex-row flex-col">
-                                        <p className="w-full flex gap-2 text-xl">
-                                            <span className="w-4/12 font-bold flex gap-2 block"> 
+                                        <p className="w-full flex gap-2 text-xl text-start">
+                                            <span className="w-6/12 font-bold flex gap-2 block"> 
                                                 <BsBank className="text-green-600" /> Entidad Bancaria: 
                                             </span> 
-                                            <span className="flex-grow text-primary">
+                                            <span className="flex-grow text-prim0ary">
                                                 {account.bank_name}
                                             </span>
                                         </p>
-                                        <p className="w-full flex gap-2 text-xl">
-                                            <span className="w-4/12 font-bold flex gap-2 block">
+                                        <p className="w-full flex gap-2 text-xl text-start">
+                                            <span className="w-6/12 font-bold flex gap-2 block">
                                             <FaPiggyBank className="text-green-600" />
                                                 Tipo Cuenta: 
                                             </span> 
@@ -181,24 +181,24 @@ return (
                                       
                                         </div>
                                         <div className="flex gap-4 md:flex-row flex-col">
-                                        <p className="w-full flex gap-2 text-xl">
-                                            <span className="w-4/12 font-bold flex gap-2 block">
+                                        <p className="w-full flex gap-2 text-xl text-start">
+                                            <span className="w-6/12 font-bold flex gap-2 block">
                                             <GrMoney className="text-green-600" />
                                                 Nº Cuenta: 
                                             </span> 
                                             <span className="flex-grow text-primary"> {account.account_number} </span>
                                         </p>
                                        
-                                        <p className="w-full flex gap-2 text-xl">
-                                            <span className="w-4/12 font-bold flex gap-2 block">
+                                        <p className="w-full flex gap-2 text-xl text-start">
+                                            <span className="w-6/12 font-bold flex gap-2 block">
                                                 <FaPassport className="text-green-600" />
                                                 Nº de Cédula: 
                                             </span> 
                                             <span className="flex-grow text-primary"> {account.taxid} </span>
                                         </p>
                                         </div>
-                                        <p className="w-full flex gap-2 text-xl">
-                                            <span className="w-4/12 font-bold flex gap-2 block">
+                                        <p className="w-full flex gap-2 text-xl text-start">
+                                            <span className="w-6/12 font-bold flex gap-2 block">
                                                 <MdOutlineAssignmentInd className="text-green-600" />
                                                 Nombre de Cuenta: 
                                             </span> 

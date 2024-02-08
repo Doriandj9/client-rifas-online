@@ -206,7 +206,7 @@ const App = () => {
             <div className=" max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-0 lg:py-18 lg:pt-32">
                 
                 <div className='flex lg:gap-4 items-center pl-4 justify-center flex-col lg:flex-row gap-12'>
-                    <div className={`w-[30rem] h-[40rem] lg:shadow-2xl shadow rounded-3xl shadow-primary/50 p-6 relative bg-no-repeat max-w-full`}  style={{backgroundImage: `url('${data.data.logo_raffles !== 'logo-raffle.png' ? credentials.server + data.data.logo_raffles : logoRaffle}')`}}>
+                    <div className={`w-[30rem] h-[37rem] lg:shadow-2xl shadow rounded-3xl shadow-primary/50 p-6 relative bg-no-repeat max-w-full`}  style={{backgroundImage: `url('${data.data.logo_raffles !== 'logo-raffle.png' ? credentials.server + data.data.logo_raffles : logoRaffle}')`}}>
                         <div className='absolute bottom-0 right-0 bg-blue-100 px-28 py-8 rounded-tl-lg rounded-br-3xl '>
                             <span className='text-blue-900 font-semibold text-6xl italic'> 
                                 <span className='text-4xl'>$</span>  {data.data.price} 

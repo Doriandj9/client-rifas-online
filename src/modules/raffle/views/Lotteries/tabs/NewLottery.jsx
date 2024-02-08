@@ -51,11 +51,42 @@ const NewLottery = () => {
         img: ''
     })
     const [logoRaffles , setLogoRaffles] = useState(null);
+
+    const verifyLogo = (file) => {
+
+        const reader = new FileReader(); // Crear un objeto FileReader
+
+        reader.onload = function (readerEvent) {
+          const image = new Image(); // Crear un elemento de imagen
+          image.src = readerEvent.target.result; // Establecer la fuente de la imagen con los datos del archivo
+          
+          // Esperar a que la imagen esté completamente cargada
+          image.onload = function () {
+            const width = this.width; // Obtener el ancho de la imagen
+            const height = this.height; // Obtener la altura de la imagen
+            // if(width <= 554 && height <= 600){
+                setLogoRaffles(file);
+                return;
+            // }
+            document.getElementById('img-logo').value = '';
+            toast({
+                title: 'Error',
+                description:`La imagen tiene que tener de ancho ${554}px y de largo ${600}px vuelva a ingresar otra imagen`,
+                status: 'error',
+                duration: 3500
+            });
+            
+          };
+        };
+    
+        reader.readAsDataURL(file);
+        
+    }
     const handleInput = (e) => {
         setInputs(
             {
                 ...inputs,
-                [e.target.name]: e.target.name === 'logo_raffles' ?  setLogoRaffles(e.target.files[0]) : e.target.value,
+                [e.target.name]: e.target.name === 'logo_raffles' ?  verifyLogo(e.target.files[0]) : e.target.value,
             }
         )
     }
@@ -266,10 +297,11 @@ const NewLottery = () => {
                                 </FormControl>
                                 <FormControl  className="">
                                     <FormLabel fontWeight={'bold'}>
-                                    <span className="text-sm">Seleccione una imagen para su rifa (opcional)</span> 
+                                    <span className="text-sm">Seleccione una imagen de (554x600) para su rifa  (opcional)</span> 
                                     </FormLabel>
                                     <Input className="shadow"
                                         name="logo_raffles"
+                                        id="img-logo"
                                         accept="image/*"
                                         onChange={handleInput}
                                         type="file"
@@ -299,6 +331,7 @@ const NewLottery = () => {
                                     </FormLabel>
                                     <Select id="commission"
                                     isRequired>
+                                        <option value="0.00">0%</option>
                                         <option value="0.03">3%</option>
                                         <option value="0.05">5%</option>
                                         <option value="0.1">10%</option>

@@ -26,6 +26,7 @@ export default {
     //public
     public_raffles: '/api/public/raffles',
     public_tickets_by_raffles : '/api/public/raffles/tickets/{id}',
+    public_recovery_password: '/api/public/recovery/password',
     //payment
     public_payment_raffles: '/api/payment/raffle',
     //config

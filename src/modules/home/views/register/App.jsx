@@ -96,9 +96,9 @@ const App = () => {
             <div className="max-w-screen-xl px-4 pt-20 pb-8 mx-auto sm:w-full">
               <div className='flex items-center mt-12 border border-primary xl:w-9/12 m-auto'>
                 <div className='bg-white min-h-[38rem] flex-grow lg:px-4 xl:px-8 sm:px-0 p-0'>
-                    <div className='flex justify-center items-center p-4'>
+                    {/* <div className='flex justify-center items-center p-4'>
                         <img src={img} className='block w-48' alt="" />
-                    </div>
+                    </div> */}
                     <p className='p-4 text-center w-full  m-auto text-xl italic font-bold text-primary mt-4'>Regístrate y crea increíbles oportunidades en tu sistema de rifas en linea.</p>
 
                     <div className='p-2 w-11/12 m-auto'>

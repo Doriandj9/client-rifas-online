@@ -1,5 +1,6 @@
 import { Basquet_Small, FacebookSVG_Small, GitHub_Small, InstagramSVG_Small, Twitter_Small } from "../../../components/ImgSVG";
 import logo from '@app/assets/imgs/DigitalEducas-Logos/hayu24.png';
+import routesweb from "../../config/routesweb";
 const Footer  = () => {
     return (
         <>
@@ -25,13 +26,13 @@ const Footer  = () => {
                                 <h3 className="mb-6 text-sm font-semibold text-white uppercase dark:text-white">Legal</h3>
                                 <ul className="text-gray-200 dark:text-gray-400">
                                     <li className="mb-4">
-                                        <a target="__blank" href="#" className="hover:underline">Privacy Policy</a>
+                                        <a target="__blank" href={routesweb.company_policy} className="hover:underline">Políticas de privacidad</a>
                                     </li>
                                     <li className="mb-4">
-                                        <a target="__blank" href="#" className="hover:underline">Licensing</a>
+                                        <a target="__blank" href="#" className="hover:underline">Licencia</a>
                                     </li>
                                     <li className="mb-4">
-                                        <a target="__blank" href="#" className="hover:underline">Terms</a>
+                                        <a target="__blank" href="#" className="hover:underline">Términos y condiciones</a>
                                     </li>
                                 </ul>
                             </div>

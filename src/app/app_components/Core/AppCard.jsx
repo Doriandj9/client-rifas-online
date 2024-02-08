@@ -16,6 +16,7 @@ import Lottie from 'react-lottie';
 import { GiNextButton, GiPreviousButton } from "react-icons/gi";
 import { useNavigate } from 'react-router-dom';
 import routesweb from '../../config/routesweb';
+import { formatTimeFull } from '../../utilities/web/times/formatTimeFull';
 
 
 const AppCard = ({url,options={} }) => {
@@ -112,13 +113,16 @@ const CardApp = ({item}) => {
                         );
                     }) }
                 </ul>
-            <Text className='text-primary font-bold' fontSize='lg'>
-                {item.price ?? 4}$
+            <Text className='text-secondary font-bold text-center' fontSize='lg'>
+                Valor del boleto <span className='text-2xl'> {item.price ?? 4}$ </span> 
+            </Text>
+            <Text className='text-primary font-bold text-center' fontSize='lg'>
+                {formatTimeFull(item.draw_date)}
             </Text>
             </Stack>
         </CardBody>
         <Divider />
-        <CardFooter justifyContent='flex-end'>
+        <CardFooter justifyContent='center'>
                 {/* <Button className="mb-2"  colorScheme="facebook" leftIcon={<FaMoneyBillAlt />}> Comprar </Button>     */}
                 <AppButton onClick={(e) => handlePayment(e, item)}
                 className='mb-2' leftIcon={<FaMoneyBillAlt />} >

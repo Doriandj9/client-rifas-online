@@ -107,7 +107,10 @@ const App = () => {
                             </FormControl>
                             <AppButton type='submit' className="mt-4" 
                             leftIcon={<FiLogIn />}> Iniciar sesión </AppButton> 
-                               <p className='mt-2 mb-4'> ¿Aún no tiene una cuenta? <Link className='text-primary' to={routesweb.register}> Regístrate </Link> </p> 
+                               <p className='mt-2 mb-2'> ¿Aún no tiene una cuenta? <Link className='text-primary' to={routesweb.register}> Regístrate </Link> </p> 
+                               <p className='mt-4 text-center mb-8'>
+                                   <Link to={routesweb.recovery_password} className='text-lg text-primary underline'> ¿Has olvidado tu contraseña? </Link> 
+                               </p>
                             <hr />
                             <p className='text-center text-black/50'>Inicia sesión con</p>
                             <div className='flex justify-center gap-2'>

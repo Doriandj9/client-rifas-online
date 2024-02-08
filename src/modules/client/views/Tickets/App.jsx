@@ -9,6 +9,8 @@ import { reloadTable } from '../../../../app/utilities/events/customs';
 import { ToastContainer,toast } from 'react-toastify';
 import { FaFileInvoiceDollar } from "react-icons/fa6";
 import { IoQrCodeOutline } from "react-icons/io5";
+import AppTicket from '../../../../app/app_components/Core/AppTicket';
+import { useFetch } from '../../../../app/utilities/hooks/data/useFetch';
 let actions = [
    {
        name: 'Código QR',
@@ -32,6 +34,7 @@ const App  = () => {
       status: null,
       message: ''
     })
+    const {data,error,loading} = useFetch(url,{method: 'GET'},'data',true,token,[]); 
     //code
     let {columns,actionColumns} = TableHelper.data();
     actions[0].onclick = (item,i) => () => {
@@ -82,8 +85,19 @@ const App  = () => {
         </nav>
         <div className="min-h-[67vh]">
         <>
-           {idItem && <Modal id={idItem} open={openModal} onClose={handleCloseModal} setUpdate={setResultUpdate} />}
-            <AppTable url={url} columns={columns} keyData='data' actionColumns={actionColumns} auth={true} token={token} paginate={true} />
+        <div className='flex gap-4 flex-wrap'>
+          {
+            data && data.length > 0
+            &&
+            data.map(ticket => {
+              return (
+                <AppTicket size={'sm'} ticket={ticket} key={ticket.id}  />
+              );
+            })
+          }
+        </div>
+           {/* {idItem && <Modal id={idItem} open={openModal} onClose={handleCloseModal} setUpdate={setResultUpdate} />}
+            <AppTable url={url} columns={columns} keyData='data' actionColumns={actionColumns} auth={true} token={token} paginate={true} /> */}
         </>
         </div>
       </div>

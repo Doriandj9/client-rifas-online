@@ -8,6 +8,7 @@ export default {
     confirm_register: '/security/register/confirm',
     plans: '/plans',
     company_policy: '/company-policy',
+    recovery_password: '/recovery/password',
     admin:{
         root: '/admin',
         children: {

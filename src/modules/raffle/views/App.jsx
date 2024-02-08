@@ -10,7 +10,6 @@ const App = () => {
         preview.push(value[0]);
         return preview;
     },[])
-    console.log(user);
     if(user ===  null || user.is_raffles !== true || user.organize_riffs !== true){
         return <> No tiene permisos</>;
     }

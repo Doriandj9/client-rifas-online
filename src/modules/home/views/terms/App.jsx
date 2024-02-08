@@ -31,7 +31,7 @@ function App() {
           <div className='flex gap-6 mt-8'>
           <div className="max-w-screen-xl pt-2 px-4 pb-2 w-full lg:gap-8 xl:gap-16 lg:py-2 lg:pt-2">
             <h1 className='text-black font-bold text-center text-2xl'>Políticas de Privacidad</h1>
-            <img className='w-32 h-22 block m-auto' src={logo} alt="" />
+            {/* <img className='w-32 h-22 block m-auto' src={logo} alt="" /> */}
             <p className='px-8 py-2'>
             Bienvenido a <span className='font-bold italic'>HAYU24.</span>  Nos comprometemos a proteger tu privacidad y a proporcionarte una
             experiencia segura y transparente. Por favor, lee detenidamente nuestra política de privacidad.

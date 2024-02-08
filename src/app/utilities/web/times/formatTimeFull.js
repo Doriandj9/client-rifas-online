@@ -9,4 +9,14 @@ const formatTimeFull = (date)=> {
    return dateFormat.format('YYYY-MM-DD hh:mm');
 }
 
-export {formatTimeFull}
+const formatTimeDate = (date) => {
+    moment.locale('es');
+    return moment(date).format('DD MMM YYYY').toUpperCase();
+}
+
+const formatTimeDateHour = (date) => {
+    moment.locale('es');
+    return moment(date).format('hh:mm A').toUpperCase();
+}
+
+export {formatTimeFull, formatTimeDate, formatTimeDateHour}

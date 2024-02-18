@@ -3,9 +3,14 @@ import AppModal from "./AppModal";
 
 
 
-const ModalSuccess = ({open,handleClose,message}) => {
+const ModalDelete = ({open,handleClose,handleSave,message}) => {
     
-    const buttons = <> <Button onClick={handleClose} colorScheme="blue"> Entendido </Button> </>
+    const buttons = <> 
+    <div className="flex gap-4">
+        <Button onClick={handleClose} colorScheme="blue"> Cerrar </Button> 
+        <Button onClick={handleSave} colorScheme="red"> Borrar </Button> 
+    </div>
+                    </>
     return (
         <>
             <AppModal
@@ -18,7 +23,7 @@ const ModalSuccess = ({open,handleClose,message}) => {
             >
                 <div className="p-4">
                     <Alert
-                        status='success'
+                        status='warning'
                         variant='subtle'
                         flexDirection='column'
                         alignItems='center'
@@ -28,7 +33,7 @@ const ModalSuccess = ({open,handleClose,message}) => {
                         >
                             <AlertIcon boxSize='40px' mr={0} />
                             <AlertTitle mt={4} mb={1} fontSize='lg'>
-                                Éxito!
+                                Advertencia!
                             </AlertTitle>
                             <AlertDescription dangerouslySetInnerHTML={{ __html: message }}>
                         
@@ -42,4 +47,4 @@ const ModalSuccess = ({open,handleClose,message}) => {
     );
 }
 
-export default ModalSuccess;
+export default ModalDelete;

@@ -7,7 +7,11 @@ import { FaUserCircle } from "react-icons/fa";
 import { IoLogoWhatsapp } from "react-icons/io";
 import { FaCalendarAlt } from "react-icons/fa";
 import { formatTimeDate, formatTimeDateHour, formatTimeFull } from "../../utilities/web/times/formatTimeFull";
+import { Link } from "react-router-dom";
+import routesweb from "../../config/routesweb";
+import { IoInformationCircle } from "react-icons/io5";
 const AppTicket = ({size, ticket}) => {
+    const url = '/' + routesweb.pay_raffles.replace(':id', ticket.raffle.id);
 
     return (
         <>
@@ -21,8 +25,12 @@ const AppTicket = ({size, ticket}) => {
                 </section>
                 <section className="bg-primary h-52 overflow-hidden" >
                         <h3 className="text-white text-center pt-2 text-sm font-bold"> {ticket.raffle.name} </h3>
+                        <div className="mt-4 w-9/12 m-auto flex gap-2">
+                            <IoInformationCircle  className="w-5 w-5 text-yellow-300" />
+                             <Link className="text-white text-sm" to={url} target="__black" >Más información</Link>
+                        </div>
 
-                        <div className="mt-12 w-9/12 m-auto">
+                        <div className="mt-6 w-9/12 m-auto">
                             {
                                 ticket.is_buy ? 
                                 <span className="inline-flex text-white text-sm gap-1">

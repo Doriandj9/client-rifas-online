@@ -43,12 +43,12 @@ const SidebarClient = () => {
                 <MdOutlinePayment className="text-xl mr-2" />
                  <span>Compra de rifas</span>
             </NavLink>
-            <NavLink to={'p'}
+            {/* <NavLink to={'p'}
             className={(props) => handleRoute(props)}
             >
                 <FaListCheck className="text-xl mr-2" />
                 <span className="text-white hover:text-gray-700">Detalles</span>
-            </NavLink>
+            </NavLink> */}
             </div>
         }
         </>

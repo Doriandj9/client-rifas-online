@@ -117,8 +117,8 @@ const PaymentNotAuth = () => {
                                 </Input>
                                     Aceptar términos y condiciones
                                 </FormLabel>
-                                <Link target="__blank" to={routesweb.company_policy}
-                                 className='text-sm text-primaryop-900 mt-2'> Leer términos y condiciones  </Link>
+                                <a target="__blank" href={routesweb.terms_and_conditions}
+                                 className='text-sm text-primaryop-900 mt-2'> Leer términos y condiciones  </a>
                             </FormControl>
                             <hr className="my-4" />
                         </div>

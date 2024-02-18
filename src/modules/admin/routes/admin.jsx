@@ -27,6 +27,10 @@ import AppAuthRaffles from "../views/AuthenticationRaffles/App";
 import NewAccount from "../../raffle/views/PaymentMethod/tabs/NewAccount";
 import ListAccount from "../../raffle/views/PaymentMethod/tabs/ListAccount";
 import AppPaymentMethod from "../views/PaymentMethod/App";
+import AppUsers from "../views/Users/App";
+import AppProfile from "../views/Profile/App";
+
+
 
 const routes = routesweb.admin.children;
 /**
@@ -85,8 +89,12 @@ export default {
             element: <>Reportes</>
         },
         {
+            path: routesweb.admin.children.profile.root,
+            element: <AppProfile />
+        },
+        {
             path: routesweb.admin.children.users.root,
-            element: <>Usuarios</>
+            element: <AppUsers />
         },
         {
             path: routesweb.admin.children.passwords.root,

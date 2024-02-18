@@ -1,3 +1,4 @@
+import routesweb from "../../config/routesweb";
 
 const FooterDashboard = () => {
     return (
@@ -6,9 +7,9 @@ const FooterDashboard = () => {
         <p className="mb-2 lg:mb-0 text-white">© Derechos reservados</p>
 
         <div className="flex">
-            <a href="#" className="mr-6 hover:text-gray-900 text-white">Términos y Condiciones</a>
-            <a href="#" className="mr-6 hover:text-gray-900 text-white">Pólitica de Privacidad</a>
-            <a href="#" className="hover:text-gray-900 text-white">Sobre Nosotros</a>
+            <a href={routesweb.terms_and_conditions} className="mr-6 hover:text-gray-900 text-white">Términos y Condiciones</a>
+            <a href={routesweb.company_policy} className="mr-6 hover:text-gray-900 text-white">Pólitica de Privacidad</a>
+            <a href={routesweb.mission_and_vision} className="hover:text-gray-900 text-white">Sobre Nosotros</a>
         </div>
     </div>
         </>

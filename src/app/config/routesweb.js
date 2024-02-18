@@ -3,6 +3,9 @@ export default {
     inicio: '/',
     login: '/security/login',
     pay_raffles: 'payment/raffles/:id',
+    terms_and_conditions: '/terms-conditions',
+    mission_and_vision: '/mission-vision',
+    benefits: '/benefits',
     register: '/security/register',
     success_register: '/security/register/success',
     confirm_register: '/security/register/confirm',
@@ -32,6 +35,9 @@ export default {
                     create: 'create',
                     list: 'list'
                 }
+            },
+            profile: {
+                root: 'client/user/profile' 
             },
             dashboard: {
                 root: 'dashboard'
@@ -80,7 +86,8 @@ export default {
                 children: {
                     tickets: 'tickets',
                     payment_tickets: 'payment-tickets',
-                    awards: 'awards'
+                    awards: 'awards',
+                    client_profile: 'user/profile',
                 },
 
             }

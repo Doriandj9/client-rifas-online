@@ -64,17 +64,18 @@ const NewLottery = () => {
           image.onload = function () {
             const width = this.width; // Obtener el ancho de la imagen
             const height = this.height; // Obtener la altura de la imagen
+            console.log('w',width,'h',height);
             // if(width <= 554 && height <= 600){
                 setLogoRaffles(file);
                 return;
             // }
-            document.getElementById('img-logo').value = '';
-            toast({
-                title: 'Error',
-                description:`La imagen tiene que tener de ancho ${554}px y de largo ${600}px vuelva a ingresar otra imagen`,
-                status: 'error',
-                duration: 3500
-            });
+            // document.getElementById('img-logo').value = '';
+            // toast({
+            //     title: 'Error',
+            //     description:`La imagen tiene que tener de ancho ${554}px y de largo ${600}px vuelva a ingresar otra imagen`,
+            //     status: 'error',
+            //     duration: 3500
+            // });
             
           };
         };

@@ -5,7 +5,7 @@ const credentials = {
 };
 
 const application =  {
-    paginateCount: 2,
+    paginateCount: 1,
 }
 
 const colors = {

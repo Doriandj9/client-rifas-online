@@ -9,23 +9,27 @@ import routesapi from "../../config/routesapi";
 import { useNavigate } from "react-router-dom";
 import { navigateRoutes } from "../../utilities/web/navigateRoutes";
 import { credentials } from "../../config/app";
-
+import { Avatar, AvatarBadge, AvatarGroup } from '@chakra-ui/react'
+import routesweb from "../../config/routesweb";
 const urlLogout = credentials.server +  routesapi.logout;
 
 const Navbar = () => {
   const token = useAccessToken(state => state.token);
   const toast = useToast(toastConfig);
+  const user = useAuth(state => state.user);
   const logout = useAuth(state => state.delete);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
     const [dropDownOpen, setDropDownOpen] = useState(false);
     const handleSideBarOpen = useMenuStore((state) => state.handleSideBarOpen);
+    const username = user.first_name.split(' ')[0] + ' ' + user.last_name.split(' ')[0];
 
     const handleDopDownOpen = () => {
         setDropDownOpen(!dropDownOpen);
     }
 
     const handleLogout = async () => {
+      setDropDownOpen(!dropDownOpen);
       setLoading(true);
       try {
           const response = fetchQuery(token,urlLogout,{method: 'POST'});
@@ -40,6 +44,10 @@ const Navbar = () => {
       } finally{
         setLoading(false);
       }
+    }
+    const handleSingUp = () => {
+      setDropDownOpen(!dropDownOpen);
+      navigate(routesweb.dashboard.children.client.root + '/' + routesweb.dashboard.children.client.children.client_profile);
     }
     return (
         <>
@@ -67,14 +75,16 @@ const Navbar = () => {
 
               <div className="flex items-center relative">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" className="fill-current mr-3 hover:text-blue-500"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/></svg>
-                <img src="https://a7sas.net/wp-content/uploads/2019/07/4060.jpeg" className="w-12 h-12 rounded-full shadow-lg" onClick={handleDopDownOpen} />
+               
+                <Avatar name={username} size={'md'} src='https://bit.ly/tioes' onClick={handleDopDownOpen} />
+                {/* <img src="https://a7sas.net/wp-content/uploads/2019/07/4060.jpeg" className="w-12 h-12 rounded-full shadow-lg" onClick={handleDopDownOpen} /> */}
               </div>
 
             </div>
 
-            <div className={`fixed top-[5rem] h-32 bg-gray-50 border border-t-0 shadow-xl text-gray-700 rounded-b-lg w-48 bottom-10 right-0 mr-6 top-5" ${dropDownOpen ? '' : 'hidden'}`}>
-                <a onClick={() => {console.log('click')}} className="block px-4 py-2 hover:bg-gray-200 cursor-pointer">Cuenta</a>
-                <a onClick={() => {console.log('click')}} className="block px-4 py-2 hover:bg-gray-200 cursor-pointer">Configuración</a>
+            <div className={`fixed top-[5rem] h-20 bg-gray-50 border border-t-0 shadow-xl text-gray-700 rounded-b-lg w-48 bottom-10 right-0 mr-6 top-5" ${dropDownOpen ? '' : 'hidden'}`}>
+                <a onClick={handleSingUp} className="block px-4 py-2 hover:bg-gray-200 cursor-pointer">Cuenta</a>
+                {/* <a onClick={() => {console.log('click')}} className="block px-4 py-2 hover:bg-gray-200 cursor-pointer">Configuración</a> */}
                 <a onClick={handleLogout} className="block px-4 py-2 hover:bg-gray-200 cursor-pointer">Cerrar</a>
             </div>
 

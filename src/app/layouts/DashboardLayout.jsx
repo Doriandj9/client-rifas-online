@@ -6,9 +6,19 @@ import FooterDashboard from "../app_components/Footer/FooterDashboard";
 import SidebarAdmin from "../app_components/Sidebar/SidebarAdmin";
 import { ChakraProvider } from '@chakra-ui/react';
 import "react-toastify/dist/ReactToastify.css";
+import { useMatches } from "react-router-dom";
 
 const DashboradLayout = ({content, index=false, component=<></> }) => {
     const sideBarOpen = useMenuStore((state) => state.sideBarOpen);
+    const handlers = useMatches();
+    let classT = 'p-6 mb-20';
+    for(let entries of handlers ){
+      const [id,pathnames] = Object.entries(entries);
+      if(pathnames[1] === '/admin/client/user/profile'
+      ){
+          classT = ''
+      }
+    }
     
     return (
         <ChakraProvider>
@@ -21,7 +31,7 @@ const DashboradLayout = ({content, index=false, component=<></> }) => {
 
                 <Navbar />
 
-                <div className="p-6 bg-gray-50 mb-20">
+                <div className={`${classT} bg-gray-50`}>
                 {index && (
                       component
                     )}

@@ -15,6 +15,9 @@ import plans from "../../modules/home/routes/plans";
 import terms from "../../modules/home/routes/terms";
 import NoAutorice from "../../components/NoAutorice";
 import recoveryPassword from "../../modules/home/routes/recoveryPassword";
+import termsAndConditions from "../../modules/home/routes/termsAndConditions";
+import misionAndVision from "../../modules/home/routes/misionAndVision";
+import benefits from "../../modules/home/routes/benefits";
 
 /**
  * @var {Array} rootRoutes rutas de todo el sistema
@@ -22,6 +25,6 @@ import recoveryPassword from "../../modules/home/routes/recoveryPassword";
 const rootRoutes = [home,admin,login, register,verify, confirmRegister, client, payRaffles,plans,terms,{
     path: '*',
     element: <NoAutorice />
-}, recoveryPassword];
+}, recoveryPassword, termsAndConditions,misionAndVision,benefits];
 
 export default rootRoutes;

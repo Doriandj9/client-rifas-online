@@ -9,16 +9,16 @@ const AppDisplayPlan = ({plan, handleClick = () => {} } ) => {
         <>
         <div className="max-w-[380px]  p-4 border border-neutral-300 shadow-lg hover:scale-[1.05] bg-white duration-300 rounded">
             <div className="w-[360px]  h-[45rem]">
-                <h2 className="text-3xl mt-8 font-black text-center text-secondary">
+                <h2 className="text-3xl mt-8 font-black text-center text-primary">
                         {plan.title}
                 </h2>
                 <p className="text-center text-primary text-sm">
                     {plan.subject}
                 </p>
                 <p className="mt-8 text-center">
-                   <span className="text-5xl font-semibold"> {plan.price.replace('.',',')} </span>
-                   <span className="text-primary text-xl -ms-3">$/</span>
-                    <span className="text-primary text-md">mes </span>
+                   <span className="text-5xl font-semibold text-secondary"> {plan.price.replace('.',',')} </span>
+                   <span className="text-secondary text-xl -ms-3">$/</span>
+                    <span className="text-secondary text-md">mes </span>
                 </p>
                 
                 <div className="w-[95%] border-b h-1 border-gray-300 mt-16 mx-auto"  />

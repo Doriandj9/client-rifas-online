@@ -16,6 +16,9 @@ const Header  = () => {
     const handleClick = () => {
         navigateRoutes(navigate,user)
     }
+    const handleRoute = ({ isActive, isPending, isTransitioning }) => {
+        return isActive ? 'navbar-active' : 'navbar-inactive';
+     };
     return (
         <>
              <header className="fixed w-full z-30"> 
@@ -52,25 +55,33 @@ const Header  = () => {
                         <div className="items-center justify-between hidden w-full lg:flex lg:w-auto lg:order-1" id="mobile-menu-2">
                             <ul className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
                                 <li>
-                                    <NavLink  to={routesweb.inicio} className="py-2 pl-3 pr-4 text-secondaryop-700 bg-primary rounded lg:bg-transparent lg:text-secondarylite lg:p-0 dark:text-white flex items-center gap-1" aria-current="page">
+                                    <NavLink  to={routesweb.inicio} 
+                                    className={(props) => handleRoute(props)}
+                                    >
                                     <IoHomeSharp className='h-6 w-6' />
                                         <span className='mt-2'>Inicio</span>
                                     </NavLink>
                                 </li>
                                 <li>
-                                    <NavLink to={routesweb.plans} className="py-2 pl-3 pr-4 text-primary bg-primary rounded lg:bg-transparent lg:text-secondarylite lg:p-0 dark:text-white flex items-center gap-1">
+                                    <NavLink to={routesweb.mission_and_vision} 
+                                    className={(props) => handleRoute(props)}
+                                    >
                                         <IoIosContacts className='w-6 h-6' />
                                         <span className='mt-2'> Acerca de </span>
                                     </NavLink>
                                 </li>
                                 <li>
-                                    <NavLink to={routesweb.plans} className="py-2 pl-3 pr-4 text-primary bg-primary rounded lg:bg-transparent lg:text-secondarylite lg:p-0 dark:text-white flex items-center gap-1">
+                                    <NavLink to={routesweb.benefits} 
+                                    className={(props) => handleRoute(props)}
+                                    >
                                         <FaAward className='w-6 h-6' />
                                         <span className='mt-2'> Beneficios </span>
                                     </NavLink>
                                 </li>
                                 <li>
-                                    <NavLink to={routesweb.plans} className="py-2 pl-3 pr-4 text-primary bg-primary rounded lg:bg-transparent lg:text-secondarylite lg:p-0 dark:text-white flex items-center gap-1">
+                                    <NavLink to={routesweb.plans}
+                                    className={(props) => handleRoute(props)}
+                                    >
                                         <IoIdCard className='w-6 h-6' />
                                         <span className='mt-2'> Planes de compra </span>
                                     </NavLink>

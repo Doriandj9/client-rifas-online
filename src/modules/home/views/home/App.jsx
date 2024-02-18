@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { credentials } from '../../../../app/config/app';
 import routesapi from '../../../../app/config/routesapi';
 import Lottie from 'react-lottie';
+import sorprise from '@app/assets/imgs/animations/sorprise.json';
 import welcome from '@app/assets/imgs/hayu24-bienvenida.png';
 import { lottieOptions } from '../../../../app/utilities/web/configs';
 import Plans from './components/Plans';
@@ -35,9 +36,7 @@ function App() {
   return (
     <>
       <Layout>
-
       <section id='home' className="bg-white dark:bg-gray-900">
-
     
       <div className=" max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-2 lg:py-16 lg:pt-20">
         <div className='relative'>
@@ -62,8 +61,14 @@ function App() {
         </div>
            
       </div>
-      <div className="max-w-screen-xl px-4 pt-2 pb-2 mx-auto text-primary">
+      <div className="max-w-screen-xl px-4 pt-2 pb-2 mx-auto text-primary relative">
         <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight md:text-3xl xl:text-4xl dark:text-white text-center">Listado de rifas </h1>
+      <div className='absolute -top-28'>
+        <Lottie options={{animationData: sorprise, ...lottieOptions}}  width={200} height={200} />
+      </div>
+      <div className='absolute -top-28 right-0'>
+        <Lottie options={{animationData: sorprise, ...lottieOptions}}  width={200} height={200} />
+      </div>
       </div>
 
       <div className="grid relative max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-6 lg:py-16 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 lg:pt-2 gap-4 md:place-items-stretch place-items-center">

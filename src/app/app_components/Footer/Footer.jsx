@@ -28,11 +28,11 @@ const Footer  = () => {
                                     <li className="mb-4">
                                         <a target="__blank" href={routesweb.company_policy} className="hover:underline">Políticas de privacidad</a>
                                     </li>
-                                    <li className="mb-4">
+                                    {/* <li className="mb-4">
                                         <a target="__blank" href="#" className="hover:underline">Licencia</a>
-                                    </li>
+                                    </li> */}
                                     <li className="mb-4">
-                                        <a target="__blank" href="#" className="hover:underline">Términos y condiciones</a>
+                                        <a target="__blank" href={routesweb.terms_and_conditions} className="hover:underline">Términos y condiciones</a>
                                     </li>
                                 </ul>
                             </div>

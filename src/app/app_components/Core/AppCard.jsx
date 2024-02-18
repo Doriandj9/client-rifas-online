@@ -90,6 +90,8 @@ const CardApp = ({item}) => {
         <CardBody> 
             <Image 
             src={item.logo_raffles !== 'logo-raffle.png' ? `${credentials.server}${item.logo_raffles}` : logoRaffle}
+            width={'15.625rem'}
+            height={'15.5rem'}
             alt='Green double couch with wooden legs'
             borderRadius='lg'
             />

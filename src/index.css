@@ -31,6 +31,34 @@
  .sidebar-active > *:last-child {
    @apply text-primary;
  }
+
+ .tab-active{
+  @apply cursor-pointer text-secondary;
+}
+ .tab-inactive{
+  @apply cursor-pointer;
+}
+
+.tab-active:hover{
+  @apply text-secondary;
+
+}
+.tab-inactive:hover{
+  @apply text-secondary;
+}
+
+.navbar-active{
+  @apply py-2 pl-3 pr-4 text-secondaryop-700 bg-primary rounded lg:bg-transparent lg:p-0 dark:text-white flex items-center gap-1;
+}
+
+.navbar-inactive{
+  @apply py-2 pl-3 pr-4 text-primary bg-primary rounded lg:bg-transparent lg:p-0 dark:text-white flex items-center gap-1;
+}
+
+.navbar-inactive:hover{
+  @apply py-2 pl-3 pr-4 text-secondaryop-700 bg-primary rounded lg:bg-transparent lg:p-0 dark:text-white flex items-center gap-1;
+}
+
 }
 
 .card-animate {

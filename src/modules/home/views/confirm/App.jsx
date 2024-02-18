@@ -16,9 +16,11 @@ import { useAccessToken, useAuth } from '../../../../app/store/app/userStore';
 import routesweb from '../../../../app/config/routesweb';
 import InputPassword from '../../../../components/InputPassword';
 import { toastConfig } from '../../../../app/utilities/web/configs';
+import { useSetHeader } from '../../../../app/utilities/hooks/web/useSetHeader';
 
 
 const App = () => {
+  useSetHeader('Nueva contraseña');
     const {code} = useParams();
     const navigate = useNavigate();
     const toast = useToast(toastConfig)
@@ -45,7 +47,7 @@ const App = () => {
             }
             const response = await initialFetch(credentials.server + routes.confirm + `/${atob(code)}`  ,{method: 'POST',body:form});
             if(response.status){
-                navigate(routesweb.success_register);
+                navigate(routesweb.register_success);
             }
             toast.error(response.message, {
                     position: toast.POSITION.TOP_CENTER,

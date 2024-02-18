@@ -15,6 +15,7 @@ import { IoSettingsOutline } from "react-icons/io5";
 import Perfil from '../../../../components/Perfil';
 import ResetPassword from '../../../../components/ResetPassword';
 import Settings from '../../../../components/Settings';
+import { useSetHeader } from '../../../../app/utilities/hooks/web/useSetHeader';
 let actions = [
    {
        name: 'Código QR',
@@ -29,6 +30,7 @@ let actions = [
 const url = credentials.server + routesapi.public_raffles;
 
 const App  = () => {
+  useSetHeader('Perfil');
     //hooks 
     const token = useAccessToken((state) => state.token);
     const user = useAuth(state => state.user);

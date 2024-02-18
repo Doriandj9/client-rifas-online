@@ -27,7 +27,7 @@ const AppTicket = ({size, ticket}) => {
                         <h3 className="text-white text-center pt-2 text-sm font-bold"> {ticket.raffle.name} </h3>
                         <div className="mt-4 w-9/12 m-auto flex gap-2">
                             <IoInformationCircle  className="w-5 w-5 text-yellow-300" />
-                             <Link className="text-white text-sm" to={url} target="__black" >Más información</Link>
+                             <Link className="text-white text-sm" to={url} target="__black" >Más información de la rifa</Link>
                         </div>
 
                         <div className="mt-6 w-9/12 m-auto">

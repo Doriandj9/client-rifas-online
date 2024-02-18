@@ -1,5 +1,7 @@
 import { Outlet, useMatches } from "react-router-dom";
 import { useAuth } from "../../../app/store/app/userStore";
+import Default from "../../client/views/Dashboard/Default";
+import NotPermissions from "../../../components/NotPermissions";
 
 const App = () => {
     const user = useAuth((state) => state.user);
@@ -11,13 +13,13 @@ const App = () => {
         return preview;
     },[])
     if(user ===  null || user.is_raffles !== true || user.organize_riffs !== true){
-        return <> No tiene permisos</>;
+        return <NotPermissions />;
     }
 
 
 
     if(handler.length === 2 && values.some((value) => value === 'op_raffles')){
-        return <>Default 2</>;
+        return <Default />;
     }
     
         

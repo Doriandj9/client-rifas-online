@@ -33,18 +33,19 @@
  }
 
  .tab-active{
-  @apply cursor-pointer text-secondary;
+  @apply cursor-pointer text-primaryop-700;
+  transform: scale(1.05)
 }
  .tab-inactive{
   @apply cursor-pointer;
 }
 
 .tab-active:hover{
-  @apply text-secondary;
+  @apply text-primaryop-700;
 
 }
 .tab-inactive:hover{
-  @apply text-secondary;
+  @apply text-primaryop-700;
 }
 
 .navbar-active{

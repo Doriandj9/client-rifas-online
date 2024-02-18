@@ -6,6 +6,8 @@ import { useInterval } from "../../../app/store/app/resfreshIterval";
 import { fetchQuery } from "../../../app/utilities/web/fetchQuery";
 import { credentials } from "../../../app/config/app";
 import routesapi from "../../../app/config/routesapi";
+import NotPermissions from "../../../components/NotPermissions";
+import Layout from '@app/app/layouts/Layout';
 
 const url = credentials.server + routesapi.refresh_data_user;
 
@@ -17,7 +19,11 @@ const App = () =>  {
     const updateInterval = useInterval(state => state.update);
 
     if(!user){
-        return <>no permite</>
+        return <>
+            <Layout>
+                <NotPermissions />
+            </Layout>
+        </> 
     }
     const handlers = useMatches();
     useEffect(() => {

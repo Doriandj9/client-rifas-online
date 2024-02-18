@@ -27,9 +27,11 @@ import { CEDULA_REG_EXPRE, EMAIL_REG_EXPRE } from '../../../../app/utilities/val
 const urlPayment = credentials.server + routesapi.public_payment_raffles;
 
 const App = () => {
+  useSetHeader('Compra un nuevo boleto');
     const params = useParams();
     const user = useAuth(state => state.user);
     const toast = useToast(toastConfig);
+
     const [displayImg, setDImage] = useState(null);
     const [idImg, setIdImg] = useState('');
     const [openPayment, setOpenPayment] = useState(false);
@@ -211,7 +213,7 @@ const App = () => {
                 }}>
                         <div className='absolute bottom-0 right-0 bg-blue-100 px-28 py-8 rounded-tl-lg rounded-br-3xl '>
                             <span className='text-secondary font-semibold text-6xl italic'> 
-                                <span className='text-4xl'>$</span>{data.data.price} 
+                                <span className='text-4xl'>$</span>{Number(data.data.price).toFixed(2)} 
                                 {/* <span className='-ms-2 text-sm'> dólares  </span>  */}
                             </span>
                         </div>

@@ -15,6 +15,7 @@ import { IoSettingsOutline } from "react-icons/io5";
 import Perfil from '../../../../components/Perfil';
 import ResetPassword from '../../../../components/ResetPassword';
 import Settings from '../../../../components/Settings';
+import { useSetHeader } from '../../../../app/utilities/hooks/web/useSetHeader';
 let actions = [
    {
        name: 'Código QR',
@@ -32,6 +33,8 @@ const App  = () => {
     //hooks 
     const token = useAccessToken((state) => state.token);
     const user = useAuth(state => state.user);
+    const [tab, setTab] = useState(''); 
+    useSetHeader('Perfil');
     //states
 
      return (
@@ -66,13 +69,13 @@ const App  = () => {
       borderRadius="1px"
     />
     <TabPanels>
-      <TabPanel>
+      <TabPanel onClick={() => setTab('Perfil')}>
         <Perfil />
       </TabPanel>
-      <TabPanel>
+      <TabPanel onClick={() => setTab('Restablecer contraseña')}>
         <ResetPassword />
       </TabPanel>
-      <TabPanel>
+      <TabPanel onClick={() => setTab('Configuraciones')}>
        <Settings />
       </TabPanel>
     </TabPanels>

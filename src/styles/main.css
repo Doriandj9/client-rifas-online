@@ -936,21 +936,13 @@ input[type="range"]::-ms-fill-lower {
 .tab-active {
   cursor: pointer;
   --tw-text-opacity: 1;
-  color: rgb(214 40 41 / var(--tw-text-opacity));
-}
-
-.tab-inactive {
-  cursor: pointer;
+  color: rgb(0 121 180 / var(--tw-text-opacity));
+  transform: scale(1.05);
 }
 
 .tab-active:hover {
   --tw-text-opacity: 1;
-  color: rgb(214 40 41 / var(--tw-text-opacity));
-}
-
-.tab-inactive:hover {
-  --tw-text-opacity: 1;
-  color: rgb(214 40 41 / var(--tw-text-opacity));
+  color: rgb(0 121 180 / var(--tw-text-opacity));
 }
 
 .navbar-active {
@@ -1245,6 +1237,10 @@ input[type="range"]::-ms-fill-lower {
   margin-top: 0.5rem;
 }
 
+.mt-24 {
+  margin-top: 6rem;
+}
+
 .mt-3 {
   margin-top: 0.75rem;
 }
@@ -1389,6 +1385,10 @@ input[type="range"]::-ms-fill-lower {
   height: 100vh;
 }
 
+.max-h-\[25rem\] {
+  max-height: 25rem;
+}
+
 .max-h-\[40rem\] {
   max-height: 40rem;
 }
@@ -1397,12 +1397,20 @@ input[type="range"]::-ms-fill-lower {
   max-height: 100%;
 }
 
+.min-h-\[18rem\] {
+  min-height: 18rem;
+}
+
 .min-h-\[25rem\] {
   min-height: 25rem;
 }
 
 .min-h-\[38rem\] {
   min-height: 38rem;
+}
+
+.min-h-\[44rem\] {
+  min-height: 44rem;
 }
 
 .min-h-\[45rem\] {
@@ -2005,6 +2013,10 @@ input[type="range"]::-ms-fill-lower {
   padding-inline-start: 2rem;
 }
 
+.pt-10 {
+  padding-top: 2.5rem;
+}
+
 .pt-12 {
   padding-top: 3rem;
 }
@@ -2162,11 +2174,6 @@ input[type="range"]::-ms-fill-lower {
 .text-blue-400 {
   --tw-text-opacity: 1;
   color: rgb(96 165 250 / var(--tw-text-opacity));
-}
-
-.text-blue-500 {
-  --tw-text-opacity: 1;
-  color: rgb(59 130 246 / var(--tw-text-opacity));
 }
 
 .text-gray-200 {
@@ -2339,6 +2346,11 @@ input[type="range"]::-ms-fill-lower {
 
 .outline {
   outline-style: solid;
+}
+
+.blur {
+  --tw-blur: blur(8px);
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 
 .filter {
@@ -2776,10 +2788,6 @@ input[type="range"]::-ms-fill-lower {
     border-width: 0px;
   }
 
-  .lg\:bg-transparent {
-    background-color: transparent;
-  }
-
   .lg\:p-0 {
     padding: 0px;
   }
@@ -2820,6 +2828,10 @@ input[type="range"]::-ms-fill-lower {
 
   .lg\:pl-64 {
     padding-left: 16rem;
+  }
+
+  .lg\:pt-10 {
+    padding-top: 2.5rem;
   }
 
   .lg\:pt-2 {

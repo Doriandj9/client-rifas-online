@@ -6,6 +6,7 @@ export default {
     register: '/api/register',
     confirm: '/api/register/confirm',
     user_profile: '/api/user/profile/{id}',
+    user_avatar: '/api/user/avatar/{id}',
     subscriptions: '/api/subscriptions',
     //acceso login
     logout: '/api/logout',

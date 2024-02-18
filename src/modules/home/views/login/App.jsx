@@ -15,11 +15,13 @@ import AppButton from '../../../../app/app_components/Core/AppButon';
 import { useAccessToken, useAuth } from '../../../../app/store/app/userStore';
 import routesweb from '../../../../app/config/routesweb';
 import InputPassword from '../../../../components/InputPassword';
+import { useSetHeader } from '../../../../app/utilities/hooks/web/useSetHeader';
 const App = () => {
     const navigate = useNavigate();
     const user = useAuth((state) => state.user);
     const login = useAuth((state) => state.save)
-    const accToken = useAccessToken((state) => state.save)
+    const accToken = useAccessToken((state) => state.save);
+    useSetHeader('Iniciar Sesión');
     const[loading, setLoading] = useState(false);
     const[inputs,setInputs] = useState({
         email: '',

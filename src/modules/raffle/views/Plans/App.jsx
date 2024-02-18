@@ -16,16 +16,19 @@ import { Form } from "react-router-dom";
 import { credentials } from "../../../../app/config/app";
 import routesapi from "../../../../app/config/routesapi";
 import { FaPassport, FaPiggyBank } from "react-icons/fa6";
+import { useSetHeader } from "../../../../app/utilities/hooks/web/useSetHeader";
 
 const url  = credentials.server + routesapi.subscriptions;
 
 const App = () => {
  //hooks
+ useSetHeader('Actualizate a un mejor plan');
 const user = useAuth(state => state.user);
 const updateUser = useAuth(state => state.save);
 const token = useAccessToken(state => state.token);
 const toast = useToast(toastConfig);
 //state
+const [bankAccounts,setBankAccounts] = useState([]);
 const [open,setOpen] = useState(false);
 const [loadingFetch, setLoadingFetch] = useState(false);
 const [errorFetch, setErrorFetch] = useState(null);
@@ -35,13 +38,6 @@ const [file, setFile] = useState('');
 const { data, error, loading,total, refetch: fetchData } = useFetch(url,{method: 'GET'},'data');
 
 //handlers
-const handleClose = () => {
-    toast({
-        title: 'Advertencia',
-        description: 'No puede cerrar el modal hasta completar la suscripción de un plan.',
-        status: 'warning',
-    })
-}
 const handleClosePayment = () => {
     setOpenPayment(false);
 }
@@ -118,7 +114,7 @@ useEffect(() => {
     }
 },[])
 
-console.log(data);
+
 return (
     <>
     <DisplayToast />
@@ -157,9 +153,7 @@ return (
                     Actualmente el sistema solo permite cancelar tu solicitud de pago por de medio de transferencia bancaria,
                     próximamente se habilitaran nuevas formas de pago, lamentamos cualquier inconveniente que te causemos.
                 </p>
-                {data && data.map( plan => {
-
-                 return plan.user.bank_accounts.map(account => {
+                {data && data.length > 0 && data[0].user.bank_accounts.map( account => {
                                 return <div key={account.id}>
                                     <section>
                                         <div className="flex gap-4 md:flex-row flex-col">
@@ -219,7 +213,7 @@ return (
                                     }
                                 </div>
                                 </div>
-                            })})}
+                        })}
                 <article className="mt-6">
                     <div>
                         <Alert className="mt-6" status='warning' variant='left-accent'>

@@ -17,7 +17,7 @@ const Perfil = () => {
     const user = useAuth(state => state.user);
     const updateUser = useAuth((state) => state.save);
     const token = useAccessToken(state => state.token);
-    const [imgProfile, setImageProfile] = useState(null);
+    const [imgProfile, setImageProfile] = useState(credentials.server + user.avatar);
     const [loadingFetch,setLoadingFetch] = useState(false);
     const [errorFetch,setErrorFetch] = useState(null);
     const toast = useToast(toastConfig);
@@ -38,11 +38,29 @@ const Perfil = () => {
             [e.target.name]: e.target.value
         })
     }
-    const handleSend = (e) => {
+    const handleSend = async (e) => {
         const img = e.target.files[0]
-        if(img){
-            const file = URL.createObjectURL(img);
-            setImageProfile(file);
+        if(!img){
+            return;
+        }
+        const file = URL.createObjectURL(img);
+        setImageProfile(file);
+
+        const form = new FormData();
+        form.append('avatar', img);
+
+        try {
+            const url = credentials.server + routesapi.user_avatar.replace('{id}',user.id);
+            const response = await fetchQuery(token,url,{method:'POST',body:form},() => {},setErrorFetch);
+            if(!response.status){
+                throw Error(response.message);
+            }
+        } catch (e) {
+            toast({
+                title: 'Error',
+                description: e.message,
+                status: 'error'
+            })
         }
     }
 
@@ -109,6 +127,7 @@ const Perfil = () => {
         });
     },[user]);
 
+    console.log(user);
     return (
         <>
             <Loader loading={loadingFetch} />

@@ -10,6 +10,7 @@ export default {
     success_register: '/security/register/success',
     confirm_register: '/security/register/confirm',
     plans: '/plans',
+    register_success: '/security/complete-register',
     company_policy: '/company-policy',
     recovery_password: '/recovery/password',
     admin:{

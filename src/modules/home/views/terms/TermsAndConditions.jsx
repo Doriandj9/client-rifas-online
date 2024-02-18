@@ -1,11 +1,14 @@
 import Layout from "@app/app/layouts/Layout";
 import { credentials } from "../../../../app/config/app";
 import routesapi from "../../../../app/config/routesapi";
+import { useSetHeader } from "../../../../app/utilities/hooks/web/useSetHeader";
 
 
 const url = credentials.server + routesapi.public_raffles;
 
 function App() {
+useSetHeader('Términos y Condiciones');
+
   return (
     <>
       <Layout>

@@ -8,6 +8,9 @@ const fetchQuery = async (apiKey,url, options = {}, setLoading = () => {}, setEr
     const optionsFetch = {...options,headers}
     try{
         const query =  await fetch(url,optionsFetch);
+        if(query.status === 401){
+            location.reload();
+        }
         const response = await query.json();
         return response;
     }catch(e){

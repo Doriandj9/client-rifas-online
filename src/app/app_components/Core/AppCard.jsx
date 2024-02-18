@@ -116,7 +116,7 @@ const CardApp = ({item}) => {
                     }) }
                 </ul>
             <Text className='text-secondary font-bold text-center' fontSize='lg'>
-                Valor del boleto <span className='text-2xl'> {item.price ?? 4}$ </span> 
+                Valor del boleto <span className='text-2xl'> { Number(item.price).toFixed(2) ?? 0}$ </span> 
             </Text>
             <Text className='text-primary font-bold text-center' fontSize='lg'>
                 {formatTimeFull(item.draw_date)}

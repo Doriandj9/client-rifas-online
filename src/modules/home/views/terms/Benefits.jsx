@@ -1,8 +1,9 @@
 import Layout from "@app/app/layouts/Layout";
+import { useSetHeader } from "../../../../app/utilities/hooks/web/useSetHeader";
 
 
 const Benefits = () => {
-
+useSetHeader('Beneficios');
     return (
         <>
       <Layout>

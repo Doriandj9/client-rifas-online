@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import { fetchQuery } from "../../../../../app/utilities/web/fetchQuery";
 import Loader from "../../../../../app/app_components/Core/Loader";
 import { reloadTable } from "../../../../../app/utilities/events/customs";
+import { FaUserCheck } from "react-icons/fa";
 
 const Modal = ({id, open,onClose, setUpdate}) => {
     const [showObserver, setShowObserver] = useState(false);
@@ -116,7 +117,7 @@ const Modal = ({id, open,onClose, setUpdate}) => {
         <>
             <Loader loading={loadingFetch} />
             <AppModal isOpen={open} onClose={onClose} scrollBehavior={'inside'}
-                header={<><MdEditDocument className="text-secondary text-3xl" /> Editar Promociones</>}
+                header={<><FaUserCheck className="text-secondary text-3xl" /> Autorizar a los usuarios</>}
                 buttons={buttons}
                 size='4xl'
             >
@@ -163,16 +164,6 @@ const Modal = ({id, open,onClose, setUpdate}) => {
                     </FormControl>
                     <FormControl className="flex items-center mt-3" >
                         <FormLabel fontWeight={'bold'} margin={0} width={'25%'}>
-                            Autorización
-                        </FormLabel>
-                        <Input 
-                        isDisabled 
-                        fontWeight={'bold'}
-                        opacity={'0.75 !important'}
-                        value={inputs.is_pending ? 'Pendiente' : 'Aprobado'}/>
-                    </FormControl>
-                    <FormControl className="flex items-center mt-3" >
-                        <FormLabel fontWeight={'bold'} margin={0} width={'25%'}>
                             Imagen de Autorización
                         </FormLabel>
                     </FormControl>
@@ -180,7 +171,7 @@ const Modal = ({id, open,onClose, setUpdate}) => {
                         {
                             inputs.verify_photo ? <a target="__blank"
                             href={credentials.server + inputs.verify_photo}>
-                                <img className="block w-full"
+                                <img className="block w-full shadow max-h-[25rem]"
                                 src={credentials.server + inputs.verify_photo} alt="auth" />
                             </a> 
                             : 
@@ -190,7 +181,17 @@ const Modal = ({id, open,onClose, setUpdate}) => {
                         }
                         
                     </div>
-                    <ButtonGroup gap='4'>
+                    <FormControl className="flex items-center mt-3" >
+                        <FormLabel fontWeight={'bold'} margin={0} width={'25%'}>
+                            Autorización
+                        </FormLabel>
+                        <Input 
+                        isDisabled 
+                        fontWeight={'bold'}
+                        opacity={'0.75 !important'}
+                        value={inputs.is_pending ? 'Pendiente' : 'Aprobado'}/>
+                    </FormControl>
+                    <ButtonGroup marginTop={15} gap='4'>
                     <Button 
                     onClick={handleChange}
                     data-info='reprove'

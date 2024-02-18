@@ -1,8 +1,9 @@
+import AppDefault from "../../../client/views/Dashboard/Default";
 
 const Default = () => {
     return (
         <>
-            defecto
+            <AppDefault />
         </>
     );
 }

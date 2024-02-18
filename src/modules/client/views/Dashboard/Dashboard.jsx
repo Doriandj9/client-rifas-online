@@ -3,7 +3,10 @@ import { Link, NavLink, Outlet, useNavigate, redirect, useMatch, useMatches } fr
 import routesweb from "../../../../app/config/routesweb";
 import {useEffect } from "react";
 import Default from "./Default";
+import { useSetHeader } from "../../../../app/utilities/hooks/web/useSetHeader";
 const Dashboard = () => {
+  useSetHeader('Dashboard');
+
 //   const navigate = useNavigate();
 //   useEffect(() => {
 //     navigate(routesweb.admin.root + '/' + routesweb.admin.children.dashboard.root);

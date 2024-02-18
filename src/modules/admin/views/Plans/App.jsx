@@ -1,10 +1,13 @@
 import { NavLink, Outlet, redirect, useMatch, useMatches, useNavigate } from "react-router-dom";
 import routesweb from "../../../../app/config/routesweb";
 import { useEffect, useState } from "react";
+import { handleRoute } from "../../../../app/utilities/web/navigateRoutes";
+import { useSetHeader } from "../../../../app/utilities/hooks/web/useSetHeader";
 
 const routes = routesweb.admin.children.plans.children;
 
 const App = () => {
+  useSetHeader('Planes de suscripciones');
   const handler = useMatches();
   const navigate = useNavigate();
   
@@ -13,9 +16,7 @@ const App = () => {
         navigate(routes.create);
     }
   },[handler.length])
-  const handleRoute = ({ isActive, isPending, isTransitioning }) => {
-    return isActive ? 'tab-active' : 'tab-inactive';
- };
+  
   
   // if(handler.length === 2 && handler[1].handle['plans.default']){
   //   return  navigate(routes.create);

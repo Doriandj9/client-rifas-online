@@ -10,13 +10,13 @@ import welcome from '@app/assets/imgs/hayu24-bienvenida.png';
 import { lottieOptions } from '../../../../app/utilities/web/configs';
 import Plans from './components/Plans';
 import { Img } from '@chakra-ui/react';
+import { useSetHeader } from '../../../../app/utilities/hooks/web/useSetHeader';
 
 
 const url = credentials.server + routesapi.public_raffles;
 
 function App() {
-   
-
+  useSetHeader('Inicio');
    const [load,setLoad] = useState(false);
    const hash = new URL(location.href);
    const [plans, setPlans] = useState(null);

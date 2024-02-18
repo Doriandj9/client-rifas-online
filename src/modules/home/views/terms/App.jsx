@@ -9,11 +9,13 @@ import Lottie from 'react-lottie';
 import welcome from '@app/assets/imgs/hayu24-bienvenida.png';
 import { lottieOptions } from '../../../../app/utilities/web/configs';
 import { Img } from '@chakra-ui/react';
+import { useSetHeader } from '../../../../app/utilities/hooks/web/useSetHeader';
 
 
 const url = credentials.server + routesapi.public_raffles;
 
 function App() {
+  useSetHeader('Políticas de Privacidad');
 
   return (
     <>

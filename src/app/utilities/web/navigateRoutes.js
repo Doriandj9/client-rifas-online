@@ -11,4 +11,8 @@ const navigateRoutes = (navigate,user) => {
     navigate(routesRedirect.dashboard);
 }
 
-export {navigateRoutes};
+const handleRoute = ({ isActive, isPending, isTransitioning }) => {
+    return isActive ? 'tab-active' : 'tab-inactive';
+ };
+
+export {navigateRoutes,handleRoute};

@@ -17,9 +17,11 @@ import routesweb from '../../../../app/config/routesweb';
 import InputPassword from '../../../../components/InputPassword';
 import { toastConfig } from '../../../../app/utilities/web/configs';
 import Modal from './components/Modal';
+import { useSetHeader } from '../../../../app/utilities/hooks/web/useSetHeader';
 
 
 const App = () => {
+  useSetHeader('Recupera tu contraseña');
     const {code} = useParams();
     const navigate = useNavigate();
     const toast = useToast(toastConfig)

@@ -4,20 +4,22 @@ import { credentials } from "../../../../../../app/config/app";
 import routesapi from "../../../../../../app/config/routesapi";
 import { useAccessToken } from "../../../../../../app/store/app/userStore";
 import { useFetch } from "../../../../../../app/utilities/hooks/data/useFetch";
-import { Checkbox, FormControl, FormLabel, Input, Radio, RadioGroup, Stack,ButtonGroup, Button, Textarea, Switch, useToast } from "@chakra-ui/react";
+import { Checkbox, FormControl, FormLabel, Input, Radio, RadioGroup, Stack,ButtonGroup, Button, Textarea, Switch, useToast, IconButton } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { MdCancel } from "react-icons/md";
+import { MdCancel, MdDelete } from "react-icons/md";
 import Loader from "../../../../../../app/app_components/Core/Loader";
 import { reloadTable } from "../../../../../../app/utilities/events/customs";
 import { FaCircleCheck, FaUserXmark } from "react-icons/fa6";
 import { FaEdit } from "react-icons/fa";
 import { toastConfig } from "../../../../../../app/utilities/web/configs";
 import { fetchQuery } from "../../../../../../app/utilities/web/fetchQuery";
+import { IoAddCircle, IoEar } from "react-icons/io5";
 
 
 const Modal = ({id, open,onClose, setUpdate}) => {
     const [showObserver, setShowObserver] = useState(false);
     const [loadingFetch, setLoadingFetch] = useState(false);
+    const [items, setItems] = useState([]);
     const [errorFetch, setErrorFetch] = useState(null);
     const toast = useToast(toastConfig);
     //states
@@ -28,7 +30,8 @@ const Modal = ({id, open,onClose, setUpdate}) => {
         minimum_tickets: '',
         maximum_tickets: '',
         is_active: '',
-        price: ''
+        price: '',
+        description: '',
     });
     //code
     let url =  credentials.server + routesapi.admin_subscriptions;
@@ -37,7 +40,12 @@ const Modal = ({id, open,onClose, setUpdate}) => {
     const {data, error, loading, refetch } = useFetch(url,{method:'GET'},'data',true,token,[id]);
 
     const handleSubmit = async () => {
-        setLoadingFetch(true);
+        // setLoadingFetch(true);
+        const itemsForm = Array.from(document.querySelectorAll('input[data-list]')).map(item => item.value);
+        if(inputs.description !== ''){
+            itemsForm.push(inputs.description);
+        }
+        inputs.description = JSON.stringify([...itemsForm]);
         try{
           const response = await fetchQuery(token,url,{method:'PATCH',body:new URLSearchParams(inputs)},setLoadingFetch,setErrorFetch);
            if(response.status){
@@ -74,18 +82,6 @@ const Modal = ({id, open,onClose, setUpdate}) => {
       </Button>
     </>;
     //handlers
-    const handleChange = (e) => {
-        const op = e.target.dataset.info;
-        if(op === 'accept'){
-            setInputs({...inputs, is_active: true});
-            setShowObserver(false);
-            return;
-        }
-
-        setShowObserver(true);
-        setInputs({...inputs, is_active: false});
-
-    }
     const handleInput = (e) => {
         setInputs({
             ...inputs,
@@ -100,6 +96,19 @@ const Modal = ({id, open,onClose, setUpdate}) => {
         })
     }
 
+    const handleRemoveItem =(e,value) => {
+        const button =e.target
+        const id = button.dataset.parent;
+        const values = Array.from(document.querySelectorAll('input[data-list]')).map(item => item.value);
+        const itemsForm = values.filter(item => item != value); 
+        setItems([...itemsForm]);
+    }
+
+    const handleMoreItem = (e) => {
+        const values = Array.from(document.querySelectorAll('input[data-list]')).map(item => item.value);
+        setItems([...values, '']);
+    }
+
     //effects
     useEffect(() => {
         if(data !== null &&  data['id'] > 0){
@@ -111,12 +120,14 @@ const Modal = ({id, open,onClose, setUpdate}) => {
                 maximum_tickets: data.maximum_tickets,
                 price: data.price,
                 is_active: data.is_active,
+                description: ''
             });
+
+            setItems(JSON.parse(data.description));
             
         }
     },[data])
 
-    
     return (
         <>
             <Loader loading={loadingFetch} />
@@ -182,12 +193,53 @@ const Modal = ({id, open,onClose, setUpdate}) => {
                         onInput={handleInput}
                         value={inputs.maximum_tickets}/>
                     </FormControl>
-
+                    <FormControl isRequired marginTop={15}>
+                        <FormLabel fontWeight={'bold'}>Funciones principales</FormLabel>
+                            <div className="flex ">
+                                <Input name='description'
+                                    value={inputs.description}
+                                    onInput={handleInput}
+                                    className='shadow w-4/5' height={50} placeholder='Por ejemplo: Rifas ilimitadas'
+                                    />
+                                <IconButton
+                                onClick={handleMoreItem}
+                                 height={50} aria-label='Nuevo Item' className="w-14"
+                                  icon={<IoAddCircle className="w-8 h-8 text-primary" />} />
+                            </div>
+                            {items.length > 0 && items.map((item,i) => {
+                                return (
+                                    <Item  key={i} id={i} handleRemove={handleRemoveItem} value={item} />
+                                ); 
+                            })}
+                    </FormControl>
                 </Form>
             </AppModal>
         </>
     );
 }
 
+
+
+const Item = ({id, handleRemove, value}) => {
+    const idElement = `item-a-${id}`;
+    useEffect(() => {
+        document.getElementById(idElement + '-input').value = value;
+    },[value])
+    return (
+        <>
+        <div id={idElement} data-item-content className="flex mt-2">
+            <Input data-list
+                id={idElement + '-input'}
+                className='shadow w-4/5' height={50} placeholder='Por ejemplo: Rifas ilimitadas'
+            />
+            <IconButton
+            data-parent={idElement}
+            onClick={(e) =>  handleRemove(e,value)}
+            height={50} aria-label='Borrar Item' className="w-14"
+            icon={<MdDelete  className="w-8 h-8 text-secondary pointer-events-none" />} />
+        </div>
+        </>
+    );
+}
 
 export default Modal;

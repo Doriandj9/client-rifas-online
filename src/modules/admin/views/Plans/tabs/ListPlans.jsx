@@ -102,7 +102,6 @@ const ListPlans = () => {
     //effects
 
     //jsx
-     console.log(toast);
     const buttons = <>
     <Button colorScheme='red' mr={3} onClick={handleCloseModal}>
         Cerrar

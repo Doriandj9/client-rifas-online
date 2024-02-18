@@ -15,8 +15,10 @@ import AppButton from '../../../../app/app_components/Core/AppButon';
 import { useAccessToken, useAuth } from '../../../../app/store/app/userStore';
 import routesweb from '../../../../app/config/routesweb';
 import FormRaffles from './components/FormRaffles';
+import { useSetHeader } from '../../../../app/utilities/hooks/web/useSetHeader';
 
 const App = () => {
+  useSetHeader('Regístrate');
     const navigate = useNavigate();
     const login = useAuth((state) => state.save)
     const accToken = useAccessToken((state) => state.save)

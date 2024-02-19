@@ -23,6 +23,7 @@ import Modal from './components/Modal';
 import { FaTicketSimple } from "react-icons/fa6";
 import { CiSaveDown2 } from "react-icons/ci";
 import { CEDULA_REG_EXPRE, EMAIL_REG_EXPRE } from '../../../../app/utilities/validations/Expresions';
+import { useSetHeader } from '../../../../app/utilities/hooks/web/useSetHeader';
 
 const urlPayment = credentials.server + routesapi.public_payment_raffles;
 

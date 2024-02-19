@@ -13,6 +13,10 @@ import { useToast } from "@chakra-ui/react";
 import { toastConfig } from "../../../../../app/utilities/web/configs";
 import { FaRegEdit } from "react-icons/fa";
 import Modal from "./Modal/Modal";
+import { MdDeleteOutline } from "react-icons/md";
+import ModalDelete from "../../../../../app/app_components/Core/ModalDelete";
+import Loader from "../../../../../app/app_components/Core/Loader";
+import { reloadTable } from "../../../../../app/utilities/events/customs";
 let actions = [
   {
     name: "Editar rifa.",
@@ -23,12 +27,26 @@ let actions = [
       console.log("click | Editar");
     },
   },
+  {
+    name: "Eliminar rifa.",
+    icon: MdDeleteOutline,
+    color: "red.800",
+    element: null,
+    onclick: () => {
+      console.log("click | Editar");
+    },
+  },
 ];
 const ListAccount = () => {
     //hooks 
     const token = useAccessToken((state) => state.token);
     const user = useAuth(state => state.user);
-    const toast = useToast(toastConfig);
+   const [idItemDelete,setIdItemDelete] = useState(null);
+   const [message,setMessage] = useState('');
+   const [openDelete,setOpenDelete] = useState(false);
+   const toast = useToast(toastConfig);
+   const [loading, setLoading] = useState(false);
+   const [error,setError] = useState(null);
     const url = credentials.server + routesapi.raffle_bank_accounts_by_user.replace('{user_id}',user.id);
    //states 
    const [openModal,setOpenModal] = useState(false);
@@ -43,14 +61,46 @@ const ListAccount = () => {
        setOpenModal(true);
        setIdItem(item.id);
    } 
+   actions[1].onclick = (item,i) => () => {
+    setOpenDelete(true);
+    setIdItemDelete(item.id);
+    setMessage('Esta seguro de borrar su cuenta bancaria.');
+   }
    //actualizar funciones
    actionColumns.list = actions;
    //handlers
+   const handleCloseDelete = () => setOpenDelete(false);
    const handleCloseModal = () => setOpenModal(false);
    const handleSaveModal = () => {
        document.dispatchEvent(reloadTable);
        setOpenModal(false);
    }
+   const handleDeleteItem = async () => {
+    try{
+      const url = credentials.server + routesapi.raffle_bank_accounts + `/${idItemDelete}`;
+      const response  = await fetchQuery(token,url,{method: 'DELETE'},setLoading,setError);
+      if(response.status){
+        toast({
+          title: 'Borrado',
+          description: 'Se borro con éxito su cuenta bancaria.',
+          status: 'success'
+        });
+        document.dispatchEvent(reloadTable);
+        setOpenDelete(false);
+        return;
+      }
+
+      throw Error(response.message);
+    }catch(e){
+      toast({
+        title: 'Error',
+        description: e.message,
+        status: 'error'
+      });
+    }finally{
+      setLoading(false);
+    }
+ }
   //effects
    useEffect(() => {
      if(resultUpdate.message !== ''){
@@ -73,6 +123,12 @@ const ListAccount = () => {
 
   return (
     <>
+    <Loader loading={loading} />
+    {
+        idItemDelete && (
+          <ModalDelete open={openDelete} message={message} handleClose={handleCloseDelete} handleSave={handleDeleteItem} />
+        )
+      }
       {idItem && (
         <Modal
           id={idItem}

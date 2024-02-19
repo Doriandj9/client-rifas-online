@@ -16,6 +16,7 @@ import Modal from "./Modal/Modal";
 import ModalDelete from "../../../../../app/app_components/Core/ModalDelete";
 import { MdDeleteOutline } from "react-icons/md";
 import { reloadTable } from "../../../../../app/utilities/events/customs";
+import Loader from "../../../../../app/app_components/Core/Loader";
 let actions = [
   {
     name: "Editar rifa.",
@@ -99,6 +100,8 @@ const ListLottery = () => {
           description: e.message,
           status: 'error'
         });
+      } finally {
+        setLoading(false);
       }
    }
 
@@ -122,6 +125,7 @@ const ListLottery = () => {
 
   return (
     <>
+    <Loader loading={loading} />
       {idItem && (
         <Modal
           id={idItem}

@@ -5,7 +5,6 @@ import rootRoutes from './app/routes/rootRoutes';
 import App from "@modules/home/views/home/App";
 import { ToastContainer } from 'react-toastify';
 import './styles/main.css';
-import 'flowbite/dist/flowbite'
 
 const router = createBrowserRouter(rootRoutes);
 

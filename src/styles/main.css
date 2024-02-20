@@ -984,7 +984,7 @@ input[type="range"]::-ms-fill-lower {
   padding-left: 0.75rem;
   padding-right: 1rem;
   --tw-text-opacity: 1;
-  color: rgb(0 48 73 / var(--tw-text-opacity));
+  color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
 :is(.dark .navbar-inactive) {
@@ -996,6 +996,8 @@ input[type="range"]::-ms-fill-lower {
   .navbar-inactive {
     background-color: transparent;
     padding: 0px;
+    --tw-text-opacity: 1;
+    color: rgb(0 48 73 / var(--tw-text-opacity));
   }
 }
 

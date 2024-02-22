@@ -87,7 +87,7 @@ const App  = () => {
         </nav>
         <div className="min-h-[67vh]">
         <>
-        <div className="grid relative max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-6 lg:py-16 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 lg:pt-2 gap-4 md:place-items-stretch place-items-center">
+        <div className="flex gap-8 flex-wrap md:justify-normal justify-center">
           <AppCard url={url} />
         </div>
         </>

@@ -8,6 +8,7 @@ import { IoLogoWhatsapp } from "react-icons/io";
 import { FaCalendarAlt } from "react-icons/fa";
 import { formatTimeDate, formatTimeDateHour, formatTimeFull } from "../../utilities/web/times/formatTimeFull";
 import { Link } from "react-router-dom";
+import { RiLiveFill } from "react-icons/ri";
 import routesweb from "../../config/routesweb";
 import { IoInformationCircle } from "react-icons/io5";
 const AppTicket = ({size, ticket}) => {
@@ -23,7 +24,7 @@ const AppTicket = ({size, ticket}) => {
                             <BiWorld className="text-4xl text-primary mr-2" />
                         </div>
                 </section>
-                <section className="bg-primary h-52 overflow-hidden" >
+                <section className="bg-primary h-60 overflow-hidden" >
                         <h3 className="text-white text-center pt-2 text-sm font-bold"> {ticket.raffle.name} </h3>
                         <div className="mt-4 w-9/12 m-auto flex gap-2">
                             <IoInformationCircle  className="w-5 w-5 text-yellow-300" />
@@ -62,6 +63,10 @@ const AppTicket = ({size, ticket}) => {
                                      {formatTimeFull(ticket.created_at)}
                                       </span>
 
+                        </div>
+                        <div className="mt-1 w-9/12 m-auto flex gap-2">
+                            <RiLiveFill  className="w-5 w-5 text-white" />
+                             <Link className="text-white text-sm" to={url} target="__black" >{ticket.raffle.summary}</Link>
                         </div>
                 </section>
                 <section  className="pt-2 h-32" style={{ backgroundColor: '#003B4A'}}>

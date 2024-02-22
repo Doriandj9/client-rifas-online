@@ -1,6 +1,7 @@
 import { Basquet_Small, FacebookSVG_Small, GitHub_Small, InstagramSVG_Small, Twitter_Small } from "../../../components/ImgSVG";
 import logo from '@app/assets/imgs/DigitalEducas-Logos/hayu24.png';
 import routesweb from "../../config/routesweb";
+import { IoLogoWhatsapp } from "react-icons/io";
 const Footer  = () => {
     return (
         <>
@@ -55,7 +56,11 @@ const Footer  = () => {
                                 <Twitter_Small />
                             </a>
                         </li>
-
+                        <li>
+                            <a target="__blank" href="https://chat.whatsapp.com/FU8yTvOyGzo3uYImC4mNAq" className="text-gray-500 hover:text-gray-900 dark:hover:text-white dark:text-gray-400">
+                                <IoLogoWhatsapp className="w-5 h-5" />
+                            </a>
+                        </li>
                     </ul>
                 </div>
                     </div>

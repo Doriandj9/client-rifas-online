@@ -166,16 +166,6 @@ const Modal = ({id, open,onClose, setUpdate}) => {
                     </FormControl>
                     <FormControl className="flex items-center mt-3" >
                         <FormLabel fontWeight={'bold'} margin={0} width={'25%'}>
-                            Autorización
-                        </FormLabel>
-                        <Input 
-                        isDisabled 
-                        fontWeight={'bold'}
-                        opacity={'0.75 !important'}
-                        value={inputs.organize_riffs ? 'Aprobado' : 'Negado'}/>
-                    </FormControl>
-                    <FormControl className="flex items-center mt-3" >
-                        <FormLabel fontWeight={'bold'} margin={0} width={'25%'}>
                             Imagen de Autorización
                         </FormLabel>
                     </FormControl>
@@ -193,6 +183,16 @@ const Modal = ({id, open,onClose, setUpdate}) => {
                         }
                         
                     </div>
+                    <FormControl className="flex items-center mt-3 mb-4" >
+                        <FormLabel fontWeight={'bold'} margin={0} width={'25%'}>
+                            Autorización
+                        </FormLabel>
+                        <Input 
+                        isDisabled 
+                        fontWeight={'bold'}
+                        opacity={'0.75 !important'}
+                        value={inputs.organize_riffs ? 'Aprobado' : 'Negado'}/>
+                    </FormControl>
                     <ButtonGroup gap='4'>
                     <Button 
                     onClick={handleChange}

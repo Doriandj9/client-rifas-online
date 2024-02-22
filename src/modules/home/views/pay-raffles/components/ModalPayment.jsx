@@ -126,8 +126,7 @@ const ModalPayment = ({open,handleClose,tickets,total,price, onSubmit, backAccou
                             </section>
                             <Alert className="mt-6" status='warning' variant='left-accent'>
                                 <AlertIcon />
-                                Posterior a la realización de la transferencia adjuntar el comprobante de pago, caso contrario 
-                                no se validara su suscripción y no dispondrá de acceso a los servicios de la plataforma.
+                                Posterior a la realización de la transferencia o deposito adjuntar el comprobante de pago, para su validación de la compra de los boletos.
                             </Alert>
 
                             <div className="mt-8">

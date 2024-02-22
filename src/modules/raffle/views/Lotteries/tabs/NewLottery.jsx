@@ -36,7 +36,7 @@ const NewLottery = () => {
     const[inputs, setInputs] = useState({
         name: '',
         description: '',
-        summary: '',
+        summary: 'Facebook',
         draw_date: '',
         logo_raffles: '',
         price: '',
@@ -217,6 +217,16 @@ const NewLottery = () => {
 
     }
 
+    const handleSelect = (e) => {
+        setInputs(
+            {
+                ...inputs,
+                summary: e.target.value
+            }
+        ) 
+        
+    }
+
     const validations = () => {
         
         if(inputs.number_tickets > user.subscription.maximum_tickets){
@@ -280,7 +290,7 @@ const NewLottery = () => {
                                     <FormLabel fontWeight={'bold'}>
                                     Escoja una fecha y hora del sorteo
                                     </FormLabel>
-                                    <div className="flex gap-2 items-center">
+                                    <div className="flex gap-2 items-center flex-col">
                                         <Input className="shadow"
                                             name="draw_date"
                                             value={inputs.draw_date}
@@ -288,7 +298,7 @@ const NewLottery = () => {
                                             type="date"
                                         />
                                         <Input className="shadow"
-                                            width={'35%'}
+                                            width={'100%'}
                                             name="time"
                                             value={inputs.time}
                                             onChange={handleInput}
@@ -298,7 +308,7 @@ const NewLottery = () => {
                                 </FormControl>
                                 <FormControl  className="">
                                     <FormLabel fontWeight={'bold'}>
-                                    <span className="text-sm">Seleccione una imagen de (554x600) para su rifa  (opcional)</span> 
+                                    <span className="text-sm">Seleccione una imagen para su rifa (opcional)</span> 
                                     </FormLabel>
                                     <Input className="shadow"
                                         name="logo_raffles"
@@ -359,7 +369,6 @@ const NewLottery = () => {
                                     name="price"
                                     value={inputs.price}
                                     onInput={handleInput}
-                                    
                                     defaultValue={15} min={1} >
                                         <NumberInputField />
                                         <NumberInputStepper>
@@ -384,12 +393,12 @@ const NewLottery = () => {
                                 <FormLabel fontWeight={'bold'}>
                                     Medio de difusión de la rifa
                                 </FormLabel>
-                                <Textarea 
-                                 name="summary"
-                                 value={inputs.summary}
-                                 onInput={handleInput}
-                                placeholder="Por ejemplo: Transmisión en vivo." className="shadow">
-                                </Textarea>
+                                <Select onChange={handleSelect} name="summary">
+                                        <option value="Facebook">Facebook</option>
+                                        <option  value="You Tube">You Tube</option>
+                                        <option value="Twitch">Twitch</option>
+                                        <option value="TikTok">TikTok</option>
+                                </Select>
                             </FormControl>
                             <FormControl isRequired marginTop={15}>
                         <FormLabel fontWeight={'bold'}>Registra los premios a rifarse</FormLabel>

@@ -4,7 +4,7 @@ import { credentials } from "../../../../../app/config/app";
 import routesapi from "../../../../../app/config/routesapi";
 import { useAccessToken } from "../../../../../app/store/app/userStore";
 import { useFetch } from "../../../../../app/utilities/hooks/data/useFetch";
-import { Checkbox, FormControl, FormLabel, Input, Radio, RadioGroup, Stack,ButtonGroup, Button, Textarea } from "@chakra-ui/react";
+import { Checkbox, FormControl, FormLabel, Input, Radio, RadioGroup, Stack,ButtonGroup, Button, Textarea, Alert, AlertIcon, Table, Thead, Tr, Th, Tbody, Td, Tfoot, TableContainer, useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { MdEditDocument } from "react-icons/md";
 import { FaCircleCheck } from "react-icons/fa6";
@@ -14,10 +14,17 @@ import { fetchQuery } from "../../../../../app/utilities/web/fetchQuery";
 import Loader from "../../../../../app/app_components/Core/Loader";
 import { reloadTable } from "../../../../../app/utilities/events/customs";
 import { FaRegImages } from "react-icons/fa6";
+import { FaFileInvoiceDollar } from "react-icons/fa6";
+import { formatTimeFull } from "../../../../../app/utilities/web/times/formatTimeFull";
+import { toastConfig } from "../../../../../app/utilities/web/configs";
 const Modal = ({id, open,onClose, setUpdate}) => {
     const [showObserver, setShowObserver] = useState(false);
     const [loadingFetch, setLoadingFetch] = useState(false);
+    const [raffle, setRaffle] = useState(null);
+    const [ticket,setTickets] = useState(null);
     const [errorFetch, setErrorFetch] = useState(null);
+    const toast = useToast(toastConfig);
+   
     //states
     const [inputs,setInputs] = useState({
         taxid: '',  
@@ -26,6 +33,7 @@ const Modal = ({id, open,onClose, setUpdate}) => {
         last_name: '',
         img: '',
         phone: '',
+        total: '',
         observation: '',
         accept: false,
     });
@@ -107,6 +115,7 @@ const Modal = ({id, open,onClose, setUpdate}) => {
             setInputs({
                 taxid: data.user.taxid,  
                 email: data.user.email,
+                total: data.total,
                 first_name: data.user.first_name,
                 last_name: data.user.last_name,
                 phone: data.user.phone,
@@ -115,57 +124,101 @@ const Modal = ({id, open,onClose, setUpdate}) => {
                 accept: data.is_active
             });
             setShowObserver(data.is_pending);
+            setRaffle(data.tickets[0].raffle);
+            setTickets(data.tickets);
+            toast({
+                title: '',
+                description: 'Presione ESC para salir',
+                duration: 1000,
+                status: 'info',
+                position: 'top'
+            });
         }
     },[data])
     return (
         <>
             <Loader loading={loadingFetch} />
             <AppModal isOpen={open} onClose={onClose} scrollBehavior={'inside'}
-                header={<><FaRegImages className="text-secondary text-3xl" /> Autorización de boletos</>}
+                header={<div className="flex items-center gap-4 border-b-2 pb-2 border-b-black"><FaFileInvoiceDollar className="text-secondary text-3xl" /> 
+                <span className="mt-2">Autorización de boletos </span>
+                </div>}
                 buttons={buttons}
-                size='4xl'
+                size='full'
             >
+                <div className="w-full lg:w-1/2 m-auto">
+                <Alert status='info'>
+                    <AlertIcon />
+                    Asegúrese de confirmar el comprobante de pago con los datos de facturación.
+                </Alert>
+                <div className="pt-12">
+                    <div className="flex">
+                        <div className="w-1/2">
+                            <p>
+                                <span className="font-bold">Consumidor:</span>
+                                <span> {inputs.first_name} {inputs.last_name} </span>
+                            </p>
+                            <p className="mt-2">
+                                <span className="font-bold">Correo electrónico:</span>
+                                <span> {inputs.email} </span>
+                            </p>
+                            <p className="mt-2">
+                                <span className="font-bold">Nº de celular:</span>
+                                <span> {inputs.phone} </span>
+                            </p>
+                            <p className="mt-2">
+                                <span className="font-bold">Fecha:</span>
+                                <span> {formatTimeFull(data?.created_at)} </span>
+                            </p>
+                        </div>
+                        <div className="w-1/2">
+                        <p>
+                                <span className="font-bold">Organizador:</span>
+                                <span> {raffle ? raffle.user.first_name : ''} {raffle ? raffle.user.last_name : ''} </span>
+                            </p>
+                        <p>
+                                <span className="font-bold">Rifa:</span>
+                                <span> {raffle ?  raffle.name : ''} </span>
+                            </p>
+                        </div>
+                    </div>
+                    <div className="mt-5">
+<TableContainer>
+  <Table size='full'>
+    <Thead>
+      <Tr>
+        <Th>Nº de boleto</Th>
+        <Th>Precio del boleto</Th>
+        <Th isNumeric>Subtotal</Th>
+      </Tr>
+    </Thead>
+    <Tbody>
+      {
+        ticket && ticket.map((item) => {
+            return(
+                <Tr key={item.id}>
+                <Td align="center" >{item.order}</Td>
+                <Td align="center">{raffle.price}$</Td>
+                <Td align="center" isNumeric>{raffle.price}$</Td>
+            </Tr>
+            );
+        })
+      }  
+      
+    </Tbody>
+    <Tfoot>
+      <Tr>
+        <Th align="center" colSpan={3} isNumeric>
+            <span>Total: </span>
+            <span className="text-primary">{inputs.total}$</span>
+        </Th>
+      </Tr>
+    </Tfoot>
+  </Table>
+</TableContainer>
+
+                    </div>
+                </div>
                 <Form>
-                    <FormControl className="flex items-center mt-3" >
-                        <FormLabel fontWeight={'bold'} margin={0} width={'25%'}>
-                            Doc. Identidad
-                        </FormLabel>
-                        <Input 
-                        isDisabled 
-                        fontWeight={'bold'}
-                        opacity={'0.75 !important'}
-                        value={inputs.taxid}/>
-                    </FormControl>
-                    <FormControl className="flex items-center mt-3" >
-                        <FormLabel fontWeight={'bold'} margin={0} width={'25%'}>
-                            Nombres
-                        </FormLabel>
-                        <Input 
-                        isDisabled 
-                        fontWeight={'bold'}
-                        opacity={'0.75 !important'}
-                        value={`${inputs.first_name} ${inputs.last_name}`}/>
-                    </FormControl>
-                    <FormControl className="flex items-center mt-3" >
-                        <FormLabel fontWeight={'bold'} margin={0} width={'25%'}>
-                            Correo electrónico
-                        </FormLabel>
-                        <Input 
-                        isDisabled 
-                        fontWeight={'bold'}
-                        opacity={'0.75 !important'}
-                        value={inputs.email}/>
-                    </FormControl>
-                    <FormControl className="flex items-center mt-3" >
-                        <FormLabel fontWeight={'bold'} margin={0} width={'25%'}>
-                            Número de celular
-                        </FormLabel>
-                        <Input 
-                        isDisabled 
-                        fontWeight={'bold'}
-                        opacity={'0.75 !important'}
-                        value={inputs.phone}/>
-                    </FormControl>
                     <FormControl className="flex items-center mt-3" >
                         <FormLabel fontWeight={'bold'} margin={0} width={'25%'}>
                             Autorización
@@ -232,6 +285,8 @@ const Modal = ({id, open,onClose, setUpdate}) => {
                     }
 
                 </Form>
+            </div>
+            
             </AppModal>
         </>
     );

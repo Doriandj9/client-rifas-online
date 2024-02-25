@@ -1163,6 +1163,10 @@ input[type="range"]::-ms-fill-lower {
   margin-bottom: 0.25rem;
 }
 
+.mb-12 {
+  margin-bottom: 3rem;
+}
+
 .mb-2 {
   margin-bottom: 0.5rem;
 }
@@ -1173,6 +1177,10 @@ input[type="range"]::-ms-fill-lower {
 
 .mb-4 {
   margin-bottom: 1rem;
+}
+
+.mb-5 {
+  margin-bottom: 1.25rem;
 }
 
 .mb-6 {
@@ -1475,10 +1483,6 @@ input[type="range"]::-ms-fill-lower {
   width: 1rem;
 }
 
-.w-4\/12 {
-  width: 33.333333%;
-}
-
 .w-4\/5 {
   width: 80%;
 }
@@ -1551,8 +1555,8 @@ input[type="range"]::-ms-fill-lower {
   width: 360px;
 }
 
-.w-\[95\%\] {
-  width: 95%;
+.w-\[90\%\] {
+  width: 90%;
 }
 
 .w-full {
@@ -1563,8 +1567,12 @@ input[type="range"]::-ms-fill-lower {
   max-width: 42rem;
 }
 
-.max-w-\[380px\] {
-  max-width: 380px;
+.max-w-\[100\%\] {
+  max-width: 100%;
+}
+
+.max-w-\[360px\] {
+  max-width: 360px;
 }
 
 .max-w-full {
@@ -1779,6 +1787,10 @@ input[type="range"]::-ms-fill-lower {
   border-bottom-width: 1px;
 }
 
+.border-b-2 {
+  border-bottom-width: 2px;
+}
+
 .border-r {
   border-right-width: 1px;
 }
@@ -1827,6 +1839,11 @@ input[type="range"]::-ms-fill-lower {
 .border-primary {
   --tw-border-opacity: 1;
   border-color: rgb(0 48 73 / var(--tw-border-opacity));
+}
+
+.border-b-black {
+  --tw-border-opacity: 1;
+  border-bottom-color: rgb(0 0 0 / var(--tw-border-opacity));
 }
 
 .bg-black {
@@ -2577,8 +2594,8 @@ input[type="range"]::-ms-fill-lower {
 }
 
 @media (min-width: 768px) {
-  .md\:bottom-0 {
-    bottom: 0px;
+  .md\:bottom-\[-75px\] {
+    bottom: -75px;
   }
 
   .md\:left-0 {
@@ -2613,8 +2630,16 @@ input[type="range"]::-ms-fill-lower {
     width: 83.333333%;
   }
 
+  .md\:w-\[95\%\] {
+    width: 95%;
+  }
+
   .md\:w-full {
     width: 100%;
+  }
+
+  .md\:max-w-\[380px\] {
+    max-width: 380px;
   }
 
   .md\:max-w-screen-xl {
@@ -2685,6 +2710,11 @@ input[type="range"]::-ms-fill-lower {
     font-size: 1.125rem;
     line-height: 1.75rem;
   }
+
+  .md\:text-xl {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
 }
 
 @media (min-width: 1024px) {
@@ -2740,6 +2770,10 @@ input[type="range"]::-ms-fill-lower {
     display: none;
   }
 
+  .lg\:w-1\/2 {
+    width: 50%;
+  }
+
   .lg\:w-3\/12 {
     width: 25%;
   }
@@ -2750,6 +2784,10 @@ input[type="range"]::-ms-fill-lower {
 
   .lg\:w-64 {
     width: 16rem;
+  }
+
+  .lg\:w-80 {
+    width: 20rem;
   }
 
   .lg\:w-auto {

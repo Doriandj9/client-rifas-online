@@ -1,11 +1,11 @@
 const urlLocal = 'http://127.0.0.1:8000';
 const urlProduction = 'https://api.hayu24.ec';
 const credentials = {
-    server: urlProduction,
+    server: urlLocal,
 };
 
 const application =  {
-    paginateCount: 1,
+    paginateCount: 10,
 }
 
 const colors = {

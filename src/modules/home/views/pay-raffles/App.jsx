@@ -15,7 +15,7 @@ import { FaMoneyBillAlt } from "react-icons/fa";
 import PaymentTickets from './components/PaymentTickets';
 import AppButton from '../../../../app/app_components/Core/AppButon';
 import { useAuth } from '../../../../app/store/app/userStore';
-import { Input, useToast } from '@chakra-ui/react';
+import { Input, Skeleton, useToast } from '@chakra-ui/react';
 import { toastConfig } from '../../../../app/utilities/web/configs';
 import { fetchQuery, initialFetch } from '../../../../app/utilities/web/fetchQuery';
 import Loader from '../../../../app/app_components/Core/Loader';
@@ -26,6 +26,12 @@ import { CEDULA_REG_EXPRE, EMAIL_REG_EXPRE } from '../../../../app/utilities/val
 import { useSetHeader } from '../../../../app/utilities/hooks/web/useSetHeader';
 
 const urlPayment = credentials.server + routesapi.public_payment_raffles;
+
+const fakeTickets = [];
+
+for(let i = 0 ; i<= 200 ; i++){
+    fakeTickets.push(i);
+}
 
 const App = () => {
   useSetHeader('Compra un nuevo boleto');
@@ -50,8 +56,8 @@ const App = () => {
         e.preventDefault();
         e.stopPropagation();
         setIdImg(item.id);
-        const x = e.clientX + 45;
-        const y = e.clientY - 300;
+        const x = e.clientX - 200;
+        const y = e.clientY - 420;
         console.log(x);
         const element = <div onMouseLeave={handleImgRemove} 
         className={`w-96 h-96 shadow-lg fixed z-50 bg-white` }
@@ -279,12 +285,20 @@ const App = () => {
                                 </div>
                             );
                         })}
+
+                        {ticketsLoading && <>
+                            {fakeTickets.map(ticket => {
+                                return (
+                                    <Skeleton key={ticket} rounded={'xl'} width={'45px'} height={'35px'} />
+                                );
+                            })}
+                        </>}
                     </div>
                     <div className='mt-8 bg-white p-4'>
                         <h3 className='text-center text-primary text-center font-black text-3xl mt-2'>Realiza el pago de tus boletos</h3>
                         <Form onSubmit={handleSubmit} className=''>
                             <Input type='hidden' name='raffles_id' value={data.data.id} />
-                            <PaymentTickets backAccounts={data.data.user.bank_accounts} onSubmit={handleSubmit}  openPayment={openPayment} handleClosePayment={handleClosePayment}  tickets={ticketsSaved.length} price={data.data.price} total={(data.data.price * ticketsSaved.length).toFixed(2)} />
+                            <PaymentTickets bankAccounts={data.data.user.bank_accounts} onSubmit={handleSubmit}  openPayment={openPayment} handleClosePayment={handleClosePayment}  tickets={ticketsSaved.length} price={data.data.price} total={(data.data.price * ticketsSaved.length).toFixed(2)} />
                             <div className='text-center w-full'>
                                 <AppButton onClick={handleOpenModal} leftIcon={<CiSaveDown2 className='w-8 h-8 text-white' />} className='w-8/12 py-6 mt-6' type='button' >
                                         <span className='mt-1'>Comprar mis boletos </span>
@@ -296,6 +310,15 @@ const App = () => {
             </div>
             </section>    
             }
+            {loading && <>
+                <div className='flex gap-8 items-center justify-center'>
+                <Skeleton rounded={'lg'}  height='37rem' width='30rem' />
+                <Skeleton rounded={'lg'} height='20rem' width='15rem' />
+                </div>
+                <div className='mt-12 flex justify-center mb-12'>
+                <Skeleton rounded={'lg'} height='40rem' width='70%'  />
+                </div>
+            </>}
             </div>
             </Layout>
         </>

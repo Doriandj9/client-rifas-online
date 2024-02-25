@@ -17,6 +17,7 @@ import { credentials } from "../../../../app/config/app";
 import routesapi from "../../../../app/config/routesapi";
 import { FaPassport, FaPiggyBank } from "react-icons/fa6";
 import { useSetHeader } from "../../../../app/utilities/hooks/web/useSetHeader";
+import BankAccounts from "../../../../components/BankAccounts";
 
 const url  = credentials.server + routesapi.subscriptions;
 
@@ -153,67 +154,8 @@ return (
                     Actualmente el sistema solo permite cancelar tu solicitud de pago por de medio de transferencia bancaria,
                     próximamente se habilitaran nuevas formas de pago, lamentamos cualquier inconveniente que te causemos.
                 </p>
-                {data && data.length > 0 && data[0].user.bank_accounts.map( account => {
-                                return <div key={account.id}>
-                                    <section>
-                                        <div className="flex gap-4 md:flex-row flex-col">
-                                        <p className="w-full flex gap-2 text-xl text-start">
-                                            <span className="w-6/12 font-bold flex gap-2 block"> 
-                                                <BsBank className="text-green-600" /> Entidad Bancaria: 
-                                            </span> 
-                                            <span className="flex-grow text-prim0ary">
-                                                {account.bank_name}
-                                            </span>
-                                        </p>
-                                        <p className="w-full flex gap-2 text-xl text-start">
-                                            <span className="w-6/12 font-bold flex gap-2 block">
-                                            <FaPiggyBank className="text-green-600" />
-                                                Tipo Cuenta: 
-                                            </span> 
-                                            <span className="flex-grow text-primary"> {account.type} </span>
-                                        </p>
-                                      
-                                        </div>
-                                        <div className="flex gap-4 md:flex-row flex-col">
-                                        <p className="w-full flex gap-2 text-xl text-start">
-                                            <span className="w-6/12 font-bold flex gap-2 block">
-                                            <GrMoney className="text-green-600" />
-                                                Nº Cuenta: 
-                                            </span> 
-                                            <span className="flex-grow text-primary"> {account.account_number} </span>
-                                        </p>
-                                       
-                                        <p className="w-full flex gap-2 text-xl text-start">
-                                            <span className="w-6/12 font-bold flex gap-2 block">
-                                                <FaPassport className="text-green-600" />
-                                                Nº de Cédula: 
-                                            </span> 
-                                            <span className="flex-grow text-primary"> {account.taxid} </span>
-                                        </p>
-                                        </div>
-                                        <p className="w-full flex gap-2 text-xl text-start">
-                                            <span className="w-6/12 font-bold flex gap-2 block">
-                                                <MdOutlineAssignmentInd className="text-green-600" />
-                                                Nombre de Cuenta: 
-                                            </span> 
-                                            <span className="flex-grow text-primary"> {account.name_account} </span>
-                                        </p>
-                                    </section>
-                                <div className="p-2 w-56 mb-2">
-                                    {
-                                        account.qr_image ? <a target="__blank"
-                                        href={credentials.server + account.qr_image}>
-                                            <img className="block w-40 h-40 max-w-full max-h-full"
-                                            src={credentials.server + account.qr_image} alt="auth" />
-                                        </a> 
-                                        : 
-                                        <div className="font-bold text-secondary">
-                                            {/* No se ha registrado la imagen QR. */}
-                                        </div>
-                                    }
-                                </div>
-                                </div>
-                        })}
+                
+                {data && data.length > 0 && <BankAccounts bankAccounts={data[0].user.bank_accounts} /> }
                 <article className="mt-6">
                     <div>
                         <Alert className="mt-6" status='warning' variant='left-accent'>

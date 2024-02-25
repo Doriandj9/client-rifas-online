@@ -1,19 +1,11 @@
-import { Alert, AlertIcon, Button, FormControl, FormLabel, Input } from "@chakra-ui/react";
-import { BsBank } from "react-icons/bs";
-import { GrMoney } from "react-icons/gr";
-import { Form, Link } from "react-router-dom";
+import { Button, FormControl, FormLabel, Input } from "@chakra-ui/react";
 import { useAuth } from "../../../../../app/store/app/userStore";
-import AppButton from "../../../../../app/app_components/Core/AppButon";
-import { FaGoogle } from "react-icons/fa6";
 import { useState } from "react";
-import { FiLogIn } from "react-icons/fi";
 import { FaPersonCircleCheck } from "react-icons/fa6";
-import { HiOutlineTicket } from "react-icons/hi2";
-import { GiPriceTag } from "react-icons/gi";
-import { TfiMoney } from "react-icons/tfi";
 import routesweb from "../../../../../app/config/routesweb";
 import ModalPayment from "./ModalPayment";
-const PaymentTickets = ({openPayment, handleClosePayment, tickets, price, total, onSubmit, backAccounts}) => {
+
+const PaymentTickets = ({openPayment, handleClosePayment, tickets, price, total, onSubmit, bankAccounts}) => {
 
     const user = useAuth(state => state.user);
     const [paymentUser, setPaymentUser] = useState(true);
@@ -21,7 +13,7 @@ const PaymentTickets = ({openPayment, handleClosePayment, tickets, price, total,
     return (
         <>
         {user && paymentUser ? <PaymentAuth user={user}  setPaymentUser={setPaymentUser} /> : <PaymentNotAuth />}
-        <ModalPayment backAccounts={backAccounts} onSubmit={onSubmit} open={openPayment} handleClose={handleClosePayment} price={price} total={total} tickets={tickets} />
+        <ModalPayment bankAccounts={bankAccounts} onSubmit={onSubmit} open={openPayment} handleClose={handleClosePayment} price={price} total={total} tickets={tickets} />
         </>
         
     );
@@ -46,14 +38,14 @@ const PaymentAuth = ({user, setPaymentUser}) => {
                     Datos Personales
                     </span> 
                 </h3>
-                <p>
+                <section>
                     <h4 className="text-primary text-xl font-bold">Quieres comprar tus boletos como:
                     <br /> <span className="italic text-primaryop-900"> {user.first_name} {user.last_name} </span></h4>
                     <ul>
                         <li className="text-lg text-primary"><span className="font-bold">CI:</span> <span> {user.taxid.substring(0, user.taxid.length - 3)}xxx </span> </li>
                         <li className="text-lg text-primary"><span className="font-bold">Teléfono:</span> <span> {user.phone.substring(0, user.phone.length - 3)}xxx </span> </li>
                     </ul>
-                </p>
+                </section>
                 <div className="mt-2 text-start gap-2">
                     <Button type="button" onClick={handlePaymentNot}
                     className="mr-4" colorScheme="red">

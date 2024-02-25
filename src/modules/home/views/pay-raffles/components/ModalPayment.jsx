@@ -9,9 +9,10 @@ import { TfiMoney } from "react-icons/tfi";
 import { FaPassport } from "react-icons/fa";
 import { FaPiggyBank } from "react-icons/fa6";
 import { credentials } from "../../../../../app/config/app";
+import BankAccounts from "../../../../../components/BankAccounts";
 
-const ModalPayment = ({open,handleClose,tickets,total,price, onSubmit, backAccounts}) => {
-    console.log(backAccounts);
+const ModalPayment = ({open,handleClose,tickets,total,price, onSubmit, bankAccounts}) => {
+    console.log(bankAccounts);
     const buttons = <> <Button onClick={onSubmit} type="submit" colorScheme="blue"> Entendido </Button> </>
     return (
         <>
@@ -36,68 +37,7 @@ const ModalPayment = ({open,handleClose,tickets,total,price, onSubmit, backAccou
                     <article className="mt-6">
                         <div>
                             <h2 className="text-xl font-bold text-primary">Datos Bancarios</h2>
-                            {backAccounts.map(account => {
-                                return <>
-                                    <section>
-                                        <div className="flex gap-4 md:flex-row flex-col">
-                                        <p className="w-full flex gap-2 text-xl">
-                                            <span className="w-4/12 font-bold flex gap-2 block"> 
-                                                <BsBank className="text-green-600" /> Entidad Bancaria: 
-                                            </span> 
-                                            <span className="flex-grow text-primary">
-                                                {account.bank_name}
-                                            </span>
-                                        </p>
-                                        <p className="w-full flex gap-2 text-xl">
-                                            <span className="w-4/12 font-bold flex gap-2 block">
-                                            <FaPiggyBank className="text-green-600" />
-                                                Tipo Cuenta: 
-                                            </span> 
-                                            <span className="flex-grow text-primary"> {account.type} </span>
-                                        </p>
-                                      
-                                        </div>
-                                        <div className="flex gap-4 md:flex-row flex-col">
-                                        <p className="w-full flex gap-2 text-xl">
-                                            <span className="w-4/12 font-bold flex gap-2 block">
-                                            <GrMoney className="text-green-600" />
-                                                Nº Cuenta: 
-                                            </span> 
-                                            <span className="flex-grow text-primary"> {account.account_number} </span>
-                                        </p>
-                                       
-                                        <p className="w-full flex gap-2 text-xl">
-                                            <span className="w-4/12 font-bold flex gap-2 block">
-                                                <FaPassport className="text-green-600" />
-                                                Nº de Cédula: 
-                                            </span> 
-                                            <span className="flex-grow text-primary"> {account.taxid} </span>
-                                        </p>
-                                        </div>
-                                        <p className="w-full flex gap-2 text-xl">
-                                            <span className="w-4/12 font-bold flex gap-2 block">
-                                                <MdOutlineAssignmentInd className="text-green-600" />
-                                                Nombre de Cuenta: 
-                                            </span> 
-                                            <span className="flex-grow text-primary"> {account.name_account} </span>
-                                        </p>
-                                    </section>
-                                <div className="p-2 w-56 mb-2">
-                                    {
-                                        account.qr_image ? <a target="__blank"
-                                        href={credentials.server + account.qr_image}>
-                                            <img className="block w-40 h-40 max-w-full max-h-full"
-                                            src={credentials.server + account.qr_image} alt="auth" />
-                                        </a> 
-                                        : 
-                                        <div className="font-bold text-secondary">
-                                            {/* No se ha registrado la imagen QR. */}
-                                        </div>
-                                    }
-                                    
-                                </div>
-                                </>
-                            })}
+                            <BankAccounts bankAccounts={bankAccounts} />
                             <h2 className="text-xl font-bold text-primary">Datos de Pago</h2>
                             <section>
                                 <p className="w-full flex gap-2  text-xl">

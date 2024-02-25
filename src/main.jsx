@@ -8,16 +8,16 @@ import './styles/main.css';
 
 const router = createBrowserRouter(rootRoutes);
 
-  window.addEventListener('blur', function() {
-    // Acciones a realizar cuando se deja la ventana
-      this.setInterval(() => {
-          if(!this.document.hasFocus()){
-           this.window.addEventListener('focus',() => {
-              this.location.reload();
-           })
-          }
-      },( 10 * (60 * 1000)))
-});
+//   window.addEventListener('blur', function() {
+//     // Acciones a realizar cuando se deja la ventana
+//       this.setInterval(() => {
+//           if(!this.document.hasFocus()){
+//            this.window.addEventListener('focus',() => {
+//               this.location.reload();
+//            })
+//           }
+//       },( 10 * (60 * 1000)))
+// });
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <RouterProvider router={router}>

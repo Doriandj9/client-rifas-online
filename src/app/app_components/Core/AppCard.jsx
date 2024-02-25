@@ -43,7 +43,7 @@ const TotalCards = ({data}) => {
                         )
                     })
                 }
-                <div className='absolute bottom-[-50px] md:bottom-0 left-0 w-full flex justify-center gap-12'  >
+                <div className='absolute bottom-[-50px] md:bottom-[-75px] left-0 w-full flex justify-center gap-12'  >
                         <div className='shadow-sm shadow-primary px-8 rounded-lg hover:shadow-lg hover:shadow-primary'>
                         <GiPreviousButton title=' Anterior' className='text-5xl text-primary cursor-pointer hover:text-green-500 ease-in-out duration-500' />
                         </div>

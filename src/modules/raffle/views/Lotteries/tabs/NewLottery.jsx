@@ -31,6 +31,7 @@ const NewLottery = () => {
     const [itemDelete, setItemDelete] = useState(-1);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+
     const toast = useToast(toastConfig);
 
     const[inputs, setInputs] = useState({
@@ -155,7 +156,7 @@ const NewLottery = () => {
         })
 
         const dataInputs = {...inputs,awards: JSON.stringify(dataAwards),   
-            subscription_id: user.subscription_id,commission_sellers: commission_sellers.value,
+            subscription_id: user.subscription_id,
             draw_date: inputs.draw_date + ' ' + inputs.time
         };
         delete dataInputs.time;
@@ -169,6 +170,7 @@ const NewLottery = () => {
         }
         try {
             const data = await fetchQuery(accToken,url,{method: 'POST',body: form},() => {},setError);
+            console.log(data);
             if(data.status){
                 toast({
                     title: 'Nueva Rifa',
@@ -179,11 +181,11 @@ const NewLottery = () => {
                 setInputs({
                     name: '',
                     description: '',
-                    summary: '',
+                    summary: 'Facebook',
                     draw_date: '',
                     logo_raffles: '',
                     price: '',
-                    commission_sellers: '',
+                    commission_sellers: '0.00',
                     number_tickets: '',
                     awards: '',
                     time: ''
@@ -196,7 +198,6 @@ const NewLottery = () => {
                 })
                 document.querySelectorAll('input[type=file]').forEach(item => item.value = '');
                 setItems([]);
-                commission_sellers.value = '0.3';
                 return;
             }
 
@@ -208,7 +209,7 @@ const NewLottery = () => {
         } catch (error) {
             toast({
                 title: 'Error',
-                description: error
+                description: error.message
             })
             
         } finally {
@@ -221,7 +222,7 @@ const NewLottery = () => {
         setInputs(
             {
                 ...inputs,
-                summary: e.target.value
+                [e.target.name]: e.target.value
             }
         ) 
         
@@ -258,8 +259,6 @@ const NewLottery = () => {
         }
 
    },[itemDelete]);
-
-
     return (
         <>
             <Loader loading={loading} />
@@ -282,7 +281,7 @@ const NewLottery = () => {
                                     name="name"
                                     value={inputs.name}
                                     onInput={handleInput}
-                                    placeholder="Por ejemplo: Celular Samsung A10"
+                                    placeholder="Por ejemplo: Rifa Solidaria"
                                 />
                             </FormControl>
                             <div className="flex xl:flex-row md:flex-row  flex-col gap-5 mt-4">
@@ -340,24 +339,21 @@ const NewLottery = () => {
                                     <FormLabel fontWeight={'bold'}>
                                     Porcentaje para comisiones de vendedores
                                     </FormLabel>
-                                    <Select id="commission"
+                                    <Select onChange={handleSelect} name="commission_sellers"
                                     isRequired>
                                         <option value="0.00">0%</option>
                                         <option value="0.03">3%</option>
                                         <option value="0.05">5%</option>
                                         <option value="0.1">10%</option>
+                                        <option value="0.15">15%</option>
+                                        <option value="0.2">20%</option>
+                                        <option value="0.25">25%</option>
+                                        <option value="0.3">30%</option>
+                                        <option value="0.35">35%</option>
+                                        <option value="0.4">40%</option>
+                                        <option value="0.45">45%</option>
+                                        <option value="0.5">50%</option>
                                     </Select>
-                                    {/* <NumberInput 
-                                    name="commission_sellers"
-                                    value={}
-                                    onInput={handleInput}
-                                    defaultValue={15} min={1} >
-                                        <NumberInputField />
-                                        <NumberInputStepper>
-                                            <NumberIncrementStepper />
-                                            <NumberDecrementStepper />
-                                        </NumberInputStepper>
-                                        </NumberInput> */}
                                 </FormControl> 
                             </div>
                             <div className="mt-4 xl:w-1/4">

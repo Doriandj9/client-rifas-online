@@ -12,6 +12,8 @@ import { ImTicket } from "react-icons/im";
 import { FaListCheck } from "react-icons/fa6";
 import { MdOutlinePayment } from "react-icons/md";
 import { useAuth } from "../../store/app/userStore";
+import { FaGifts } from "react-icons/fa";
+
 const SidebarClient = () => {
     const user = useAuth(state => state.user);
     const [objRoutes, setObjRoutes] = useState({
@@ -43,12 +45,16 @@ const SidebarClient = () => {
                 <MdOutlinePayment className="text-xl mr-2" />
                  <span>Compra de rifas</span>
             </NavLink>
-            {/* <NavLink to={'p'}
+            {
+            user && (user.is_raffles === false ||  user.is_seller === false ) &&
+            <NavLink to={prefix + '/' + routes.children.organization_raffles} 
             className={(props) => handleRoute(props)}
             >
-                <FaListCheck className="text-xl mr-2" />
-                <span className="text-white hover:text-gray-700">Detalles</span>
-            </NavLink> */}
+                {/* <Home_Medium className="text-secondary" /> */}
+                <FaGifts className="text-xl mr-2" />
+                 <span>Organizar rifas</span>
+            </NavLink>
+            }
             </div>
         }
         </>

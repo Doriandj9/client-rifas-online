@@ -4,7 +4,7 @@ import { credentials } from "../../../../../app/config/app";
 import routesapi from "../../../../../app/config/routesapi";
 import { useAccessToken } from "../../../../../app/store/app/userStore";
 import { useFetch } from "../../../../../app/utilities/hooks/data/useFetch";
-import { Checkbox, FormControl, FormLabel, Input, Radio, RadioGroup, Stack,ButtonGroup, Button, Textarea } from "@chakra-ui/react";
+import { Checkbox, FormControl, FormLabel, Input, Radio, RadioGroup, Stack,ButtonGroup, Button, Textarea, Alert, AlertIcon, TableContainer, Table, Thead, Tr, Th, Tbody, Tfoot, Td } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { MdEditDocument } from "react-icons/md";
 import { FaCircleCheck } from "react-icons/fa6";
@@ -14,9 +14,12 @@ import { fetchQuery } from "../../../../../app/utilities/web/fetchQuery";
 import Loader from "../../../../../app/app_components/Core/Loader";
 import { reloadTable } from "../../../../../app/utilities/events/customs";
 import { FaRegImages } from "react-icons/fa6";
+import { FaFileInvoiceDollar } from "react-icons/fa";
+import { formatTimeDate, formatTimeFull } from "../../../../../app/utilities/web/times/formatTimeFull";
 const Modal = ({id, open,onClose, setUpdate}) => {
     const [showObserver, setShowObserver] = useState(false);
     const [loadingFetch, setLoadingFetch] = useState(false);
+    const [subscription, setSubscription] = useState(null);
     const [errorFetch, setErrorFetch] = useState(null);
     //states
     const [inputs,setInputs] = useState({
@@ -112,58 +115,91 @@ const Modal = ({id, open,onClose, setUpdate}) => {
                 observation: '',
                 organize_riffs: data.user.organize_riffs
             });
-            setShowObserver(data.is_pending);
+            setShowObserver(data.is_active);
+            setSubscription(data.user.subscription);
         }
     },[data])
     return (
         <>
             <Loader loading={loadingFetch} />
             <AppModal isOpen={open} onClose={onClose} scrollBehavior={'inside'}
-                header={<><FaRegImages className="text-secondary text-3xl" /> Autorizar comprobante de pago</>}
+                header={
+                    <div className="flex items-center gap-4 border-b-2 pb-2 border-b-black"><FaFileInvoiceDollar className="text-secondary text-3xl" /> 
+                <span className="mt-2">Autorizar comprobante de pago </span>
+                </div>}
                 buttons={buttons}
-                size='4xl'
+                size='full'
             >
+                <div className="w-full lg:w-1/2 m-auto">
+                <Alert status='info'>
+                    <AlertIcon />
+                    Asegúrese de confirmar el comprobante de pago con los datos de facturación.
+                </Alert>
+                <div className="pt-12">
+                    <div className="flex">
+                        <div className="w-1/2">
+                            <p>
+                                <span className="font-bold">Consumidor:</span>
+                                <span> {inputs.first_name} {inputs.last_name} </span>
+                            </p>
+                            <p className="mt-2">
+                                <span className="font-bold">Correo electrónico:</span>
+                                <span> {inputs.email} </span>
+                            </p>
+                            <p className="mt-2">
+                                <span className="font-bold">Nº de celular:</span>
+                                <span> {inputs.phone} </span>
+                            </p>
+                            <p className="mt-2">
+                                <span className="font-bold">Fecha:</span>
+                                <span> {formatTimeDate(data?.user?.start_date_supcription)} </span>
+                            </p>
+                        </div>
+                        <div className="w-1/2">
+                        <p>
+                                <span className="font-bold">Propietario:</span>
+                                <span> {subscription ? subscription.user.first_name : ''} {subscription ? subscription.user.last_name : ''} </span>
+                            </p>
+                        <p>
+                                <span className="font-bold">Nombre del Plan:</span>
+                                <span> {subscription ?  subscription.title : ''} </span>
+                            </p>
+                        </div>
+                    </div>
+                    <div className="mt-5">
+                        <TableContainer>
+                        <Table size='full'>
+                            <Thead>
+                            <Tr>
+                                <Th>Nº</Th>
+                                <Th>Meses</Th>
+                                <Th isNumeric>Subtotal</Th>
+                            </Tr>
+                            </Thead>
+                            <Tbody>
+                            {
+                                subscription && <Tr >
+                                        <Td align="center" >1</Td>
+                                        <Td align="center">1</Td>
+                                        <Td align="center" isNumeric>{subscription && subscription.price}$</Td>
+                                    </Tr>
+                             
+                            }  
+                            
+                            </Tbody>
+                            <Tfoot>
+                            <Tr>
+                                <Th align="center" colSpan={3} isNumeric>
+                                    <span>Total: </span>
+                                    <span className="text-primary">{subscription && subscription.price}$</span>
+                                </Th>
+                            </Tr>
+                            </Tfoot>
+                        </Table>
+                        </TableContainer>
+                    </div>
+                </div>
                 <Form>
-                    <FormControl className="flex items-center mt-3" >
-                        <FormLabel fontWeight={'bold'} margin={0} width={'25%'}>
-                            Doc. Identidad
-                        </FormLabel>
-                        <Input 
-                        isDisabled 
-                        fontWeight={'bold'}
-                        opacity={'0.75 !important'}
-                        value={inputs.taxid}/>
-                    </FormControl>
-                    <FormControl className="flex items-center mt-3" >
-                        <FormLabel fontWeight={'bold'} margin={0} width={'25%'}>
-                            Nombres
-                        </FormLabel>
-                        <Input 
-                        isDisabled 
-                        fontWeight={'bold'}
-                        opacity={'0.75 !important'}
-                        value={`${inputs.first_name} ${inputs.last_name}`}/>
-                    </FormControl>
-                    <FormControl className="flex items-center mt-3" >
-                        <FormLabel fontWeight={'bold'} margin={0} width={'25%'}>
-                            Correo electrónico
-                        </FormLabel>
-                        <Input 
-                        isDisabled 
-                        fontWeight={'bold'}
-                        opacity={'0.75 !important'}
-                        value={inputs.email}/>
-                    </FormControl>
-                    <FormControl className="flex items-center mt-3" >
-                        <FormLabel fontWeight={'bold'} margin={0} width={'25%'}>
-                            Número de celular
-                        </FormLabel>
-                        <Input 
-                        isDisabled 
-                        fontWeight={'bold'}
-                        opacity={'0.75 !important'}
-                        value={inputs.phone}/>
-                    </FormControl>
                     <FormControl className="flex items-center mt-3" >
                         <FormLabel fontWeight={'bold'} margin={0} width={'25%'}>
                             Imagen de Autorización
@@ -220,6 +256,7 @@ const Modal = ({id, open,onClose, setUpdate}) => {
                     }
 
                 </Form>
+                </div>
             </AppModal>
         </>
     );

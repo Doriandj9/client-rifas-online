@@ -17,7 +17,7 @@ export default {
                 }, {
                     header: 'Nombres',
                     render: (item,index) => {
-                        return item.first_name + item.last_name.split(' ')[0]
+                        return item.first_name  + ' ' +  item.last_name.split(' ')[0]
                     }
                 }, {
                     header: 'Correo electrónico',

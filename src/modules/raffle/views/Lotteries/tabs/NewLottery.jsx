@@ -41,7 +41,7 @@ const NewLottery = () => {
         draw_date: '',
         logo_raffles: '',
         price: '',
-        commission_sellers: '',
+        commission_sellers: '0.00',
         number_tickets: '',
         awards: '',
         time: ''
@@ -357,7 +357,7 @@ const NewLottery = () => {
                                 </FormControl> 
                             </div>
                             <div className="mt-4 xl:w-1/4">
-                            <FormControl  className="">
+                            <FormControl isRequired  className="">
                                     <FormLabel fontWeight={'bold'}>
                                     Precio de la rifa
                                     </FormLabel>
@@ -390,10 +390,10 @@ const NewLottery = () => {
                                     Medio de difusión de la rifa
                                 </FormLabel>
                                 <Select onChange={handleSelect} name="summary">
-                                        <option value="Facebook">Facebook</option>
-                                        <option  value="You Tube">You Tube</option>
+                                        <option value="Facebook Live">Facebook Live</option>
+                                        <option  value="You Tube Live">You Tube Live</option>
                                         <option value="Twitch">Twitch</option>
-                                        <option value="TikTok">TikTok</option>
+                                        <option value="TikTok Live">TikTok Live</option>
                                 </Select>
                             </FormControl>
                             <FormControl isRequired marginTop={15}>

@@ -1,5 +1,8 @@
 import { Card, CardHeader, CardBody, CardFooter,Stack ,Heading,Text,Divider, ButtonGroup, Button,
-    Image
+    Image,
+    List,
+    ListItem,
+    ListIcon
 
 } from '@chakra-ui/react'
 import { useEffect, useState } from 'react';
@@ -16,7 +19,9 @@ import Lottie from 'react-lottie';
 import { GiNextButton, GiPreviousButton } from "react-icons/gi";
 import { useNavigate } from 'react-router-dom';
 import routesweb from '../../config/routesweb';
-import { formatTimeFull } from '../../utilities/web/times/formatTimeFull';
+import { formatTimeDate, formatTimeDateHour, formatTimeFull } from '../../utilities/web/times/formatTimeFull';
+import { BsFillCalendarDateFill } from "react-icons/bs";
+import { BsClockFill } from "react-icons/bs";
 
 
 const AppCard = ({url,options={} }) => {
@@ -116,10 +121,23 @@ const CardApp = ({item}) => {
                     }) }
                 </ul>
             <Text className='text-secondary font-bold text-center' fontSize='lg'>
-                Valor del boleto <span className='text-2xl'> { Number(item.price).toFixed(2) ?? 0}$ </span> 
+                Valor del boleto $<span className='text-2xl'>{ Number(item.price).toFixed(2) ?? 0} </span> 
             </Text>
             <Text className='text-primary font-bold text-center' fontSize='lg'>
-                {formatTimeFull(item.draw_date)}
+            <Text align={'start'} fontSize={'sm'} >
+                FECHA Y HORA DEL SORTEO
+            </Text>
+            <List spacing={0}>
+                <ListItem textAlign={'start'} fontSize={'md'} >
+                    <ListIcon as={BsFillCalendarDateFill} color='blue.900' />
+                    {formatTimeDate(item.draw_date)}
+                </ListItem>
+                <ListItem textAlign={'start'} fontSize={'md'}>
+                    <ListIcon as={BsClockFill} color='blue.900' />
+                    {formatTimeDateHour(item.draw_date)}
+                </ListItem>
+            </List>
+                
             </Text>
             </Stack>
         </CardBody>

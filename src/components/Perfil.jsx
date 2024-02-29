@@ -134,7 +134,7 @@ const Perfil = () => {
             <div className="w-full min-h-[48rem]">
                 <div className="w-full md:w-1/2 md:m-auto bg-white pt-8 ps-8 rounded-lg min-h-[38rem]">
                     <h1 className="text-3xl font-black">Perfil</h1>
-                    <p className="text-slate-500 text-sm">Cambia tu avatar y edita tu información personal</p>
+                    <p className="text-slate-500 text-sm">Cambiar foto de perfil</p>
                     <div className="flex gap-4 items-center">
                         <img className="w-40 h-40 rounded-full shadow" src={imgProfile} alt="" />
                         <AppButton onClick={ () => imageRef.current.click()}>

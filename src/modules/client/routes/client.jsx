@@ -22,6 +22,8 @@ import raffles from "../../raffle/routes/raffles";
 import AppClient from "../views/AppClient";
 import AppTickets from "../views/Tickets/App";
 import AppPaymentTickets from "../views/PaymentTickets/App";
+import AppOrgRaffles from "../views/OrganizationRaffles/App";
+
 import AppProfile from "../views/Profile/App";
 
 
@@ -55,9 +57,13 @@ export default {
 
           },
           {
+            path: routes.children.organization_raffles,
+            element: <AppOrgRaffles />
+
+          },
+          {
             path: routes.children.client_profile,
             element: <AppProfile />
-
           }
           
         ]

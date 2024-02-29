@@ -18,7 +18,7 @@ import routesapi from "../../../../app/config/routesapi";
 import { FaPassport, FaPiggyBank } from "react-icons/fa6";
 import { useSetHeader } from "../../../../app/utilities/hooks/web/useSetHeader";
 import BankAccounts from "../../../../components/BankAccounts";
-
+import { FaCircleInfo } from "react-icons/fa6";
 const url  = credentials.server + routesapi.subscriptions;
 
 const App = () => {
@@ -56,7 +56,9 @@ const handleSubmit = async (e) => {
     const urlCreateFilePayment = credentials.server + routesapi.raffles_subscriptions_voucher;
     const payload = {
         fileable_id: user.id,
-        file: file.files[0]
+        file: file.files[0],
+        subscription_id: idPlan
+
     };
 
     const form = new FormData();
@@ -107,14 +109,20 @@ const handleSubmit = async (e) => {
         setLoadingFetch(false);
     }
 }
+
+const validations = () => {
+    const subscription = user.subscription;
+    if(subscription.id === idPlan){
+        toast({});
+    }
+}
 //effects
 
 useEffect(() => {
     if(user && user.is_new){
         setOpen(true);
     }
-},[])
-
+},[]);
 
 return (
     <>

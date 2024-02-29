@@ -89,6 +89,7 @@ export default {
                     payment_tickets: 'payment-tickets',
                     awards: 'awards',
                     client_profile: 'user/profile',
+                    organization_raffles: 'organization/raffles'
                 },
 
             }

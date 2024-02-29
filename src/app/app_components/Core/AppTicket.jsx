@@ -11,6 +11,9 @@ import { Link } from "react-router-dom";
 import { RiLiveFill } from "react-icons/ri";
 import routesweb from "../../config/routesweb";
 import { IoInformationCircle } from "react-icons/io5";
+import { BsFillCalendarDateFill } from "react-icons/bs";
+import { BsClockFill } from "react-icons/bs";
+
 const AppTicket = ({size, ticket}) => {
     const url = '/' + routesweb.pay_raffles.replace(':id', ticket.raffle.id);
 
@@ -70,11 +73,13 @@ const AppTicket = ({size, ticket}) => {
                         </div>
                 </section>
                 <section  className="pt-2 h-32" style={{ backgroundColor: '#003B4A'}}>
+                        <h3 className="text-white font-bold text-md text-center">Fecha y hora de la rifa</h3>
                         <p className="flex justify-between px-6 mb-2">
-                            <span className="text-white font-bold">
-                                {formatTimeDate(ticket.raffle.draw_date)}
+                            <span className="text-white font-bold flex gap-2">
+                               <BsFillCalendarDateFill /> {formatTimeDate(ticket.raffle.draw_date)}
                             </span>
-                            <span className="text-white font-bold">
+                            <span className="text-white font-bold flex gap-2">
+                                <BsClockFill />
                             {formatTimeDateHour(ticket.raffle.draw_date)}
 
                             </span>

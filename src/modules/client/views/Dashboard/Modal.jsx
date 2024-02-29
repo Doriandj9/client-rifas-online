@@ -16,6 +16,8 @@ import { GrMoney } from "react-icons/gr";
 import { MdOutlineAssignmentInd } from "react-icons/md";
 import { Form } from "react-router-dom";
 import { FaPassport, FaPiggyBank } from "react-icons/fa";
+import Navbar from "../../../../app/app_components/Navbar/Navbar";
+import BankAccounts from "../../../../components/BankAccounts";
 
 
 const url  = credentials.server + routesapi.subscriptions;
@@ -67,7 +69,8 @@ const Modal = () => {
         const urlCreateFilePayment = credentials.server + routesapi.raffles_subscriptions_voucher;
         const payload = {
             fileable_id: user.id,
-            file: file.files[0]
+            file: file.files[0],
+            subscription_id: idPlan
         };
 
         const form = new FormData();
@@ -132,7 +135,10 @@ const Modal = () => {
         <Loader loading={loadingFetch} />
         <AppModal  header={
             <>
-            <div className="flex justify-center gap-2 mt-4 items-center">  
+            <div className="fixed top-0 left-0 lg:w-[97%] w-[90%]">
+                <Navbar  />
+            </div>
+            <div className="flex justify-center gap-2 mt-20 items-center">  
                 <IoCheckmarkDoneCircle className="text-6xl text-green-600 text-center" />
                 <p className="mb-4 text-center">
                 <span className="text-4xl font-extrabold leading-none tracking-tight md:text-5xl xl:text-5xl dark:text-white text-center text-primary">
@@ -172,67 +178,8 @@ const Modal = () => {
                     <article className="mt-6">
                         <header>
                             <h2 className="text-xl font-bold text-primary">Datos Bancarios</h2>
-                            {data && data.length > 0 && data[0].user.bank_accounts.map( account => {
-                                return <div key={account.id}>
-                                    <section>
-                                        <div className="flex gap-4 md:flex-row flex-col">
-                                        <p className="w-full flex gap-2 text-xl text-start">
-                                            <span className="w-6/12 font-bold flex gap-2 block"> 
-                                                <BsBank className="text-green-600" /> Entidad Bancaria: 
-                                            </span> 
-                                            <span className="flex-grow text-prim0ary">
-                                                {account.bank_name}
-                                            </span>
-                                        </p>
-                                        <p className="w-full flex gap-2 text-xl text-start">
-                                            <span className="w-6/12 font-bold flex gap-2 block">
-                                            <FaPiggyBank className="text-green-600" />
-                                                Tipo Cuenta: 
-                                            </span> 
-                                            <span className="flex-grow text-primary"> {account.type} </span>
-                                        </p>
-                                      
-                                        </div>
-                                        <div className="flex gap-4 md:flex-row flex-col">
-                                        <p className="w-full flex gap-2 text-xl text-start">
-                                            <span className="w-6/12 font-bold flex gap-2 block">
-                                            <GrMoney className="text-green-600" />
-                                                Nº Cuenta: 
-                                            </span> 
-                                            <span className="flex-grow text-primary"> {account.account_number} </span>
-                                        </p>
-                                       
-                                        <p className="w-full flex gap-2 text-xl text-start">
-                                            <span className="w-6/12 font-bold flex gap-2 block">
-                                                <FaPassport className="text-green-600" />
-                                                Nº de Cédula: 
-                                            </span> 
-                                            <span className="flex-grow text-primary"> {account.taxid} </span>
-                                        </p>
-                                        </div>
-                                        <p className="w-full flex gap-2 text-xl text-start">
-                                            <span className="w-6/12 font-bold flex gap-2 block">
-                                                <MdOutlineAssignmentInd className="text-green-600" />
-                                                Nombre de Cuenta: 
-                                            </span> 
-                                            <span className="flex-grow text-primary"> {account.name_account} </span>
-                                        </p>
-                                    </section>
-                                <div className="p-2 w-56 mb-2">
-                                    {
-                                        account.qr_image ? <a target="__blank"
-                                        href={credentials.server + account.qr_image}>
-                                            <img className="block w-40 h-40 max-w-full max-h-full"
-                                            src={credentials.server + account.qr_image} alt="auth" />
-                                        </a> 
-                                        : 
-                                        <div className="font-bold text-secondary">
-                                            {/* No se ha registrado la imagen QR. */}
-                                        </div>
-                                    }
-                                </div>
-                                </div>
-                        })}
+                            {data && data.length > 0 && <BankAccounts bankAccounts={data[0].user.bank_accounts} /> }
+                        
                             <Alert className="mt-6" status='warning' variant='left-accent'>
                                 <AlertIcon />
                                 Posterior a la realización de la transferencia adjuntar el comprobante de pago, caso contrario 

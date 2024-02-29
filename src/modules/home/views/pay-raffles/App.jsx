@@ -24,6 +24,9 @@ import { FaTicketSimple } from "react-icons/fa6";
 import { CiSaveDown2 } from "react-icons/ci";
 import { CEDULA_REG_EXPRE, EMAIL_REG_EXPRE } from '../../../../app/utilities/validations/Expresions';
 import { useSetHeader } from '../../../../app/utilities/hooks/web/useSetHeader';
+import { formatTimeDate, formatTimeDateHour } from '../../../../app/utilities/web/times/formatTimeFull';
+import { BsClockFill } from "react-icons/bs";
+import { RiLiveFill } from "react-icons/ri";
 
 const urlPayment = credentials.server + routesapi.public_payment_raffles;
 
@@ -226,15 +229,23 @@ const App = () => {
                         </div>
                     </div>
                     <div className='max-h-[40rem] p-4 overflow-y-auto'>
-                        <div className='flex items-center gap-2'>
-                            <BsFillCalendarDateFill className='w-8 h-8' />
-                            <span className='font-bold text-xl mt-2'>{data.data.draw_date}</span>
-                        </div>
                         <div className='mt-2'> 
                             <h2 className='font-sans text-6xl text-primary font-black'>{data.data.name}</h2>
                         </div>
                         <div className='flex gap-2 items-center mt-2'>
                         <BsTicketPerforatedFill className='w-8 h-8' />  <span className='text-3xl mt-1 font-extrabold text-primary'>{data.data.number_tickets} Boletos</span>
+                        </div>
+                        <div className='flex items-center gap-2'>
+                            <BsFillCalendarDateFill className='w-6 h-6' />
+                            <span className='font-bold text-lg mt-2'>{ formatTimeDate(data.data.draw_date)}</span>
+                            <BsClockFill className='w-6 h-6' />
+                            <span className='font-bold text-lg mt-2'>{ formatTimeDateHour(data.data.draw_date)}</span>
+                        </div>
+                        <div className='flex items-center gap-2'>
+                            <RiLiveFill className='w-7 h-7' />
+                            <span className='font-bold text-lg mt-2'>Medio de transmisión de rifa:</span>
+                            <span className='font-semibold text-lg mt-2 text-secondary'> {data.data.summary}</span>
+                            
                         </div>
 
                         <div>

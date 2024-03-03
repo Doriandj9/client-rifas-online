@@ -124,12 +124,11 @@ const App = () => {
                     photo: '',
                 })
             }
-    },[user])
+    },[])
 
     return (
         <>
             <ToastContainer className={'w-[32rem]'} 
-            // style={{ position: 'fixed', top: '50%', left: '50%', translate: '-50%,-50%'}}
              />
             <Loader loading={loading} />
             <Alert status='info'>

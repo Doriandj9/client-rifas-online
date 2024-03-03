@@ -12,7 +12,6 @@ const AppClient = () => {
         preview.push(value[0]);
         return preview;
     },[])
-    console.log(user);
     if(user ===  null || user.is_client !== true){
         return <NotPermissions />;
     }

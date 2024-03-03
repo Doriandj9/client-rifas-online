@@ -387,7 +387,7 @@ const NewLottery = () => {
                             </FormControl>
                             <FormControl isRequired className="mt-2">
                                 <FormLabel fontWeight={'bold'}>
-                                    Medio de difusión de la rifa
+                                    Medio de transmisión de rifa
                                 </FormLabel>
                                 <Select onChange={handleSelect} name="summary">
                                         <option value="Facebook Live">Facebook Live</option>

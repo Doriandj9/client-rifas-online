@@ -12,7 +12,6 @@ import { credentials } from "../../../../../app/config/app";
 import BankAccounts from "../../../../../components/BankAccounts";
 
 const ModalPayment = ({open,handleClose,tickets,total,price, onSubmit, bankAccounts}) => {
-    console.log(bankAccounts);
     const buttons = <> <Button onClick={onSubmit} type="submit" colorScheme="blue"> Entendido </Button> </>
     return (
         <>

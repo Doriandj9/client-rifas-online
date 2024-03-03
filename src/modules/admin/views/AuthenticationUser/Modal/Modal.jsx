@@ -27,6 +27,7 @@ const Modal = ({id, open,onClose, setUpdate}) => {
         first_name: '',
         last_name: '',
         phone: '',
+        fullName: '',
         verify_photo: '',
         observation: '',
     });
@@ -101,14 +102,16 @@ const Modal = ({id, open,onClose, setUpdate}) => {
         if(data !== null &&  data['id'] !== null){
             
             setInputs({
+                ...inputs,
                 is_pending: data.is_pending,
                 taxid: data.taxid,  
                 email: data.email,
                 first_name: data.first_name,
-                last_name: data.last_name,
-                phone: data.phone,
-                verify_photo: data.verify_photo,
-                observation: ''
+                last_name: data.last_name ?? '',
+                phone: data.phone ?? '',
+                verify_photo: data.verify_photo ?? '',
+                observation: '',
+                fullName: data.first_name + ' ' + data.last_name
             });
             setShowObserver(data.is_pending);
         }
@@ -130,7 +133,7 @@ const Modal = ({id, open,onClose, setUpdate}) => {
                         isDisabled 
                         fontWeight={'bold'}
                         opacity={'0.75 !important'}
-                        value={inputs.taxid}/>
+                        defaultValue={inputs.taxid}/>
                     </FormControl>
                     <FormControl className="flex items-center mt-3" >
                         <FormLabel fontWeight={'bold'} margin={0} width={'25%'}>
@@ -140,7 +143,7 @@ const Modal = ({id, open,onClose, setUpdate}) => {
                         isDisabled 
                         fontWeight={'bold'}
                         opacity={'0.75 !important'}
-                        value={`${inputs.first_name} ${inputs.last_name}`}/>
+                        defaultValue={inputs.fullName}/>
                     </FormControl>
                     <FormControl className="flex items-center mt-3" >
                         <FormLabel fontWeight={'bold'} margin={0} width={'25%'}>
@@ -150,7 +153,7 @@ const Modal = ({id, open,onClose, setUpdate}) => {
                         isDisabled 
                         fontWeight={'bold'}
                         opacity={'0.75 !important'}
-                        value={inputs.email}/>
+                        defaultValue={inputs.email}/>
                     </FormControl>
                     <FormControl className="flex items-center mt-3" >
                         <FormLabel fontWeight={'bold'} margin={0} width={'25%'}>
@@ -160,7 +163,7 @@ const Modal = ({id, open,onClose, setUpdate}) => {
                         isDisabled 
                         fontWeight={'bold'}
                         opacity={'0.75 !important'}
-                        value={inputs.phone}/>
+                        defaultValue={inputs.phone}/>
                     </FormControl>
                     <FormControl className="flex items-center mt-3" >
                         <FormLabel fontWeight={'bold'} margin={0} width={'25%'}>
@@ -188,6 +191,7 @@ const Modal = ({id, open,onClose, setUpdate}) => {
                         <Input 
                         isDisabled 
                         fontWeight={'bold'}
+                        onInput={handleInput}
                         opacity={'0.75 !important'}
                         value={inputs.is_pending ? 'Pendiente' : 'Aprobado'}/>
                     </FormControl>

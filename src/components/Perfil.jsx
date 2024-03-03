@@ -121,13 +121,12 @@ const Perfil = () => {
             last_name: user.last_name,
             email: user.email,
             phone: user.phone,
-            nationality: user.nationality,
-            address: user.address,
-            avatar: user.avatar,
+            nationality: user.nationality ?? '',
+            address: user.address ?? '',
+            avatar: user.avatar ?? '',
         });
     },[user]);
 
-    console.log(user);
     return (
         <>
             <Loader loading={loadingFetch} />
@@ -138,7 +137,7 @@ const Perfil = () => {
                     <div className="flex gap-4 items-center">
                         <img className="w-40 h-40 rounded-full shadow" src={imgProfile} alt="" />
                         <AppButton onClick={ () => imageRef.current.click()}>
-                            Cambiar avatar
+                            Cambiar foto
                         </AppButton>
                         <Input 
                             className="hidden"
@@ -187,14 +186,14 @@ const Perfil = () => {
                                 value={inputs.phone}
                                  className='shadow' height={50} placeholder='Por ejemplo: 0901234567' />
                             </FormControl>
-                            <FormControl marginTop={15} isRequired>
+                            <FormControl marginTop={15}>
                                 <FormLabel fontWeight={'bold'}>Nacionalidad</FormLabel>
                                 <Input name='nationality'
                                 onInput={handleInput}
                                 value={inputs.nationality}
                                  className='shadow' height={50} placeholder='Por ejemplo: Ecuador' />
                             </FormControl>
-                            <FormControl marginTop={15} isRequired>
+                            <FormControl marginTop={15}>
                                 <FormLabel fontWeight={'bold'}>Dirección</FormLabel>
                                 <Input name='address'
                                 onInput={handleInput}

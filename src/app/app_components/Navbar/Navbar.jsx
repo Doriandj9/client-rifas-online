@@ -95,6 +95,7 @@ const Navbar = () => {
                             <PopoverHeader pt={4} fontWeight='bold' border='0'>Información de tu plan actual.</PopoverHeader>
                             <PopoverBody>
                               <table>
+                                <tbody>
                                 <tr>
                                   <td>Nombre:</td>
                                   <td> {user.subscription.title} </td>
@@ -115,6 +116,7 @@ const Navbar = () => {
                                   <td>Fecha de expiración:</td>
                                   <td> {formatTimeDate(user.end_date_suscription)} </td>
                                 </tr>
+                                </tbody>
                               </table>
                             </PopoverBody>
                         </PopoverContent>

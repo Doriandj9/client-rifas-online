@@ -27,7 +27,6 @@ const App = () =>  {
     }
     const handlers = useMatches();
     useEffect(() => {
-        console.log('nuevo');
         if(interval){
             clearInterval(interval)
         }
@@ -36,7 +35,10 @@ const App = () =>  {
                 const [id,pathnames] = Object.entries(entries);
                 if(pathnames[1] === '/dashboard/raffles/lottery/create' ||
                    pathnames[1] === '/dashboard/raffles/update/plans' ||
-                   pathnames[1] === '/dashboard/raffles/payment-method/create'
+                   pathnames[1] === '/dashboard/raffles/payment-method/create' ||
+                   pathnames[1] === '/dashboard/client/organization/raffles' ||
+                   handlers.length === 1 && pathnames[1] === '/dashboard/' ||
+                   handlers.length === 1 && pathnames[1] === '/dashboard'
                 ){
                     fetchQuery(token,url,{method:'POST'})
                     .then((response) => {

@@ -123,11 +123,12 @@ const CardApp = ({item}) => {
             <Text className='text-secondary font-bold text-center' fontSize='lg'>
                 Valor del boleto $<span className='text-2xl'>{ Number(item.price).toFixed(2) ?? 0} </span> 
             </Text>
-            <Text className='text-primary font-bold text-center' fontSize='lg'>
-            <Text align={'start'} fontSize={'sm'} >
+            <Text className='text-primary font-bold text-start mb-0 -mt-4' fontSize='lg'>
+            <span className='text-start text-sm' >
                 FECHA Y HORA DEL SORTEO
+            </span>      
             </Text>
-            <List spacing={0}>
+            <List marginTop={-4} spacing={0}>
                 <ListItem textAlign={'start'} fontSize={'md'} >
                     <ListIcon as={BsFillCalendarDateFill} color='blue.900' />
                     {formatTimeDate(item.draw_date)}
@@ -137,8 +138,6 @@ const CardApp = ({item}) => {
                     {formatTimeDateHour(item.draw_date)}
                 </ListItem>
             </List>
-                
-            </Text>
             </Stack>
         </CardBody>
         <Divider />

@@ -1,7 +1,8 @@
 import Layout from '@app/app/layouts/Layout';
 import { credentials } from '../../../../app/config/app';
 import logo from '@app/assets/imgs/DigitalEducas-Logos/hayu24.png';
-import missionVision from '@app/assets/imgs/mision_vision.png';
+import missionVision from '@app/assets/imgs/mision_vision_HAYU24.png';
+import values from '@app/assets/imgs/nuestros_valores_HAYU24.png';
 import solidarity from '@app/assets/imgs/solidarity.png';
 import transparent from '@app/assets/imgs/transparent.png';
 import groupWork from '@app/assets/imgs/group-work.png';
@@ -26,19 +27,10 @@ useSetHeader('Acerca de nosotros');
         <div className='relative'>
           <div className='flex gap-6 mt-8'>
           <div className="max-w-screen-xl pt-2 px-4 pb-2 w-full lg:gap-8 xl:gap-16 lg:py-2 lg:pt-2">
-
             <div className=''>
-                <div className='min-h-[12.5rem] flex md:flex-row flex-col w-full'>
-                  <article className='md:w-[33.33%] w-full'>
+                <div className='min-h-[10.5rem] flex md:flex-row flex-col w-full'>
+                  <article className='w-full'>
                       <h2 className='text-xl font-black text-primary text-center'>NUESTRA HISTORIA</h2>
-                      <p></p>
-                  </article>
-                  <div className='md:w-[33.33%] w-full flex justify-center items-center'>
-                    <div className='rounded-full flex justify-center items-center w-40 h-40 border border-primary border-dashed'>
-                        <img className='rounded-full w-36 h-36' src={logo} alt="logo" />
-                    </div>
-                    </div>
-                  <article className='md:w-[33.33%] w-full'>
                       <p className='text-lg'>
                       <span className='font-black text-xl text-primaryop-900'>HAYU24</span> nace con una visión de Digital
                       Educas: crear una plataforma de rifas en
@@ -53,7 +45,7 @@ useSetHeader('Acerca de nosotros');
                   </article>
                 </div>
 
-                <div className='min-h-[12.5rem] flex md:flex-row flex-col mt-8'>
+                <div className='min-h-[12.5rem] flex md:flex-row flex-col'>
                 <article className='md:w-[33.33%] w-full'>
                       <h2 className='text-xl font-black text-primary text-center'>MISIÓN</h2>
                       <p className='text-lg'>“Facilitar el acceso equitativo a
@@ -63,7 +55,7 @@ useSetHeader('Acerca de nosotros');
                     </p>
                   </article>
                     <div className='md:w-[33.33%] w-full'>
-                        <img className=''  src={missionVision} alt="mission" />
+                        <img className='m-auto md:m-0'  src={missionVision} alt="mission" />
                     </div>
                     <article className='md:w-[33.33%] w-full'>
                       <h2 className='text-xl font-black text-primary text-center'>VISIÓN</h2>
@@ -81,7 +73,12 @@ useSetHeader('Acerca de nosotros');
                     <h2 className='text-2xl font-black text-primary text-center'>NUESTROS VALORES</h2>
             </div>
 
-            <div className='mt-16 flex justify-around flex-wrap'>
+            <div className='mt-4 md:mt-0 w-full shadow-lg'>
+              <img               
+              className='max-w-full' src={values} alt="Nuestros valores IMG" />
+            </div>
+
+            {/* <div className='mt-16 flex justify-around flex-wrap'>
                 <div className='flex flex-col w-56'>
                     <div className='w-52 h-52 border-[1rem] border-primary rounded-full flex justify-center items-center'>
                           <img className='w-36 h-36 rounded-full' src={solidarity} alt="" />
@@ -112,7 +109,7 @@ useSetHeader('Acerca de nosotros');
                     </div>
                     <h3 className='text-2xl text-center text-primary mt-4 font-bold'>Vocación de servicio</h3>
                 </div>
-            </div>
+            </div> */}
           </div>
           </div>
         </div>

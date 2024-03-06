@@ -32,7 +32,7 @@ const Header  = () => {
                 <nav className="bg-white border-gray-200 py-2.5 dark:bg-gray-900">
                     <div className="flex flex-wrap items-center justify-between max-w-screen-xl px-4 mx-auto">
                         <Link to={routesweb.inicio} className="flex items-center">
-                            <img src={logo} className="h-8 mr-3 sm:h-14" alt="Landwind Logo" />
+                            <img src={logo} className="h-8 mr-3 sm:h-14" alt="Hayu24" />
                             <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white"></span>
                         </Link>
                         <div className="flex items-center lg:order-2">

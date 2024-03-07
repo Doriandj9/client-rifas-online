@@ -48,10 +48,10 @@ useSetHeader('Acerca de nosotros');
                 <div className='min-h-[12.5rem] flex md:flex-row flex-col'>
                 <article className='md:w-[33.33%] w-full'>
                       <h2 className='text-xl font-black text-primary text-center'>MISIÓN</h2>
-                      <p className='text-lg'>“Facilitar el acceso equitativo a
+                      <p className='text-lg text-center'>“Facilitar el acceso equitativo a
                     oportunidades de apoyo y
                     solidaridad a través de nuestro
-                    sistema de rifas online.
+                    sistema de rifas online.”
                     </p>
                   </article>
                     <div className='md:w-[33.33%] w-full'>
@@ -59,7 +59,7 @@ useSetHeader('Acerca de nosotros');
                     </div>
                     <article className='md:w-[33.33%] w-full'>
                       <h2 className='text-xl font-black text-primary text-center'>VISIÓN</h2>
-                      <p className='text-lg'>
+                      <p className='text-lg text-center'>
                       “Ser la principal plataforma de rifas online
                       reconocido a nivel nacional e internacional
                       por nuestro compromiso inquebrantable

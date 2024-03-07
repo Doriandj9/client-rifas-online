@@ -72,12 +72,12 @@ const SidebarAdmin = () => {
                 <GrUserSettings className="text-xl mr-2" />
                 <span className="text-white">Usuarios</span>
             </NavLink>
-            <NavLink to={routes.children.passwords.root} 
+            {/* <NavLink to={routes.children.passwords.root} 
             className={(props) => handleRoute(props)}
             >
                 <RiLockPasswordLine className="text-xl mr-2" />
                 <span className="text-white">Contraseñas</span>
-            </NavLink>
+            </NavLink> */}
             </div>
 
 </div>

@@ -121,9 +121,9 @@ const Modal = ({id, open,onClose, setUpdate}) => {
                 phone: data.user.phone,
                 img: data.voucher,
                 observation: '',
-                accept: data.is_active
+                accept: data.is_active ? false : true
             });
-            setShowObserver(data.is_pending);
+            setShowObserver(data.is_active);
             setRaffle(data.tickets[0].raffle);
             setTickets(data.tickets);
             toast({
@@ -219,16 +219,6 @@ const Modal = ({id, open,onClose, setUpdate}) => {
                     </div>
                 </div>
                 <Form>
-                    <FormControl className="flex items-center mt-3" >
-                        <FormLabel fontWeight={'bold'} margin={0} width={'25%'}>
-                            Autorización
-                        </FormLabel>
-                        <Input 
-                        isDisabled 
-                        fontWeight={'bold'}
-                        opacity={'0.75 !important'}
-                        value={inputs.accept  ? 'Aprobado' : 'Negado'}/>
-                    </FormControl>
                     <FormControl className="flex items-center mt-3" >
                         <FormLabel fontWeight={'bold'} margin={0} width={'25%'}>
                             Imagen de Autorización

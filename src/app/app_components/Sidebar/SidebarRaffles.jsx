@@ -69,7 +69,7 @@ const SidebarRaffles = () => {
                 >
                     {/* <Home_Medium className="text-secondary" /> */}
                     <MdCreditScore className="text-xl mr-2" />
-                    <span>Métodos de compra</span>
+                    <span>Métodos de cobros</span>
                 </NavLink>
                 {/* <NavLink  to={'pending'}
                 className={(props) => handleRoute(props)}

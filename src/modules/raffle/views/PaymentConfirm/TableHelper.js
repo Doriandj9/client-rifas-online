@@ -30,6 +30,11 @@ export default {
                         return item.user.phone
                     }
                 }, {
+                    header: 'Estado',
+                    render: (item,index) => {
+                        return item.is_active ? 'Negado' : 'Aprobado'
+                    }
+                }, {
                     header: 'Fecha de registro',
                     render: (item,index) => {
                         return formatTimeFull(item.created_at)

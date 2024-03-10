@@ -20,6 +20,8 @@ import routesapi from "../../../../../app/config/routesapi";
 import Loader from "../../../../../app/app_components/Core/Loader";
 import moment from "moment";
 import { MdOutlinePayments } from "react-icons/md";
+import { CEDULA_REG_EXPRE, CHARACTERS_LETTERS_SPECIALS, CHARACTERS_NUMBERS_SPECIALS, DIGIT_REG_EXPRE, EMAIL_REG_EXPRE, NUMBER_REG_EXPRE } from '@app/app/utilities/validations/Expresions';
+
 
 const url = credentials.server + routesapi.raffle_bank_accounts;
 
@@ -40,11 +42,34 @@ const NewAccount = () => {
         qr_image: '',
         taxid: '',
     })
+    const [validations,setValidations] = useState({
+        taxid: false,
+        phone: false,
+        email: false
+    })
     const handleInput = (e) => {
+
+        let value = e.target.value;
+        const inputName = e.target.name;
+        if(inputName === 'taxid'){
+            value = value.replace(CHARACTERS_LETTERS_SPECIALS,'');
+            setValidations({
+                ...validations,
+                taxid: !CEDULA_REG_EXPRE.test(value)
+            })
+        }
+
+        if(inputName === 'bank_name' || inputName === 'type' || inputName === 'name_account'){
+            value = value.replace(CHARACTERS_NUMBERS_SPECIALS,'');
+     }
+     if(inputName === 'account_number'){
+        value = value.replace(CHARACTERS_LETTERS_SPECIALS,'');
+     }
+
         setInputs(
             {
                 ...inputs,
-                [e.target.name]: e.target.name === 'qr_image' ?  setQrImage(e.target.files[0]) : e.target.value,
+                [e.target.name]: e.target.name === 'qr_image' ?  setQrImage(e.target.files[0]) : value,
             }
         )
     }
@@ -52,7 +77,7 @@ const NewAccount = () => {
     const handleSubmit =  async (e) => {
         e.preventDefault();
         try {
-            if(!validations()){
+            if(!validationsInputs()){
                 return;
             }
             const form = new FormData();
@@ -102,7 +127,7 @@ const NewAccount = () => {
 
     }
 
-    const validations = () => {
+    const validationsInputs = () => {
         
         if(user.bank_accounts.length > 0 && user.bank_accounts.some(account => account.is_account_local)){
             toast({
@@ -143,13 +168,15 @@ const NewAccount = () => {
                             </FormControl>
                             <div className="flex items-center gap-2">
 
-                            <FormControl marginTop={15} isRequired>
+                            <FormControl isInvalid={validations.taxid} marginTop={15} isRequired>
                                 <FormLabel fontWeight={'bold'}>
                                 Número de cédula
                                 </FormLabel>
                                 <Input className="shadow"
                                     name="taxid"
                                     value={inputs.taxid}
+                                    focusBorderColor={validations.taxid ? 'red.500' : null }
+                                    _hover={validations.taxid ? 'red.500' : null}
                                     onInput={handleInput}
                                     placeholder="Por ejemplo: 0123456789"
                                 />

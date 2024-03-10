@@ -37,7 +37,7 @@ const NewLottery = () => {
     const[inputs, setInputs] = useState({
         name: '',
         description: '',
-        summary: 'Facebook',
+        summary: 'Facebook Live',
         draw_date: '',
         logo_raffles: '',
         price: '',
@@ -65,7 +65,6 @@ const NewLottery = () => {
           image.onload = function () {
             const width = this.width; // Obtener el ancho de la imagen
             const height = this.height; // Obtener la altura de la imagen
-            console.log('w',width,'h',height);
             // if(width <= 554 && height <= 600){
                 setLogoRaffles(file);
                 return;
@@ -170,7 +169,6 @@ const NewLottery = () => {
         }
         try {
             const data = await fetchQuery(accToken,url,{method: 'POST',body: form},() => {},setError);
-            console.log(data);
             if(data.status){
                 toast({
                     title: 'Nueva Rifa',
@@ -181,7 +179,7 @@ const NewLottery = () => {
                 setInputs({
                     name: '',
                     description: '',
-                    summary: 'Facebook',
+                    summary: 'Facebook Live',
                     draw_date: '',
                     logo_raffles: '',
                     price: '',
@@ -339,7 +337,7 @@ const NewLottery = () => {
                                     <FormLabel fontWeight={'bold'}>
                                     Porcentaje para comisiones de vendedores
                                     </FormLabel>
-                                    <Select onChange={handleSelect} name="commission_sellers"
+                                    <Select value={inputs.commission_sellers} onChange={handleSelect} name="commission_sellers"
                                     isRequired>
                                         <option value="0.00">0%</option>
                                         <option value="0.03">3%</option>
@@ -389,7 +387,7 @@ const NewLottery = () => {
                                 <FormLabel fontWeight={'bold'}>
                                     Medio de transmisión de rifa
                                 </FormLabel>
-                                <Select onChange={handleSelect} name="summary">
+                                <Select value={inputs.summary} onChange={handleSelect} name="summary">
                                         <option value="Facebook Live">Facebook Live</option>
                                         <option  value="You Tube Live">You Tube Live</option>
                                         <option value="Twitch">Twitch</option>

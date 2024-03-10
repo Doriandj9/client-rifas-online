@@ -6,6 +6,7 @@ const credentials = {
 
 const application =  {
     paginateCount: 10,
+    paginateRaffles: 8
 }
 
 const colors = {

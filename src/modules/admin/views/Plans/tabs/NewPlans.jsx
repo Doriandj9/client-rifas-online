@@ -71,7 +71,6 @@ const NewPlans = () => {
           })
           const description = [inputs.descriptionInit,...itemsF];
           const inputsQuery ={ ...inputs,description: JSON.stringify(description)}
-          console.log(inputsQuery);
           setInputs(inputsQuery);
           for( const[key,value] of Object.entries(inputsQuery)){
             form.append(key,value);

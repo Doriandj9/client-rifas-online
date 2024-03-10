@@ -2,7 +2,8 @@ import { Card, CardHeader, CardBody, CardFooter,Stack ,Heading,Text,Divider, But
     Image,
     List,
     ListItem,
-    ListIcon
+    ListIcon,
+    IconButton
 
 } from '@chakra-ui/react'
 import { useEffect, useState } from 'react';
@@ -22,20 +23,26 @@ import routesweb from '../../config/routesweb';
 import { formatTimeDate, formatTimeDateHour, formatTimeFull } from '../../utilities/web/times/formatTimeFull';
 import { BsFillCalendarDateFill } from "react-icons/bs";
 import { BsClockFill } from "react-icons/bs";
+import { application } from "../../config/app";
+import PaginateButtons from './PaginateButtons';
+import { GrFormNext, GrFormPrevious } from 'react-icons/gr';
 
 
 const AppCard = ({url,options={} }) => {
-  const {data,error,loading,refetch} = useFetch(url,options,'data');
+  const [pagePaginate,setPagePaginate] = useState(1);
+  const {data,error,loading,total,refetch} = useFetch(url,options,'data',false,'',[pagePaginate],true,pagePaginate);
   const FillCardWithFeedback = withAPIFeedbackTable(TotalCards);
     return (
         <>
-                <FillCardWithFeedback {...{data:{data}}} hasError={error} isLoading={loading} type='card'  />
+                <FillCardWithFeedback {...{data:{data}}} total={total}
+                pagePaginate= {pagePaginate}
+                setPagePaginate={setPagePaginate}
+                 hasError={error} isLoading={loading} type='card'  />
         </>
     );
 }
 
-const TotalCards = ({data}) => {
-    
+const TotalCards = ({data,total, pagePaginate,setPagePaginate}) => {
     return (
         <>
             {
@@ -48,13 +55,32 @@ const TotalCards = ({data}) => {
                         )
                     })
                 }
+
                 <div className='absolute bottom-[-50px] md:bottom-[-75px] left-0 w-full flex justify-center gap-12'  >
-                        <div className='shadow-sm shadow-primary px-8 rounded-lg hover:shadow-lg hover:shadow-primary'>
+                    { total > application.paginateRaffles && <PaginateButtons raffles={true} total={total} page={pagePaginate} setPage={setPagePaginate}  />}
+                    { total <= application.paginateRaffles &&
+                    
+                    <ButtonGroup variant='outline' spacing='2'>
+                    <IconButton
+                        variant='outline'
+                        colorScheme='blue'
+                        aria-label='Send email'
+                        icon={<GrFormPrevious  className='pointer-events-none'/>}
+                        />
+                    <IconButton
+                        variant='outline'
+                        colorScheme='blue'
+                        aria-label='Send email'
+                        icon={<GrFormNext className='pointer-events-none' />}
+                        />
+                    </ButtonGroup>
+                    }
+                        {/* <div className='shadow-sm shadow-primary px-8 rounded-lg hover:shadow-lg hover:shadow-primary'>
                         <GiPreviousButton title=' Anterior' className='text-5xl text-primary cursor-pointer hover:text-green-500 ease-in-out duration-500' />
                         </div>
                         <div className='shadow-sm shadow-primary px-8 rounded-lg hover:shadow-lg hover:shadow-primary '>
                             <GiNextButton title='Siguiente' className='text-5xl text-primary cursor-pointer hover:text-green-500 ease-in-out duration-500' />
-                        </div>
+                        </div> */}
                 </div>
                 </>
                 :

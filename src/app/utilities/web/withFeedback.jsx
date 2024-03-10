@@ -12,18 +12,18 @@ const withAPIFeedback = (Component) => ({ hasError, isLoading, data }) => {
     return <Component {...{...data}} />;
 }
 
-const withAPIFeedbackTable = (Component) => ({ hasError, isLoading, data,type='default' }) => {
+const withAPIFeedbackTable = (Component) => ({ hasError, isLoading, pagePaginate, setPagePaginate, total, data,type='default' }) => {
 
     const elementsLoad  = {
         'table': <SkeletonTable />,
         'card': <SkeletonCard />,
         'default': <p>Cargando..</p>
     };
-
+    
     if (isLoading) return elementsLoad[type] ?? elementsLoad['default'];
     if (hasError) return  <ErrorBundle  error={hasError} />;
     if (!data) return <p>No data found.</p>;
-    return <Component {...{...data}} />;
+    return <Component {...{...data}} total={total} pagePaginate={pagePaginate} setPagePaginate={setPagePaginate} />;
 }
 
 

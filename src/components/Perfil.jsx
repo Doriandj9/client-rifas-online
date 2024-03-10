@@ -2,9 +2,9 @@ import { FormControl, FormLabel, Input, useToast } from "@chakra-ui/react";
 import AppButton from "../app/app_components/Core/AppButon";
 import { useAccessToken, useAuth } from "../app/store/app/userStore";
 import routesweb from "../app/config/routesweb";
+import { CEDULA_REG_EXPRE, CHARACTERS_LETTERS_SPECIALS, CHARACTERS_NUMBERS_SPECIALS, DIGIT_REG_EXPRE, EMAIL_REG_EXPRE, NUMBER_REG_EXPRE } from '@app/app/utilities/validations/Expresions';
 import { Form, Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import { EMAIL_REG_EXPRE } from "../app/utilities/validations/Expresions";
 import { toastConfig } from "../app/utilities/web/configs";
 import { credentials } from "../app/config/app";
 import routesapi from "../app/config/routesapi";
@@ -31,13 +31,49 @@ const Perfil = () => {
         address: '',
         avatar: '',
     });
+    const [validations,setValidations] = useState({
+        taxid: false,
+        phone: false,
+        email: false
+    })
     const imageRef = useRef();
     const handleInput = (e) => {
-        setInputs({
-            ...inputs,
-            [e.target.name]: e.target.value
-        })
+        let value = e.target.value;
+        const inputName = e.target.name;
+        if(inputName === 'taxid'){
+            value = value.replace(CHARACTERS_LETTERS_SPECIALS,'');
+            setValidations({
+                ...validations,
+                taxid: !CEDULA_REG_EXPRE.test(value)
+            })
+        }
+
+        if(inputName === 'first_name' || inputName === 'last_name'){
+               value = value.replace(CHARACTERS_NUMBERS_SPECIALS,'');
+        }
+
+        if(inputName === 'phone'){
+            value = value.replace(CHARACTERS_LETTERS_SPECIALS,'');
+            setValidations({
+                ...validations,
+                phone: !NUMBER_REG_EXPRE.test(value)
+            })
+        }
+        if(inputName === 'email'){
+            setValidations({
+                ...validations,
+                email: !EMAIL_REG_EXPRE.test(value)
+            })
+        }
+        setInputs(
+            {
+                ...inputs,
+                [inputName]: value,
+            }
+        )
+        
     }
+
     const handleSend = async (e) => {
         const img = e.target.files[0]
         if(!img){
@@ -66,7 +102,7 @@ const Perfil = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if(!validations()){
+        if(!validationsInputs()){
             return;
         }
         url = url.replace('{id}',user.id);
@@ -98,7 +134,7 @@ const Perfil = () => {
 
 
 
-    const validations = () => {
+    const validationsInputs = () => {
         
         if(!EMAIL_REG_EXPRE.test(inputs.email)){
             toast({
@@ -171,19 +207,23 @@ const Perfil = () => {
                                 value={inputs.last_name}
                                  className='shadow' height={50} placeholder='Por ejemplo: Apellido1 Apellido2' />
                             </FormControl>
-                            <FormControl marginTop={15} isRequired>
+                            <FormControl isInvalid={validations.email} marginTop={15} isRequired>
                                 <FormLabel fontWeight={'bold'}>Correo electrónico</FormLabel>
                                 <Input name='email'
                                 onInput={handleInput}
                                 value={inputs.email}
+                                focusBorderColor={validations.email ? 'red.500' : null }
+                                _hover={validations.email ? 'red.500' : null}
                                 type="email"
                                  className='shadow' height={50} placeholder='Por ejemplo: ejemplo@email.com' />
                             </FormControl>
-                            <FormControl marginTop={15} isRequired>
+                            <FormControl isInvalid={validations.phone} marginTop={15} isRequired>
                                 <FormLabel fontWeight={'bold'}>Número Telefónico</FormLabel>
                                 <Input name='phone'
                                 onInput={handleInput}
                                 value={inputs.phone}
+                                focusBorderColor={validations.phone ? 'red.500' : null }
+                                _hover={validations.phone ? 'red.500' : null}
                                  className='shadow' height={50} placeholder='Por ejemplo: 0901234567' />
                             </FormControl>
                             <FormControl marginTop={15}>

@@ -69,7 +69,10 @@ const ListLottery = () => {
    //actualizar funciones
    actionColumns.list = actions;
    //handlers
-   const handleCloseModal = () => setOpenModal(false);
+   const handleCloseModal = () => {
+    setOpenModal(false);
+    setIdItem(null);
+   } 
    const handleSaveModal = () => {
        document.dispatchEvent(reloadTable);
        setOpenModal(false);
@@ -109,15 +112,17 @@ const ListLottery = () => {
    useEffect(() => {
      if(resultUpdate.message !== ''){
        if(resultUpdate.status){
-         toast.success(resultUpdate.message, {
-           position: toast.POSITION.TOP_RIGHT,
-           className: 'p-8 w-full',
-          })
+        toast({
+          title: 'Éxito',
+          description: resultUpdate.message,
+          status: 'success'
+        });
        }else{
-         toast.error(resultUpdate.message,{
-           position: toast.POSITION.TOP_RIGHT,
-           className: 'p-8 w-full',
-       })
+         toast({
+          title: 'Error',
+          description: resultUpdate.message,
+          status: 'error'
+         });
        }
      }
    }, [resultUpdate])

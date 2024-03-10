@@ -2,10 +2,10 @@ import { Button, ButtonGroup, IconButton } from '@chakra-ui/react'
 import { GrFormPrevious, GrFormNext } from "react-icons/gr";
 import { application } from '../../config/app';
 import { useEffect, useState } from 'react';
-const PaginateButtons = ({total, page , setPage}) => {
+const PaginateButtons = ({total, page , setPage, raffles = false}) => {
     const [prev, setPrev] = useState(0);
     const [next, setNext] = useState(page);
-    const pag = Math.ceil(total / application.paginateCount);
+    const pag = Math.ceil(total / (raffles ? application.paginateRaffles : application.paginateCount));
     let buttons = [];
 
     const handleClick = (e) => {

@@ -54,7 +54,8 @@ function App() {
                   </p>
               </div>
               <div className="hidden lg:mt-0 lg:col-span-6 lg:flex items-center justify-center">
-                  <img src={welcome} alt="hero image" className='rounded-3xl h-96 block mt-10' />
+                  {/* <img src={welcome} alt="hero image" className='rounded-3xl h-96 block mt-10' /> */}
+                  <iframe width="560" height="315" src="https://www.youtube.com/embed/W_oVH-iNUyI?si=5YzgmOqNN9rAEz-f" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
               </div>  
           </div>
           </div>

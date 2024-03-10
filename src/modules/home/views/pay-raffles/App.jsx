@@ -22,7 +22,7 @@ import Loader from '../../../../app/app_components/Core/Loader';
 import Modal from './components/Modal';
 import { FaTicketSimple } from "react-icons/fa6";
 import { CiSaveDown2 } from "react-icons/ci";
-import { CEDULA_REG_EXPRE, EMAIL_REG_EXPRE } from '../../../../app/utilities/validations/Expresions';
+import { CEDULA_REG_EXPRE, EMAIL_REG_EXPRE, NUMBER_REG_EXPRE } from '../../../../app/utilities/validations/Expresions';
 import { useSetHeader } from '../../../../app/utilities/hooks/web/useSetHeader';
 import { formatTimeDate, formatTimeDateHour } from '../../../../app/utilities/web/times/formatTimeFull';
 import { BsClockFill } from "react-icons/bs";
@@ -61,7 +61,6 @@ const App = () => {
         setIdImg(item.id);
         const x = e.clientX - 200;
         const y = e.clientY - 420;
-        console.log(x);
         const element = <div onMouseLeave={handleImgRemove} 
         className={`w-96 h-96 shadow-lg fixed z-50 bg-white` }
         style={{top: `${y}px`, left:`${x}px`}}
@@ -176,6 +175,17 @@ const App = () => {
                 })
                 return;
             }
+
+            if(key === 'phone' && !NUMBER_REG_EXPRE.test(value)){
+                toast({
+                    title: 'Error',
+                    description: 'Por favor ingres un número de celular valido.',
+                    status: 'error',
+                    duration: 2500
+                })
+                return;
+            }
+            
         }
 
             const response =  await initialFetch(urlPayment,{method: 'POST', body: form});
@@ -218,13 +228,13 @@ const App = () => {
             <div className=" max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-0 lg:py-18 lg:pt-32">
                 
                 <div className='flex lg:gap-4 items-center pl-4 justify-center flex-col lg:flex-row gap-12'>
-                    <div className={`w-[30rem] h-[37rem] lg:shadow-2xl shadow rounded-3xl shadow-primary/50 p-6 relative bg-no-repeat max-w-full`}  style={{backgroundImage: `url('${data.data.logo_raffles !== 'logo-raffle.png' ? credentials.server + data.data.logo_raffles : logoRaffle}')`,
+                    <div className={`w-[30rem] h-[37rem] lg:shadow-2xl shadow rounded-3xl shadow-primary/50 p-6 relative bg-no-repeat max-w-full`}  style={{
                     backgroundSize: '30rem 37rem'
                 }}>
-                        <div className='absolute bottom-0 right-0 bg-blue-100 px-28 py-8 rounded-tl-lg rounded-br-3xl '>
-                            <span className='text-secondary font-semibold text-6xl italic'> 
-                                <span className='text-4xl'>$</span>{Number(data.data.price).toFixed(2)} 
-                                {/* <span className='-ms-2 text-sm'> dólares  </span>  */}
+                    <img className='w-full h-full max-w-full max-h-full' src={`${data.data.logo_raffles !== 'logo-raffle.png' ? credentials.server + data.data.logo_raffles : logoRaffle}`} ></img>
+                        <div className='w-full absolute bottom-0 right-0 bg-blue-100 px-28 py-8 md:rounded-tl-lg rounded-br-3xl md:w-10/12 md: rounded-bl-3xl md:rounded-bl-none  rounded-tl-none'>
+                            <span className='text-secondary font-semibold  text-2xl md:text-6xl italic'> 
+                                <span className='text-md md:text-4xl'>$</span>{Number(data.data.price).toFixed(2)} 
                             </span>
                         </div>
                     </div>
@@ -255,7 +265,7 @@ const App = () => {
                             </div>
                             <div>
                                 <ul className='p-2'>
-                                    {JSON.parse(data.data.awards).map(item => {
+                                    {JSON.parse(data.data.awards).sort((a,b) => a.id - b.id).map(item => {
                                         const img = item.path !== '' ? credentials.server + item.path : gift;
                                         return (
                                             <li onMouseLeave={handleImgRemove}  key={item.id} className='flex gap-2 items-center'>

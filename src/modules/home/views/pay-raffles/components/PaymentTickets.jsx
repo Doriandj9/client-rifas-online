@@ -4,6 +4,8 @@ import { useState } from "react";
 import { FaPersonCircleCheck } from "react-icons/fa6";
 import routesweb from "../../../../../app/config/routesweb";
 import ModalPayment from "./ModalPayment";
+import { CEDULA_REG_EXPRE, CHARACTERS_LETTERS_SPECIALS, CHARACTERS_NUMBERS_SPECIALS, DIGIT_REG_EXPRE, EMAIL_REG_EXPRE, NUMBER_REG_EXPRE } from '@app/app/utilities/validations/Expresions';
+
 
 const PaymentTickets = ({openPayment, handleClosePayment, tickets, price, total, onSubmit, bankAccounts}) => {
 
@@ -64,6 +66,56 @@ const PaymentAuth = ({user, setPaymentUser}) => {
 
 
 const PaymentNotAuth = () => {
+    const[inputs,setInputs] = useState({
+        email: '',
+        taxid: '',
+        first_name: '',
+        last_name:'',
+        phone:'',
+    });
+
+    const [validations,setValidations] = useState({
+        taxid: false,
+        phone: false,
+        email: false
+    })
+
+    const handleInput = (e) => {
+        let value = e.target.value;
+        const inputName = e.target.name;
+        if(inputName === 'taxid'){
+            value = value.replace(CHARACTERS_LETTERS_SPECIALS,'');
+            setValidations({
+                ...validations,
+                taxid: !CEDULA_REG_EXPRE.test(value)
+            })
+        }
+
+        if(inputName === 'first_name' || inputName === 'last_name'){
+               value = value.replace(CHARACTERS_NUMBERS_SPECIALS,'');
+        }
+
+        if(inputName === 'phone'){
+            value = value.replace(CHARACTERS_LETTERS_SPECIALS,'');
+            setValidations({
+                ...validations,
+                phone: !NUMBER_REG_EXPRE.test(value)
+            })
+        }
+        if(inputName === 'email'){
+            setValidations({
+                ...validations,
+                email: !EMAIL_REG_EXPRE.test(value)
+            })
+        }
+        setInputs(
+            {
+                ...inputs,
+                [inputName]: value,
+            }
+        )
+        
+    }
 
     return (
         <>
@@ -74,33 +126,46 @@ const PaymentNotAuth = () => {
                     </span> 
                 </h3>
                 <div>
-                        <FormControl isRequired>
-                                <FormLabel fontWeight={'bold'}>Cédula</FormLabel>
+                        <FormControl isInvalid={validations.taxid} isRequired>
+                                <FormLabel  fontWeight={'bold'}>Cédula</FormLabel>
                                 <Input name='taxid'
-                                
+                                 value={inputs.taxid}
+                                 focusBorderColor={validations.taxid ? 'red.500' : null }
+                                 _hover={validations.taxid ? 'red.500' : null}
+                                 onInput={handleInput}
                                  className='shadow' height={50} placeholder='Por ejemplo: 0123456789' />
                             </FormControl>
                             <FormControl marginTop={15} isRequired>
                                 <FormLabel fontWeight={'bold'}>Nombres</FormLabel>
                                 <Input name='first_name'
-                                
+                                value={inputs.first_name}
+                                onInput={handleInput}
                                  className='shadow' height={50} placeholder='Por ejemplo: Nombre1 Nombre2' />
                             </FormControl>
                             <FormControl marginTop={15} isRequired>
                                 <FormLabel fontWeight={'bold'}>Apellidos</FormLabel>
                                 <Input name='last_name'
-                               
+                               value={inputs.last_name}
+                               onInput={handleInput}
                                  className='shadow' height={50} placeholder='Por ejemplo: Apellido1 Apellido2' />
                             </FormControl>
-                            <FormControl marginTop={15} isRequired>
+                            <FormControl isInvalid={validations.email} marginTop={15} isRequired>
                                 <FormLabel fontWeight={'bold'}>Correo electrónico</FormLabel>
                                 <Input name='email'
                                 type="email"
+                                value={inputs.email}
+                                focusBorderColor={validations.email ? 'red.500' : null }
+                                _hover={validations.email ? 'red.500' : null}
+                                onInput={handleInput}
                                  className='shadow' height={50} placeholder='Por ejemplo: ejemplo@email.com' />
                             </FormControl>
-                            <FormControl marginTop={15} isRequired>
+                            <FormControl isInvalid={validations.phone} marginTop={15} isRequired>
                                 <FormLabel fontWeight={'bold'}>Número Telefónico</FormLabel>
                                 <Input name='phone'
+                                value={inputs.phone}
+                                focusBorderColor={validations.phone ? 'red.500' : null }
+                                _hover={validations.phone ? 'red.500' : null}
+                                onInput={handleInput}
                                  className='shadow' height={50} placeholder='Por ejemplo: 0901234567' />
                             </FormControl>
                             <FormControl  marginTop={25} isRequired>

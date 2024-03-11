@@ -42,6 +42,9 @@ const Perfil = () => {
         const inputName = e.target.name;
         if(inputName === 'taxid'){
             value = value.replace(CHARACTERS_LETTERS_SPECIALS,'');
+            if(value.length > 10){
+                value = value.substring(0,(value.length - 1));
+            }
             setValidations({
                 ...validations,
                 taxid: !CEDULA_REG_EXPRE.test(value)

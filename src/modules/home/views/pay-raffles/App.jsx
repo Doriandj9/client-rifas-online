@@ -232,9 +232,9 @@ const App = () => {
                     backgroundSize: '30rem 37rem'
                 }}>
                     <img className='w-full h-full max-w-full max-h-full' src={`${data.data.logo_raffles !== 'logo-raffle.png' ? credentials.server + data.data.logo_raffles : logoRaffle}`} ></img>
-                        <div className='w-full absolute bottom-0 right-0 bg-blue-100 px-28 py-8 md:rounded-tl-lg rounded-br-3xl md:w-10/12 md: rounded-bl-3xl md:rounded-bl-none  rounded-tl-none'>
-                            <span className='text-secondary font-semibold  text-2xl md:text-6xl italic'> 
-                                <span className='text-md md:text-4xl'>$</span>{Number(data.data.price).toFixed(2)} 
+                        <div className='w-full absolute bottom-0 right-0 bg-blue-100 h-24 md:rounded-tl-lg rounded-br-3xl md:w-9/12 rounded-bl-3xl md:rounded-bl-none  rounded-tl-none flex justify-center items-center'>
+                            <span className='text-secondary font-semibold  text-4xl md:text-5xl italic'> 
+                                <span className='text-sm md:text-4xl'>$</span>{Number(data.data.price).toFixed(2)} 
                             </span>
                         </div>
                     </div>

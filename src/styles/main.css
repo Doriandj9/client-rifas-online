@@ -1335,6 +1335,10 @@ input[type="range"]::-ms-fill-lower {
   height: 5rem;
 }
 
+.h-24 {
+  height: 6rem;
+}
+
 .h-28 {
   height: 7rem;
 }
@@ -2010,11 +2014,6 @@ input[type="range"]::-ms-fill-lower {
   padding-right: 3rem;
 }
 
-.px-28 {
-  padding-left: 7rem;
-  padding-right: 7rem;
-}
-
 .px-3 {
   padding-left: 0.75rem;
   padding-right: 0.75rem;
@@ -2058,11 +2057,6 @@ input[type="range"]::-ms-fill-lower {
 .py-6 {
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
-}
-
-.py-8 {
-  padding-top: 2rem;
-  padding-bottom: 2rem;
 }
 
 .pb-2 {
@@ -2703,6 +2697,10 @@ input[type="range"]::-ms-fill-lower {
     width: 83.333333%;
   }
 
+  .md\:w-9\/12 {
+    width: 75%;
+  }
+
   .md\:w-\[33\.33\%\] {
     width: 33.33%;
   }
@@ -2792,11 +2790,6 @@ input[type="range"]::-ms-fill-lower {
 
   .md\:text-5xl {
     font-size: 3rem;
-    line-height: 1;
-  }
-
-  .md\:text-6xl {
-    font-size: 3.75rem;
     line-height: 1;
   }
 

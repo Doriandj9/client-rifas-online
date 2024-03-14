@@ -136,7 +136,7 @@ const CardApp = ({item}) => {
             </Text>
             <Heading size='sm'>Premios</Heading>
                 <ul>
-                    { JSON.parse(item.awards).map((award,i) => {
+                    { JSON.parse(item.awards).sort((a,b) => a.id - b.id) .map((award,i) => {
 
                         return (
                             <li key={i} className='flex gap-2'>

@@ -14,6 +14,7 @@ import { TbPigMoney } from "react-icons/tb";
 import { FcMoneyTransfer } from "react-icons/fc";
 import { BiMoneyWithdraw } from "react-icons/bi";
 import { useAuth } from "../../store/app/userStore";
+import { PiUsersFourFill } from "react-icons/pi";
 const SidebarRaffles = () => {
     const user = useAuth((state) => state.user);
 
@@ -70,6 +71,13 @@ const SidebarRaffles = () => {
                     {/* <Home_Medium className="text-secondary" /> */}
                     <MdCreditScore className="text-xl mr-2" />
                     <span>Métodos de cobros</span>
+                </NavLink>
+                <NavLink to={prefix  + '/' + routes.membership} 
+                className={(props) => handleRoute(props)}
+                >
+                    {/* <Home_Medium className="text-secondary" /> */}
+                    <PiUsersFourFill className="text-xl mr-2" />
+                    <span>Afiliaciones</span>
                 </NavLink>
                 {/* <NavLink  to={'pending'}
                 className={(props) => handleRoute(props)}

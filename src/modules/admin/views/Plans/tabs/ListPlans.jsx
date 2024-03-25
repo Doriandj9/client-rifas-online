@@ -13,6 +13,7 @@ import ModalDelete from '../../../../../app/app_components/Core/ModalDelete';
 import Loader from '../../../../../app/app_components/Core/Loader';
 import { toastConfig } from '../../../../../app/utilities/web/configs';
 import { fetchQuery } from '../../../../../app/utilities/web/fetchQuery';
+import { useFetch } from '../../../../../app/utilities/hooks/data/useFetch';
 let url = credentials.server + routesapi.admin_subscriptions;
 
 let actions = [
@@ -34,9 +35,13 @@ let actions = [
     }
    ];
 const ListPlans = () => {
+  const [pagePaginate,setPagePaginate] = useState(1);//pagination
+
     //hooks 
     const token = useAccessToken((state) => state.token);
     const toast = useToast(toastConfig);
+    const { data, error:errorData, total, loading:loadingData,refetch} = useFetch(url,{method: 'GET'},'data',true,token)//pagination
+
     //states 
     const [openModal,setOpenModal] = useState(false);
     const [idItem, setIdItem] = useState(null);
@@ -67,7 +72,6 @@ const ListPlans = () => {
         setIdItem(null);
     };
     const handleSaveModal = () => {
-        document.dispatchEvent(reloadTable);
         setOpenModal(false);
     }
     const handleCloseDelete = () => setOpenDelete(false);
@@ -82,7 +86,7 @@ const ListPlans = () => {
               description: 'Se borro con éxito el plan.',
               status: 'success'
             });
-            document.dispatchEvent(reloadTable);
+            refetch();
             setOpenDelete(false);
             return;
           }
@@ -118,8 +122,9 @@ const ListPlans = () => {
           <ModalDelete open={openDelete} message={message} handleClose={handleCloseDelete} handleSave={handleDeleteItem} />
         )
       }
-           {idItem && <Modal id={idItem} open={openModal} onClose={handleCloseModal} buttons={buttons}  />}
-            <AppTable url={url} columns={columns} keyData='data' actionColumns={actionColumns} auth={true} token={token}  />
+           {idItem && <Modal id={idItem} open={openModal} onClose={handleCloseModal} buttons={buttons} refetch={refetch}  />}
+           <AppTable actionColumns={actionColumns} columns={columns} data={data} error={errorData} loading={loadingData} refetch={refetch}
+             />
         </>
     );
 } 

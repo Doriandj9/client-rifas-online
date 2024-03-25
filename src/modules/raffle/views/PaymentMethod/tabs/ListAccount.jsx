@@ -38,6 +38,8 @@ let actions = [
   },
 ];
 const ListAccount = () => {
+  const [pagePaginate,setPagePaginate] = useState(1);//pagination
+
     //hooks 
     const token = useAccessToken((state) => state.token);
     const user = useAuth(state => state.user);
@@ -48,6 +50,8 @@ const ListAccount = () => {
    const [loading, setLoading] = useState(false);
    const [error,setError] = useState(null);
     const url = credentials.server + routesapi.raffle_bank_accounts_by_user.replace('{user_id}',user.id);
+    const { data, error:errorData, total, loading:loadingData,refetch} = useFetch(url,{method: 'GET'},'data',true,token,[pagePaginate],true,pagePaginate)//pagination
+
    //states 
    const [openModal,setOpenModal] = useState(false);
    const [idItem, setIdItem] = useState(null);
@@ -135,17 +139,12 @@ const ListAccount = () => {
           open={openModal}
           onClose={handleCloseModal}
           setUpdate={setResultUpdate}
+          refetch={refetch}
         />
       )}
-      <AppTable
-        url={url}
-        columns={columns}
-        keyData="data"
-        actionColumns={actionColumns}
-        auth={true}
-        token={token}
-        paginate={true}
-      />
+      <AppTable actionColumns={actionColumns} columns={columns} data={data} error={errorData} loading={loadingData} refetch={refetch}
+             total={total} setPagePaginate={setPagePaginate} pagePaginate={pagePaginate}
+              />
     </>
   );
 };

@@ -20,7 +20,7 @@ import { BsImage } from "react-icons/bs";
 import AppButton from "../../../../../../app/app_components/Core/AppButon";
 import { IoTicketOutline } from "react-icons/io5";
 
-const Modal = ({id, open,onClose, setUpdate}) => {
+const Modal = ({id, open,onClose, setUpdate, refetch}) => {
     const [loadingFetch, setLoadingFetch] = useState(false);
     const [errorFetch, setErrorFetch] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -43,7 +43,7 @@ const Modal = ({id, open,onClose, setUpdate}) => {
     //code
     const url = credentials.server + routesapi.raffle_bank_accounts + `/${id}`;
     const token = useAccessToken((state) => state.token);
-    const {data, error:erroFetch, loading:loadingUseFetch, refetch } = useFetch(url,{method:'GET'},'data',true,token,[id]);
+    const {data, error:erroFetch, loading:loadingUseFetch } = useFetch(url,{method:'GET'},'data',true,token,[id]);
 
     const handleSubmit = async () => {
         setLoadingFetch(true);
@@ -57,13 +57,12 @@ const Modal = ({id, open,onClose, setUpdate}) => {
 
             const response = await fetchQuery(token,url,{method:'PATCH',body:form},setLoadingFetch,setErrorFetch);
             if(response.status){
-                    document.dispatchEvent(reloadTable);
+                    refetch();
                     setUpdate({
                         status: response.status,
                         message: response.message
                     });
                     onClose();
-                    refetch();
                } else {
                 setUpdate({
                     status: false,

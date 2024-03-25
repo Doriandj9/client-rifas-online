@@ -15,7 +15,7 @@ import Loader from "../../../../../app/app_components/Core/Loader";
 import { reloadTable } from "../../../../../app/utilities/events/customs";
 import { FaRegImages } from "react-icons/fa6";
 import { FaUserXmark } from "react-icons/fa6";
-const BlockUser = ({id, open,onClose, setUpdate}) => {
+const BlockUser = ({id, open,onClose, setUpdate, refetch}) => {
     const [showObserver, setShowObserver] = useState(false);
     const [loadingFetch, setLoadingFetch] = useState(false);
     const [errorFetch, setErrorFetch] = useState(null);
@@ -32,7 +32,7 @@ const BlockUser = ({id, open,onClose, setUpdate}) => {
     let url =  credentials.server + routesapi.admin_users;
     url = url + `/${id}`;
     const token = useAccessToken((state) => state.token);
-    const {data, error, loading, refetch } = useFetch(url,{method:'GET'},'data',true,token,[id]);
+    const {data, error, loading } = useFetch(url,{method:'GET'},'data',true,token,[id]);
 
     const handleSubmit = async () => {
         if(showObserver && inputs.observation === ''){
@@ -47,13 +47,12 @@ const BlockUser = ({id, open,onClose, setUpdate}) => {
           const params = {is_active: inputs.is_active , blockUser: true};
           const response = await fetchQuery(token,url,{method:'PATCH',body:new URLSearchParams(params)},setLoadingFetch,setErrorFetch);
            if(response.status){
-                document.dispatchEvent(reloadTable);
+                refetch();
                 setUpdate({
                     status: response.status,
                     message: response.message
                 });
                 onClose();
-                refetch();
                 return;
            }
 

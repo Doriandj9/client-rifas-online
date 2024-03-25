@@ -22,8 +22,8 @@ const Sidebar = () => {
                </p>
             </div>
             <SidebarRaffles /> 
-            <SidebarClient />
             <SidebarSeller />
+            <SidebarClient />
 </div>
         </>
     );

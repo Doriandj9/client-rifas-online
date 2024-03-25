@@ -7,10 +7,10 @@ import AppButton from "./AppButon";
 import PaginateButtons from "./PaginateButtons";
 import { application } from "../../config/app";
 
-const AppTable = ({columns, actionColumns,data,error,loading,total=0,pagePaginate=0,setPagePaginate =() => {},refetch = () => {}}) => {
-  // const [pagePaginate,setPagePaginate] = useState(1);
+const AppTable = ({ url, options={},columns, actionColumns,keyData=null, auth=false, token='', refresh = () => {},paginate =false }) => {
+  const [pagePaginate,setPagePaginate] = useState(1);
 
-  // const {data,error,loading,total,refetch} = useFetch(url,options,keyData,auth,token,[pagePaginate],paginate,pagePaginate);
+  const {data,error,loading,total,refetch} = useFetch(url,options,keyData,auth,token,[pagePaginate],paginate,pagePaginate);
   const FillTableWithFeedback = withAPIFeedbackTable(FillTable);
 
   const handleClick = () => {
@@ -72,7 +72,8 @@ const FillTable =  ({data,columns, actionColumns}) => {
                             {columns.map((column,num) => {
                               const {render} = column;
                               return (
-                                <Td key={num} dangerouslySetInnerHTML={{ __html: render(item,(i + 1)) }}>
+                                <Td key={num}>
+                                    {render(item,(i + 1))}
                                 </Td>
                               );
                             })}
@@ -88,7 +89,7 @@ const FillTable =  ({data,columns, actionColumns}) => {
                                             key={index} 
                                             className={`inline-block cursor-pointer 
                                               ${ col.validation ? col.validation(item) : '' }
-                                            `} 
+                                            `}  
                                             title={col.name}
                                             onClick={col.onclick(item,(i+ 1))}
                                             >

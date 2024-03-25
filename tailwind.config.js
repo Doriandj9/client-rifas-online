@@ -2,7 +2,7 @@
 import colors from 'tailwindcss/colors';
 import { colors as colorapp } from './src/app/config/app';
 export default {
-  content: ['./src/**/*.jsx', './src/modules/**/*.jsx'],
+  content: ['./src/**/*.{jsx,js}', './src/modules/**/*.{jsx,js}'],
   theme: {
     extend: {
       colors:{

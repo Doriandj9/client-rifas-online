@@ -70,6 +70,7 @@ export default {
                         }
                     },
                     confirm_payment: 'payment/confirm',
+                    membership: 'membership/user',
                     payment_method: {
                         root: 'payment-method',
                         children: {
@@ -80,6 +81,16 @@ export default {
                 }
             },
             seller: {
+                root: 'seller',
+                children: {
+                    solicitude: {
+                        root: 'solicitude',
+                        children:{
+                            reserve: 'reserve',
+                            list: 'list'
+                        }
+                    }
+                }
 
             },
             client: {

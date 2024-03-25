@@ -13,6 +13,7 @@ import { reloadTable } from '../../../../app/utilities/events/customs';
 import { MdAddModerator } from "react-icons/md";
 import { ToastContainer,toast } from 'react-toastify';
 import { useSetHeader } from '../../../../app/utilities/hooks/web/useSetHeader';
+import { useFetch } from '../../../../app/utilities/hooks/data/useFetch';
 
 
 const url = credentials.server + routesapi.auth_user_raffles;
@@ -28,9 +29,12 @@ let actions = [
    }
   ];
 const App  = () => {
+  const [pagePaginate,setPagePaginate] = useState(1);//pagination
+
     //hooks 
     useSetHeader('Autenticación de usuarios');
     const token = useAccessToken((state) => state.token);
+    const { data, error, total, loading,refetch} = useFetch(url,{method: 'GET'},'data',true,token,[pagePaginate],true,pagePaginate)//pagination
     //states 
     const [openModal,setOpenModal] = useState(false);
     const [idItem, setIdItem] = useState(null);
@@ -88,8 +92,10 @@ const App  = () => {
         </nav>
         <div className="min-h-[67vh]">
         <>
-           {idItem && <Modal id={idItem} open={openModal} onClose={handleCloseModal} setUpdate={setResultUpdate} />}
-            <AppTable url={url} columns={columns} keyData='data' actionColumns={actionColumns} auth={true} token={token} paginate={true} />
+           {idItem && <Modal id={idItem} open={openModal} onClose={handleCloseModal} setUpdate={setResultUpdate} refetch={refetch} />}
+           <AppTable actionColumns={actionColumns} columns={columns} data={data} error={error} loading={loading} refetch={refetch}
+             total={total} setPagePaginate={setPagePaginate} pagePaginate={pagePaginate}
+            />
         </>
         </div>
       </div>

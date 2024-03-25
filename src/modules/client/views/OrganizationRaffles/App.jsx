@@ -125,7 +125,6 @@ const App = () => {
                 })
             }
     },[])
-
     return (
         <>
             <ToastContainer className={'w-[32rem]'} 
@@ -210,7 +209,13 @@ const App = () => {
                                 </FormLabel>
                             </FormControl>
                             }
-                            {inputs.is_raffles === 1  && <FormRaffles photo={inputs.photo} handleChange={handleChange} />}
+                            {inputs.is_seller !== 1 &&  inputs.is_raffles ===  1
+                            &&
+                            <FormRaffles photo={inputs.photo} handleChange={handleChange} />}
+
+                            {inputs.is_raffles !== 1 && inputs.is_seller ===  1
+                            &&
+                            <FormRaffles photo={inputs.photo} handleChange={handleChange} />}
                             <FormControl  marginTop={25} isRequired>
                                 <FormLabel>
                                 <Input className='shadow' marginRight={2} value={inputs.accept_terminus}  width={26} height={26} type='checkbox'>

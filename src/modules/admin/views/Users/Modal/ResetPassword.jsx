@@ -14,7 +14,7 @@ import InputPassword from "../../../../../components/InputPassword";
 import { generatePassword } from "../../../../../app/utilities/web/logaritmos";
 import { toastConfig } from "../../../../../app/utilities/web/configs";
 
-const ResetPassword = ({id, open,onClose, setUpdate}) => {
+const ResetPassword = ({id, open,onClose, setUpdate, refetch}) => {
     const [showObserver, setShowObserver] = useState(false);
     const [loadingFetch, setLoadingFetch] = useState(false);
     const [errorFetch, setErrorFetch] = useState(null);
@@ -32,7 +32,7 @@ const ResetPassword = ({id, open,onClose, setUpdate}) => {
     let url =  credentials.server + routesapi.admin_users;
     url = url + `/${id}`;
     const token = useAccessToken((state) => state.token);
-    const {data, error, loading, refetch } = useFetch(url,{method:'GET'},'data',true,token,[id]);
+    const {data, error, loading } = useFetch(url,{method:'GET'},'data',true,token,[id]);
 
     const handleSubmit = async () => {
         if(inputs.password === ''){
@@ -48,13 +48,12 @@ const ResetPassword = ({id, open,onClose, setUpdate}) => {
           const params = {password: inputs.password.trim(), resetPassword: true};
           const response = await fetchQuery(token,url,{method:'PATCH',body:new URLSearchParams(params)},setLoadingFetch,setErrorFetch);
            if(response.status){
-                document.dispatchEvent(reloadTable);
+            refetch();
                 setUpdate({
                     status: response.status,
                     message: response.message
                 });
                 onClose();
-                refetch();
                 return;
            }
 

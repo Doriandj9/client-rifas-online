@@ -25,6 +25,7 @@ import AppPaymentTickets from "../views/PaymentTickets/App";
 import AppOrgRaffles from "../views/OrganizationRaffles/App";
 
 import AppProfile from "../views/Profile/App";
+import seller from "../../seller/routes/seller";
 
 
 // import AppPlans from "../views/Plans/App";
@@ -42,6 +43,7 @@ export default {
     handle: {op:true},
      children: [
       raffles,
+      seller,
       {
         path: routes.root,
         handle: {op_client:true},

@@ -38,11 +38,15 @@ let actions = [
   },
 ];
 const ListLottery = () => {
+  const [pagePaginate,setPagePaginate] = useState(1);//pagination
+
     //hooks 
     const token = useAccessToken((state) => state.token);
     const user = useAuth(state => state.user);
     const toast = useToast(toastConfig);
     const url = credentials.server + routesapi.raffles_list_raffles.replace('{taxid}',user.taxid);
+    const { data, error:errorData, total, loading:loadingData,refetch} = useFetch(url,{method: 'GET'},'data',true,token,[pagePaginate],true,pagePaginate)//pagination
+
    //states 
    const [openModal,setOpenModal] = useState(false);
    const [idItem, setIdItem] = useState(null);
@@ -73,10 +77,6 @@ const ListLottery = () => {
     setOpenModal(false);
     setIdItem(null);
    } 
-   const handleSaveModal = () => {
-       document.dispatchEvent(reloadTable);
-       setOpenModal(false);
-   }
 
    const handleCloseDelete = () => setOpenDelete(false);
 
@@ -90,7 +90,7 @@ const ListLottery = () => {
             description: 'Se borro con éxito su rifa.',
             status: 'success'
           });
-          document.dispatchEvent(reloadTable);
+          refetch();
           setOpenDelete(false);
           
           return;
@@ -137,6 +137,7 @@ const ListLottery = () => {
           open={openModal}
           onClose={handleCloseModal}
           setUpdate={setResultUpdate}
+          refetch={refetch}
         />
       )}
       {
@@ -144,15 +145,9 @@ const ListLottery = () => {
           <ModalDelete open={openDelete} message={message} handleClose={handleCloseDelete} handleSave={handleDeleteItem} />
         )
       }
-      <AppTable
-        url={url}
-        columns={columns}
-        keyData="data"
-        actionColumns={actionColumns}
-        auth={true}
-        token={token}
-        paginate={true}
-      />
+      <AppTable actionColumns={actionColumns} columns={columns} data={data} error={errorData} loading={loadingData} refetch={refetch}
+             total={total} setPagePaginate={setPagePaginate} pagePaginate={pagePaginate}
+            />
     </>
   );
 };

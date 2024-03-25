@@ -1,0 +1,85 @@
+import { formatTimeFull } from "../../../../app/utilities/web/times/formatTimeFull";
+
+const setStateColor = (code) => {
+    const status = {
+        'CO': {message: 'Completado', style: ''},
+        'DR': {message: 'Pendiente', style: 'bg-red-900 text-white p-2 text-sm rounded-xl'},
+        'CL': {message: 'Cancelado', style: 'bg-red-600 text-white p-2 text-sm rounded-xl'},
+        'AC': {message: 'Activo', style: 'bg-green-600 text-white p-2 text-sm rounded-xl'},
+        'DO': {message: 'Inactivo', style: 'bg-red-700 text-white p-2 text-sm rounded-xl'}
+    };
+    const inf = status[code];
+    const html = `
+    <span class="${inf.style}"> ${inf.message}</span> 
+    `;
+
+    return html;
+}
+
+export default {
+    data(){
+        return {
+            columns:[
+                {
+                    header: 'Nº',
+                    render: (item,index) => {
+                        return index
+                    }
+                }, {
+                    header: 'Afiliado',
+                    render: (item,index) => {
+                        return item.user.first_name + ' ' + item.user.last_name
+                    }
+                }, {
+                    header: 'Identificación',
+                    render: (item,index) => {
+                        return item.user.taxid
+                    }
+                }, {
+                    header: 'Fecha de solicitud',
+                    render: (item,index) => {
+                        return formatTimeFull(item.created_at)
+                    }
+                }, {
+                    header: 'Nombre de la rifa',
+                    render: (item,index) => {
+                        return item.raffle.name
+                    }
+                }, {
+                    header: 'Estado',
+                    render: (item,index) => {
+                        return setStateColor(item.status)
+                    }
+                }, {
+                    header: 'Total de ganancia',
+                    render: (item,index) => {
+                        return `
+                            <p class="text-center">
+                             <span class="bg-white px-4 py-2 text-black shadow-lg rounded-xl">
+                              $${item.total_commissions}
+                             </span>  
+                            </p>
+                        `; 
+                    }
+                }, {
+                    header: 'Boletos vendidos',
+                    render: (item,index) => {
+                        return `
+                            <p class="text-center">
+                             <span class="bg-white px-4 py-2 text-black shadow-lg rounded-xl">
+                              ${item.tickets_sales}
+                             </span>  
+                            </p>
+                        `; 
+                    }
+                }
+                
+            ],
+            actionColumns: {
+                    header: 'Acciones',
+                    list:[]
+                }
+                
+        }
+    } 
+}

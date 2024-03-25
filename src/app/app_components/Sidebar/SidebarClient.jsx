@@ -43,7 +43,7 @@ const SidebarClient = () => {
             >
                 {/* <Home_Medium className="text-secondary" /> */}
                 <MdOutlinePayment className="text-xl mr-2" />
-                 <span>Compra de rifas</span>
+                 <span>Compra de boletos</span>
             </NavLink>
             {
             user && (user.is_raffles === false ||  user.is_seller === false ) &&
@@ -52,7 +52,7 @@ const SidebarClient = () => {
             >
                 {/* <Home_Medium className="text-secondary" /> */}
                 <FaGifts className="text-xl mr-2" />
-                 <span>Organizar rifas</span>
+                 <span>Rifas / Afiliaciones</span>
             </NavLink>
             }
             </div>

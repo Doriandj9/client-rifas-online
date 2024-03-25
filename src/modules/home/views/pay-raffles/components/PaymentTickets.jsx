@@ -1,6 +1,6 @@
 import { Button, FormControl, FormLabel, Input } from "@chakra-ui/react";
 import { useAuth } from "../../../../../app/store/app/userStore";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaPersonCircleCheck } from "react-icons/fa6";
 import routesweb from "../../../../../app/config/routesweb";
 import ModalPayment from "./ModalPayment";
@@ -23,6 +23,29 @@ const PaymentTickets = ({openPayment, handleClosePayment, tickets, price, total,
 
 
 const PaymentAuth = ({user, setPaymentUser}) => {
+    const[inputs,setInputs] = useState({
+        email: '',
+        taxid: '',
+        first_name: '',
+        last_name:'',
+        phone:'',
+        code: '',
+    });
+
+    const handleInput = (e) => {
+        let value = e.target.value;
+        const inputName = e.target.name;
+        if(inputName === 'code'){
+            value = value.replace(CHARACTERS_LETTERS_SPECIALS,'');
+        }
+        setInputs(
+            {
+                ...inputs,
+                [inputName]: value,
+            }
+        )
+        
+    }
 
     const handlePaymentYes = () => {
         setPaymentUser(true)
@@ -30,7 +53,14 @@ const PaymentAuth = ({user, setPaymentUser}) => {
     const handlePaymentNot = () => {
         setPaymentUser(false);
     }
-
+    const url = new URL(window.location.href);
+    const params = url.searchParams;
+    const valueP = params.get('seller_code');
+    useEffect(() => {
+        if(params.has('seller_code')){
+            setInputs({...inputs,code: valueP});
+        }
+    },[])
     return (
         <>
            <article>
@@ -58,6 +88,13 @@ const PaymentAuth = ({user, setPaymentUser}) => {
                         SI          
                     </Button> */}
                 </div>
+                <FormControl isDisabled={params.has('seller_code') && valueP.length > 0} marginTop={15}>
+                                <FormLabel fontWeight={'bold'}>Código de afiliación </FormLabel>
+                                <Input name='code'
+                                value={inputs.code}
+                                onInput={handleInput}
+                                className='shadow' height={50} placeholder='Por ejemplo: 4557845' />
+                </FormControl>
            </article>
            <hr className="my-4" />
         </>
@@ -72,6 +109,7 @@ const PaymentNotAuth = () => {
         first_name: '',
         last_name:'',
         phone:'',
+        code: '',
     });
 
     const [validations,setValidations] = useState({
@@ -105,6 +143,9 @@ const PaymentNotAuth = () => {
                 phone: !NUMBER_REG_EXPRE.test(value)
             })
         }
+        if(inputName === 'code'){
+            value = value.replace(CHARACTERS_LETTERS_SPECIALS,'');
+        }
         if(inputName === 'email'){
             setValidations({
                 ...validations,
@@ -119,6 +160,15 @@ const PaymentNotAuth = () => {
         )
         
     }
+
+    const url = new URL(window.location.href);
+    const params = url.searchParams;
+    const valueP = params.get('seller_code');
+    useEffect(() => {
+        if(params.has('seller_code')){
+            setInputs({...inputs,code: valueP});
+        }
+    },[])
 
     return (
         <>
@@ -170,6 +220,13 @@ const PaymentNotAuth = () => {
                                 _hover={validations.phone ? 'red.500' : null}
                                 onInput={handleInput}
                                  className='shadow' height={50} placeholder='Por ejemplo: 0901234567' />
+                            </FormControl>
+                            <FormControl isDisabled={params.has('seller_code') && valueP.length > 0} marginTop={15}>
+                                <FormLabel fontWeight={'bold'}>Código de afiliación </FormLabel>
+                                <Input name='code'
+                                value={inputs.code}
+                                onInput={handleInput}
+                                className='shadow' height={50} placeholder='Por ejemplo: 4557845' />
                             </FormControl>
                             <FormControl  marginTop={25} isRequired>
                                 <FormLabel>

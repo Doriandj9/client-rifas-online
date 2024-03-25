@@ -26,6 +26,7 @@ export default {
     raffle_bank_accounts_by_user: '/api/raffles/bank-accounts/user/{user_id}',
     raffle_bank_accounts:'/api/raffles/me/bank-accounts',
     raffle_custom_lottery_update: '/api/raffles/custom/update/{id}',
+    raffle_commissions: '/api/raffles/commissions/seller',
     //public
     public_raffles: '/api/public/raffles',
     public_tickets_by_raffles : '/api/public/raffles/tickets/{id}',
@@ -37,4 +38,8 @@ export default {
 
     //acceso de  clientes
     client_tickets_by_user:'/api/client/me/tickets/{taxid}', 
+     //acceso de  afiliados
+    seller_raffles: '/api/seller/raffles',
+    seller_commissions_by_user: '/api/seller/commission/by-user/{taxid}',
+    seller_commissions: '/api/seller/me/commissions',
 };

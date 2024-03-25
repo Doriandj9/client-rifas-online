@@ -3,7 +3,7 @@ import AppModal from "./AppModal";
 
 
 
-const ModalSuccess = ({open,handleClose,message}) => {
+const ModalSuccess = ({open,handleClose,message,children}) => {
     
     const buttons = <> <Button onClick={handleClose} colorScheme="blue"> Entendido </Button> </>
     return (
@@ -30,9 +30,20 @@ const ModalSuccess = ({open,handleClose,message}) => {
                             <AlertTitle mt={4} mb={1} fontSize='lg'>
                                 Éxito!
                             </AlertTitle>
+                            {
+                                message &&
                             <AlertDescription dangerouslySetInnerHTML={{ __html: message }}>
-                        
+                                {children}
                             </AlertDescription>
+
+                            }
+                            {
+                                !message &&
+                            <AlertDescription>
+                                {children}
+                            </AlertDescription>
+
+                            }
                     </Alert>
                     
                 </div>

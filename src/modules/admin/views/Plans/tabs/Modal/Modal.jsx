@@ -16,7 +16,7 @@ import { fetchQuery } from "../../../../../../app/utilities/web/fetchQuery";
 import { IoAddCircle, IoEar } from "react-icons/io5";
 
 
-const Modal = ({id, open,onClose, setUpdate}) => {
+const Modal = ({id, open,onClose, setUpdate, refetch}) => {
     const [showObserver, setShowObserver] = useState(false);
     const [loadingFetch, setLoadingFetch] = useState(false);
     const [items, setItems] = useState([]);
@@ -37,7 +37,7 @@ const Modal = ({id, open,onClose, setUpdate}) => {
     let url =  credentials.server + routesapi.admin_subscriptions;
     url = url + `/${id}`;
     const token = useAccessToken((state) => state.token);
-    const {data, error, loading, refetch } = useFetch(url,{method:'GET'},'data',true,token,[id]);
+    const {data, error, loading } = useFetch(url,{method:'GET'},'data',true,token,[id]);
 
     const handleSubmit = async () => {
         // setLoadingFetch(true);
@@ -49,14 +49,13 @@ const Modal = ({id, open,onClose, setUpdate}) => {
         try{
           const response = await fetchQuery(token,url,{method:'PATCH',body:new URLSearchParams(inputs)},setLoadingFetch,setErrorFetch);
            if(response.status){
-                document.dispatchEvent(reloadTable);
+                refetch();
                 toast({
                     status: 'success',
                     title: 'Actualización',
                     description: response.message
                 });
                 onClose();
-                refetch();
                 return;
            }
 

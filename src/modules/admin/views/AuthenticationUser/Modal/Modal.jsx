@@ -15,7 +15,7 @@ import Loader from "../../../../../app/app_components/Core/Loader";
 import { reloadTable } from "../../../../../app/utilities/events/customs";
 import { FaUserCheck } from "react-icons/fa";
 
-const Modal = ({id, open,onClose, setUpdate}) => {
+const Modal = ({id, open,onClose, setUpdate, refetch}) => {
     const [showObserver, setShowObserver] = useState(false);
     const [loadingFetch, setLoadingFetch] = useState(false);
     const [errorFetch, setErrorFetch] = useState(null);
@@ -35,7 +35,7 @@ const Modal = ({id, open,onClose, setUpdate}) => {
     let url =  credentials.server + routesapi.admin_users;
     url = url + `/${id}`;
     const token = useAccessToken((state) => state.token);
-    const {data, error, loading, refetch } = useFetch(url,{method:'GET'},'data',true,token,[id]);
+    const {data, error, loading } = useFetch(url,{method:'GET'},'data',true,token,[id]);
 
     const handleSubmit = async () => {
         const url = credentials.server + routesapi.admin_user_raffles_auth + `/${id}`;
@@ -51,7 +51,7 @@ const Modal = ({id, open,onClose, setUpdate}) => {
           const params = {is_pending: inputs.is_pending, observation: inputs.observation};
           const data = await fetchQuery(token,url,{method:'PATCH',body:new URLSearchParams(params)},setLoadingFetch,setErrorFetch);
            if(data.status){
-                document.dispatchEvent(reloadTable);
+                refetch();
                 setUpdate({
                     status: data.status,
                     message: data.message

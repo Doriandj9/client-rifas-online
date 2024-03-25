@@ -16,7 +16,7 @@ import { reloadTable } from "../../../../../app/utilities/events/customs";
 import { FaRegImages } from "react-icons/fa6";
 import { FaFileInvoiceDollar } from "react-icons/fa";
 import { formatTimeDate, formatTimeFull } from "../../../../../app/utilities/web/times/formatTimeFull";
-const Modal = ({id, open,onClose, setUpdate}) => {
+const Modal = ({id, open,onClose, setUpdate, refetch}) => {
     const [showObserver, setShowObserver] = useState(false);
     const [loadingFetch, setLoadingFetch] = useState(false);
     const [subscription, setSubscription] = useState(null);
@@ -36,7 +36,7 @@ const Modal = ({id, open,onClose, setUpdate}) => {
     let url =  credentials.server + routesapi.admin_auth_raffles;
     url = url + `/${id}`;
     const token = useAccessToken((state) => state.token);
-    const {data, error, loading, refetch } = useFetch(url,{method:'GET'},'data',true,token,[id]);
+    const {data, error, loading } = useFetch(url,{method:'GET'},'data',true,token,[id]);
 
     const handleSubmit = async () => {
         const url = credentials.server + routesapi.admin_auth_raffles + `/${id}`;
@@ -52,13 +52,12 @@ const Modal = ({id, open,onClose, setUpdate}) => {
           const params = {user_id: data.user.id, organize_riffs: inputs.organize_riffs, observation: inputs.observation};
           const response = await fetchQuery(token,url,{method:'PATCH',body:new URLSearchParams(params)},setLoadingFetch,setErrorFetch);
            if(response.status){
-                document.dispatchEvent(reloadTable);
+                refetch();
                 setUpdate({
                     status: response.status,
                     message: response.message
                 });
                 onClose();
-                refetch();
                 return;
            }
 

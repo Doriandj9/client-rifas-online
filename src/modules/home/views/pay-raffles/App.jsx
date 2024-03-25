@@ -9,7 +9,7 @@ import { BsFillCalendarDateFill } from "react-icons/bs";
 import { BsTicketPerforatedFill } from "react-icons/bs";
 import { BsAwardFill } from "react-icons/bs";
 import { FaMedal } from "react-icons/fa6";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IoTicket } from "react-icons/io5";
 import { FaMoneyBillAlt } from "react-icons/fa";
 import PaymentTickets from './components/PaymentTickets';
@@ -27,6 +27,7 @@ import { useSetHeader } from '../../../../app/utilities/hooks/web/useSetHeader';
 import { formatTimeDate, formatTimeDateHour } from '../../../../app/utilities/web/times/formatTimeFull';
 import { BsClockFill } from "react-icons/bs";
 import { RiLiveFill } from "react-icons/ri";
+import ConfirmDialog from '../../../../app/app_components/Core/ConfirmDialog';
 
 const urlPayment = credentials.server + routesapi.public_payment_raffles;
 
@@ -47,8 +48,10 @@ const App = () => {
     const [openPayment, setOpenPayment] = useState(false);
     const [paymentLoading, setPaymentLoading] = useState(false);
     const [ticketsSaved, setTicketsSaved] = useState([]);
+    const [noCode,setNoCode] = useState(null);
     const [openSuccess, setOpenSuccess] = useState(false);
     const [messageModal, setMessageModal] = useState(null);
+    const [mConfirm,setMConfirm] = useState(false);
     const url = credentials.server + routesapi.public_raffles + `/${params.id}`
     const urlTickets = credentials.server  + routesapi.public_tickets_by_raffles.replace('{id}',params.id);
     const {data, error, loading,refetch} = useFetch(url,{method: 'GET'},null,false);
@@ -90,7 +93,7 @@ const App = () => {
         setOpenPayment(false);
     }
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e,confirmCode) => {
         e.preventDefault();
         const formElement = document.querySelector('form');
         const file = document.getElementById('voucher');
@@ -133,8 +136,21 @@ const App = () => {
         form.append('amount', amount);
         form.append('single_price', single_price);
         form.append('voucher',file.files[0]);
-        try {
+        form.append('no_code', confirmCode ? true : noCode);
+
+        if(noCode !== null){
+            const url = new URL(window.location.href);
+            const params = url.searchParams;
+            const valueP = params.get('seller_code');
+            form.append('seller_code', valueP);
+        }
         
+        if(form.get('code')?.length > 0){
+            form.append('seller_code', form.get('code'));
+            form.set('no_code', confirmCode ? true : false);
+        }
+        
+        try {
         if(document.querySelector('#terms') && !document.querySelector('#terms').checked){
             toast({
                 title: 'Error',
@@ -145,13 +161,14 @@ const App = () => {
             return;
         }
         for(let [key, value] of [...form]){
-            if(value === '') {
+            
+            if(value === '' && key !== 'code') {
                 toast({
                     title: 'Error',
                     description: 'Por favor ingrese todos los campos requeridos que encuentran marcados con [*].',
                     status: 'error',
                     duration: 2500
-                })
+                });
                 return;
             }
 
@@ -193,6 +210,13 @@ const App = () => {
             if(!response.status){
                 throw Error(response.message);
             }
+
+            if(response.invalid_code){
+                setMessageModal(response.message_code);
+                setMConfirm(true);
+                return;
+            }
+
             setMessageModal(response.message);
             setOpenSuccess(true);
             ticketsRefetch();
@@ -200,6 +224,15 @@ const App = () => {
             .forEach(input => input.value = '');
             setTicketsSaved([]);
             handleClosePayment();
+            const url = new URL(window.location.href);
+            const params = url.searchParams;
+            const valueP = params.get('seller_code');
+            if(params.has('seller_code')){
+                setNoCode(false);
+            } else {
+                setNoCode(null);
+            }
+            
         } catch (e) {
             toast({
                 title: 'Error',
@@ -217,9 +250,34 @@ const App = () => {
     const handleCloseModal = () => {
         setOpenSuccess(false);
     }
+
+    const handleConfirm = (e) => {
+        setNoCode(true);
+        setMConfirm(false);
+        handleSubmit(e,true);
+    }
+    
+    useEffect(() => {
+        const url = new URL(window.location.href);
+        const params = url.searchParams;
+        const valueP = params.get('seller_code');
+        if(params.has('seller_code')){
+            setNoCode(false);
+        }
+    },[])
     return (
         <>
             <Layout>
+            <ConfirmDialog open={mConfirm} handleClose={() => {
+                setMConfirm(false);
+            }}
+            handleConfirm={handleConfirm}
+            title={'Desea continuar con la compra.'}
+            msgBtnCancel='Cancelar'
+            msgBtnConfirm='Continuar'
+            >
+                {messageModal}
+            </ConfirmDialog>    
             <Loader loading={paymentLoading} />
             <Modal open={openSuccess} handleClose={handleCloseModal} message={messageModal}/>
             <div className='min-h-[75rem]'>

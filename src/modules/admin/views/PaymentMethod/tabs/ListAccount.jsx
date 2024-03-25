@@ -47,10 +47,6 @@ const ListAccount = () => {
    actionColumns.list = actions;
    //handlers
    const handleCloseModal = () => setOpenModal(false);
-   const handleSaveModal = () => {
-       document.dispatchEvent(reloadTable);
-       setOpenModal(false);
-   }
   //effects
    useEffect(() => {
      if(resultUpdate.message !== ''){

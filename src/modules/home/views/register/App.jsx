@@ -245,7 +245,10 @@ const App = () => {
                                    ¿Desea ser un usuario capaz de realizar ventas de boletos en tu sistema?
                                 </FormLabel>
                             </FormControl>
-                            {inputs.is_raffles === 1  && <FormRaffles photo={inputs.photo} handleChange={handleChange} />}
+                            {
+                            (inputs.is_raffles === 1 || inputs.is_seller === 1)
+                        
+                            && <FormRaffles photo={inputs.photo} handleChange={handleChange} />}
                             <FormControl  marginTop={25} isRequired>
                                 <FormLabel>
                                 <Input className='shadow' marginRight={2} value={inputs.accept_terminus}  width={26} height={26} type='checkbox'>

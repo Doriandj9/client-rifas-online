@@ -26,6 +26,7 @@ import AppPayment from "../views/PaymentConfirm/App";
 import AppPaymentMethod from '../views/PaymentMethod/App';
 import NewAccount from "../views/PaymentMethod/tabs/NewAccount";
 import ListAccount from "../views/PaymentMethod/tabs/ListAccount";
+import AppMembership from "../views/Membership/App";
 
 const routes = routesweb.dashboard.children.raffles.children;
 
@@ -75,5 +76,10 @@ export default {
                 },
             ]
         },
+        {
+            path: routes.membership,
+            element: <AppMembership />
+
+        }
     ]
 }

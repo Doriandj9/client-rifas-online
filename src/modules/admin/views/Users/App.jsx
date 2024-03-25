@@ -10,13 +10,18 @@ import actions from './Actions';
 import ResetPassword from './Modal/ResetPassword';
 import BlockUser from './Modal/BlockUser';
 import { useSetHeader } from '../../../../app/utilities/hooks/web/useSetHeader';
+import { useFetch } from '../../../../app/utilities/hooks/data/useFetch';
 
 const url = credentials.server + routesapi.admin_users;
 
 const App  = () => {
+  const [pagePaginate,setPagePaginate] = useState(1);//pagination
+
     //hooks 
     useSetHeader('Usuarios de la plataforma');
     const token = useAccessToken((state) => state.token);
+    const { data, error, total, loading,refetch} = useFetch(url,{method: 'GET'},'data',true,token,[pagePaginate],true,pagePaginate)//pagination
+
     //states 
     const [openModalUser,setOpenModalUser] = useState(false);
     const [openModal,setOpenModal] = useState(false);
@@ -83,9 +88,11 @@ const App  = () => {
         </nav>
         <div className="min-h-[67vh]">
         <>
-           {idItem && <ResetPassword id={idItem} open={openModal} onClose={handleCloseModal} setUpdate={setResultUpdate} />}
-           {idUser && <BlockUser id={idUser} open={openModalUser} onClose={handleCloseModal} setUpdate={setResultUpdate} />}
-            <AppTable url={url} columns={columns} keyData='data' actionColumns={actionColumns} auth={true} token={token} paginate={true} />
+           {idItem && <ResetPassword id={idItem} open={openModal} onClose={handleCloseModal} setUpdate={setResultUpdate} refetch={refetch} />}
+           {idUser && <BlockUser id={idUser} open={openModalUser} onClose={handleCloseModal} setUpdate={setResultUpdate} refetch={refetch} />}
+           <AppTable actionColumns={actionColumns} columns={columns} data={data} error={error} loading={loading} refetch={refetch}
+             total={total} setPagePaginate={setPagePaginate} pagePaginate={pagePaginate}
+            />
         </>
         </div>
       </div>

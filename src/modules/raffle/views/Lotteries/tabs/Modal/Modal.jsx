@@ -23,7 +23,7 @@ import logoRaffle from '@app/assets/imgs/biglietti-lotteria.png';
 import moment from "moment";
 import gift from '@app/assets/imgs/gifts.png';
 
-const Modal = ({id, open,onClose, setUpdate}) => {
+const Modal = ({id, open,onClose, setUpdate, refetch}) => {
     const [showObserver, setShowObserver] = useState(false);
     const [loadingFetch, setLoadingFetch] = useState(false);
     const [errorFetch, setErrorFetch] = useState(null);
@@ -59,7 +59,7 @@ const Modal = ({id, open,onClose, setUpdate}) => {
     //code
     const url = credentials.server + routesapi.raffles_lottery + `/${id}`;
     const token = useAccessToken((state) => state.token);
-    const {data, error:erroFetch, loading:loadingUseFetch, refetch } = useFetch(url,{method:'GET'},'data',true,token,[id]);
+    const {data, error:erroFetch, loading:loadingUseFetch } = useFetch(url,{method:'GET'},'data',true,token,[id]);
 
     const handleSubmit = async () => {
         const url = credentials.server + routesapi.raffle_custom_lottery_update.replace('{id}',id);
@@ -114,13 +114,12 @@ const Modal = ({id, open,onClose, setUpdate}) => {
         try{
           const response = await fetchQuery(token,url,{method:'POST',body:form},setLoadingFetch,setErrorFetch);
            if(response.status){
-                document.dispatchEvent(reloadTable);
+               refetch();
                 setUpdate({
                     status: response.status,
                     message: response.message
                 });
                 onClose();
-                refetch();
            }
         }catch(e){
             setUpdate({

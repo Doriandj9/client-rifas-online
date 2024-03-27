@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import SidebarRaffles from "../app_components/Sidebar/SidebarRaffles";
 import SidebarSeller from "../app_components/Sidebar/SidebarSeller";
 import { useMatches } from "react-router-dom";
+import { application } from "../config/app";
 
 const DashboardClient = ({content, index=false, component=<></> }) => {
     const sideBarOpen = useMenuStore((state) => state.sideBarOpen);
@@ -23,6 +24,12 @@ const DashboardClient = ({content, index=false, component=<></> }) => {
   }
     return (
         <ChakraProvider>
+          {
+            application.environment === 'test' &&
+            <div className="fixed top-0 left-0 w-full bg-primary/25 text-black text-center text-xl" style={{zIndex: 9999}}>
+                ES UN AMBIENTE DE PRUEBAS
+          </div>
+          } 
             <div className="leading-normal tracking-normal" id="main-body">
             <div className="flex flex-wrap">
 

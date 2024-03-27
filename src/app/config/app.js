@@ -3,11 +3,13 @@ const urlProduction = 'https://api.hayu24.ec';
 const urlPreprod = 'https://test.api.hayu24.ec';
 const credentials = {
     server: urlPreprod,
+    dominio: 'https://test.hayu24.ec/'
 };
 
 const application =  {
     paginateCount: 10,
-    paginateRaffles: 8
+    paginateRaffles: 8,
+    environment: 'test',
 }
 
 const colors = {

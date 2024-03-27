@@ -1,15 +1,13 @@
 
 import { FaThumbsDown } from "react-icons/fa6";
-import { RiMoneyDollarBoxFill } from "react-icons/ri";
-import { FaUserCheck } from "react-icons/fa6";
 import { FaCommentDollar } from "react-icons/fa6";
-
+import { FaThumbsUp } from "react-icons/fa6";
 
 export default [
     {
         name: 'Validación de afiliación',
-        icon: FaUserCheck,
-        color: 'green.600',
+        icon: FaThumbsUp,
+        color: 'blue.900',
         element: null,
         validation: (item) => {
             return item.status === 'DR' ? 'animate animate-bounce' : '';

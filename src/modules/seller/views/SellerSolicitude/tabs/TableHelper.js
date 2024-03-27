@@ -1,3 +1,4 @@
+import { formatNumberTwoDigits } from "../../../../../app/utilities/web/formatNumber";
 import { formatTimeDate, formatTimeFull } from "../../../../../app/utilities/web/times/formatTimeFull"
 
 const setStateColor = (code) => {
@@ -56,7 +57,7 @@ export default {
                         return `
                             <p class="text-center">
                              <span class="bg-white px-4 py-2 text-black shadow-lg rounded-xl">
-                              $${item.total_commissions}
+                              $${formatNumberTwoDigits(item.total_commissions)}
                              </span>  
                             </p>
                         `; 
@@ -68,6 +69,17 @@ export default {
                             <p class="text-center">
                              <span class="bg-white px-4 py-2 text-black shadow-lg rounded-xl">
                               ${item.tickets_sales}
+                             </span>  
+                            </p>
+                        `; 
+                    }
+                }, {
+                    header: 'Boletos no validados',
+                    render: (item,index) => {
+                        return `
+                            <p class="text-center">
+                             <span class="bg-white px-4 py-2 text-black shadow-lg rounded-xl">
+                              ${item.tickets_pending}
                              </span>  
                             </p>
                         `; 

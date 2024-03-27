@@ -7,6 +7,7 @@ import SidebarAdmin from "../app_components/Sidebar/SidebarAdmin";
 import { ChakraProvider } from '@chakra-ui/react';
 import "react-toastify/dist/ReactToastify.css";
 import { useMatches } from "react-router-dom";
+import { application } from "../config/app";
 
 const DashboradLayout = ({content, index=false, component=<></> }) => {
     const sideBarOpen = useMenuStore((state) => state.sideBarOpen);
@@ -22,6 +23,12 @@ const DashboradLayout = ({content, index=false, component=<></> }) => {
     
     return (
         <ChakraProvider>
+          {
+            application.environment === 'test' &&
+            <div className="fixed top-0 left-0 w-full bg-primary/25 text-black text-center text-xl" style={{zIndex: 9999}}>
+                ES UN AMBIENTE DE PRUEBAS
+          </div>
+          } 
             <div className="leading-normal tracking-normal" id="main-body">
             <div className="flex flex-wrap">
 

@@ -4,7 +4,7 @@ const FormRaffles = ({photo, handleChange}) => {
     return (
         <>
         <h3 className='text-center font-bold text-primary text-xl mt-6'>Proceso de verificación de usuarios.</h3>
-        <p className='mb-8'>Para garantizar la autenticidad de todos nuestros vendedores, compradores y mantener un ambiente seguro para nuestros usuarios, requerimos un proceso de verificación adicional.</p>
+        <p className='mb-8'>Para garantizar la autenticidad de todos nuestros afiliados y mantener un ambiente seguro para nuestros usuarios, requerimos un proceso de verificación adicional.</p>
         <List spacing={3}>
             <ListItem>
                 <ListIcon as={MdCheckCircle} color='green.500' />

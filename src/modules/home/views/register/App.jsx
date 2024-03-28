@@ -242,7 +242,7 @@ const App = () => {
                                 name='is_seller'
                                 className='shadow' marginRight={2}  width={26} height={26} type='checkbox'>
                                 </Input>
-                                   ¿Desea ser un usuario capaz de realizar ventas de boletos en tu sistema?
+                                   ¿Desea ser un usuario afiliado para realizar ventas de boletos?
                                 </FormLabel>
                             </FormControl>
                             {

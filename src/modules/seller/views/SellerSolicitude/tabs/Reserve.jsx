@@ -6,10 +6,15 @@ import { useAccessToken, useAuth } from "../../../../../app/store/app/userStore"
 import { useFetch } from "../../../../../app/utilities/hooks/data/useFetch";
 import ModalSuccess from "../../../../../app/app_components/Core/ModalSuccess";
 import ConfirmDialog from "../../../../../app/app_components/Core/ConfirmDialog";
-import { Alert, AlertIcon, useToast } from "@chakra-ui/react";
+import { Alert, AlertIcon, Skeleton, Stack, useToast } from "@chakra-ui/react";
 import { fetchQuery } from "../../../../../app/utilities/web/fetchQuery";
 import { toastConfig } from "../../../../../app/utilities/web/configs";
 import Loader from "../../../../../app/app_components/Core/Loader";
+import Lottie from "react-lottie";
+import { lottieOptions } from '@app/app/utilities/web/configs';
+import boxEmpty from '@app/assets/imgs/animations/box-empty.json';
+import { Link } from "react-router-dom";
+import routesweb from "../../../../../app/config/routesweb";
 
 
 const url_base =  credentials.server  +  routesapi.seller_raffles;
@@ -103,6 +108,31 @@ const Reserve = () => {
             } )
         }
     </div>
+    {
+            data.length <= 0 && !useloading &&
+        <>
+        <div>
+            <h2 className="text-3xl font-black text-center text-primaryop-700 underline">Ver  mis     <Link to={'/dashboard/seller/solicitude/list'}>
+                afiliaciones</Link></h2>
+        </div>
+        <Lottie  options={{animationData: boxEmpty, ...lottieOptions}}  width={400} height={400} />
+        <div>
+            <h4 className="text-xl text-primary font-black mt-4 text-center">De momento no existen posibles afiliaciones.</h4>
+        </div>
+        </>
+        }
+    {
+        useloading &&
+        <div className="flex gap-4 flex-wrap">
+            <Skeleton width={350} height={180} />
+            <Skeleton width={350} height={180} />
+            <Skeleton width={350} height={180} />
+            <Skeleton width={350} height={180} />
+            <Skeleton width={350} height={180} />
+            <Skeleton width={350} height={180} />
+            <Skeleton width={350} height={180} />
+        </div>
+    }
     </>);
 }
 

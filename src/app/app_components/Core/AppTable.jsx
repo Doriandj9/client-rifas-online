@@ -6,6 +6,7 @@ import { LuRefreshCcw } from "react-icons/lu";
 import AppButton from "./AppButon";
 import PaginateButtons from "./PaginateButtons";
 import { application } from "../../config/app";
+import noData from '@app/assets/imgs/no_data.svg';
 
 const AppTable = ({columns, actionColumns,data,error,loading,total=0,pagePaginate=0,setPagePaginate =() => {},refetch = () => {}}) => {
   // const [pagePaginate,setPagePaginate] = useState(1);
@@ -108,7 +109,15 @@ const FillTable =  ({data,columns, actionColumns}) => {
                         </Tr>
                     );
                 })}
-
+                {data.length <= 0 &&
+                <Tr>
+                  <Td colSpan={columns.length + 1}>
+                    <img className="w-full h-40" src={noData} alt="" />
+                    <h3 className="text-primary text-2xl text-center">No hay información</h3>
+                    <h4 className="text-primary text-md text-center">There is no information</h4>
+                  </Td>
+                </Tr>
+                }
           </Tbody>
           </Table>
       </TableContainer>

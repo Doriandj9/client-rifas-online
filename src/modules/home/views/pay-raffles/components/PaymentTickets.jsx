@@ -89,7 +89,7 @@ const PaymentAuth = ({user, setPaymentUser}) => {
                     </Button> */}
                 </div>
                 <FormControl isDisabled={params.has('seller_code') && valueP.length > 0} marginTop={15}>
-                                <FormLabel fontWeight={'bold'}>Código de afiliación </FormLabel>
+                                <FormLabel fontWeight={'bold'}>Código de afiliado vendedor </FormLabel>
                                 <Input name='code'
                                 value={inputs.code}
                                 onInput={handleInput}
@@ -222,7 +222,7 @@ const PaymentNotAuth = () => {
                                  className='shadow' height={50} placeholder='Por ejemplo: 0901234567' />
                             </FormControl>
                             <FormControl isDisabled={params.has('seller_code') && valueP.length > 0} marginTop={15}>
-                                <FormLabel fontWeight={'bold'}>Código de afiliación </FormLabel>
+                                <FormLabel fontWeight={'bold'}>Código de afiliado vendedor </FormLabel>
                                 <Input name='code'
                                 value={inputs.code}
                                 onInput={handleInput}

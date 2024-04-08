@@ -89,7 +89,10 @@ export default {
                             reserve: 'reserve',
                             list: 'list'
                         }
-                    }
+                    },
+                    sales_tickets: 'sales-tickets',
+                    pos_sales_tickets: '/dashboard/seller/sales-tickets/pos/:id',
+                    buys_tickets: 'buys/tickets'
                 }
 
             },

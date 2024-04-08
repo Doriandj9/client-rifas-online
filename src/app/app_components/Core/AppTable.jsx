@@ -45,7 +45,7 @@ const FillTable =  ({data,columns, actionColumns}) => {
     return (
         <>
         <TableContainer>
-        <Table variant="striped" colorScheme="telegram">
+        <Table className="app-table" variant="striped" colorScheme="telegram">
         <Thead>
             <Tr>
                 {columns.map((info,index) => {

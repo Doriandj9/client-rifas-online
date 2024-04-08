@@ -1,9 +1,8 @@
 import { Alert, AlertDescription, AlertIcon, AlertTitle, Button } from "@chakra-ui/react";
-import AppModal from "./AppModal";
+import AppModal from "../../../../../app/app_components/Core/AppModal";
 
 
-
-const ModalSuccess = ({open,handleClose,message,children,size='lg'}) => {
+const Modal = ({open,handleClose,message}) => {
     
     const buttons = <> <Button onClick={handleClose} colorScheme="blue"> Entendido </Button> </>
     return (
@@ -13,7 +12,7 @@ const ModalSuccess = ({open,handleClose,message,children,size='lg'}) => {
             isOpen={open}
             onClose={handleClose}
             buttons={buttons}
-            size={size}
+            size='lg'
             motionPreset='slideInBottom'
             >
                 <div className="p-4">
@@ -30,20 +29,9 @@ const ModalSuccess = ({open,handleClose,message,children,size='lg'}) => {
                             <AlertTitle mt={4} mb={1} fontSize='lg'>
                                 Éxito!
                             </AlertTitle>
-                            {
-                                message &&
                             <AlertDescription dangerouslySetInnerHTML={{ __html: message }}>
-                                {children}
+                        
                             </AlertDescription>
-
-                            }
-                            {
-                                !message &&
-                            <AlertDescription>
-                                {children}
-                            </AlertDescription>
-
-                            }
                     </Alert>
                     
                 </div>
@@ -53,4 +41,4 @@ const ModalSuccess = ({open,handleClose,message,children,size='lg'}) => {
     );
 }
 
-export default ModalSuccess;
+export default Modal;

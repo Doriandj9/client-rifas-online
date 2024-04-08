@@ -1220,6 +1220,10 @@ input[type="range"]::-ms-fill-lower {
   top: 0px;
 }
 
+.top-1 {
+  top: 0.25rem;
+}
+
 .top-1\/2 {
   top: 50%;
 }
@@ -2306,6 +2310,11 @@ input[type="range"]::-ms-fill-lower {
   padding-bottom: 0.625rem;
 }
 
+.py-3 {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
 .py-6 {
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
@@ -2586,6 +2595,11 @@ input[type="range"]::-ms-fill-lower {
   color: rgb(0 121 180 / var(--tw-text-opacity));
 }
 
+.text-primaryop-800 {
+  --tw-text-opacity: 1;
+  color: rgb(0 103 149 / var(--tw-text-opacity));
+}
+
 .text-primaryop-900 {
   --tw-text-opacity: 1;
   color: rgb(0 84 122 / var(--tw-text-opacity));
@@ -2752,6 +2766,14 @@ input[type="range"]::-ms-fill-lower {
 
 .card-animate:hover{
   transform: scale(1.15);
+}
+
+.app-table th:last-child,
+.app-table td:last-child{
+  position: sticky;
+  right: 0;
+  z-index: 1;
+  background-color: #f9fafb;
 }
 
 .hover\:scale-\[1\.05\]:hover {
@@ -3049,6 +3071,10 @@ input[type="range"]::-ms-fill-lower {
     width: 83.333333%;
   }
 
+  .md\:w-8\/12 {
+    width: 66.666667%;
+  }
+
   .md\:w-9\/12 {
     width: 75%;
   }
@@ -3219,6 +3245,10 @@ input[type="range"]::-ms-fill-lower {
 
   .lg\:w-4\/5 {
     width: 80%;
+  }
+
+  .lg\:w-6\/12 {
+    width: 50%;
   }
 
   .lg\:w-64 {

@@ -66,6 +66,12 @@
   transition: all 0.45s ease-in-out;
 }
 .card-animate:hover{
-  transform: scale(1.15);
-  
+  transform: scale(1.15); 
+}
+.app-table th:last-child,
+.app-table td:last-child{
+  position: sticky;
+  right: 0;
+  z-index: 1;
+  background-color: #f9fafb;
 }

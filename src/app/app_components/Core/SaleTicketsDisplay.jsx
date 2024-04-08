@@ -7,7 +7,7 @@ import { ImInfo } from "react-icons/im";
 import { formatTimeDate } from "../../utilities/web/times/formatTimeFull";
 
 
-const SolicitudeReserve = ({raffle, handleClick}) => {
+const SaleTicketsDisplay = ({raffle, handleClick}) => {
 
     return (
         <>
@@ -24,8 +24,8 @@ const SolicitudeReserve = ({raffle, handleClick}) => {
                         {raffle.description}
                     </p>
                     <div>
-                        <AppButton data-raffles-id={raffle.id}  onClick={handleClick} className="w-16 h-12">
-                            <span className="text-sm pointer-events-none"> Solicitar </span>
+                        <AppButton data-raffles-id={raffle.id}  onClick={handleClick} className="w-ful h-12">
+                            <span className="text-sm pointer-events-none"> Realizar ventas </span>
                         </AppButton>
                     </div>
                 </div>
@@ -80,4 +80,4 @@ const SolicitudeReserve = ({raffle, handleClick}) => {
 }
 
 
-export default SolicitudeReserve;
+export default SaleTicketsDisplay;

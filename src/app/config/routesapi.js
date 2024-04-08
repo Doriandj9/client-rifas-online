@@ -42,4 +42,6 @@ export default {
     seller_raffles: '/api/seller/raffles',
     seller_commissions_by_user: '/api/seller/commission/by-user/{taxid}',
     seller_commissions: '/api/seller/me/commissions',
+    seller_payment_tickets: '/api/seller/receipts',
+    seller_sales: '/api/seller/sales/{taxid}',
 };

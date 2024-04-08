@@ -17,6 +17,7 @@
     "@emotion/styled": "^11.11.0",
     "flowbite": "^2.2.0",
     "framer-motion": "^10.16.5",
+    "html2canvas": "^1.4.1",
     "jwt-decode": "^4.0.0",
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.43",

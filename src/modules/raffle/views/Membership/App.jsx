@@ -12,11 +12,11 @@ import { FaUser } from "react-icons/fa6";
 import { PiIdentificationBadgeFill } from "react-icons/pi";
 import { Avatar, Button, useToast } from "@chakra-ui/react";
 import { IoLogoWhatsapp } from "react-icons/io";
-import { toast } from "react-toastify";
 import Loader from "../../../../app/app_components/Core/Loader";
 import { fetchQuery } from "../../../../app/utilities/web/fetchQuery";
 import ConfirmDialog from "../../../../app/app_components/Core/ConfirmDialog";
 import { toastConfig } from "../../../../app/utilities/web/configs";
+import {Alert, AlertIcon} from '@chakra-ui/react';
 
 let url = credentials.server + routesapi.raffle_commissions;
  
@@ -29,6 +29,9 @@ const App = ( ) => {
     const [loadingFetch,setLoadingFetch] = useState(false);
     const [errorFetch,setErrorFetch] = useState(null);
     const [mDown, setMDown] = useState(false);
+    const [mSellerPos,setMSellerPos] = useState(false);
+    const [desicisionSPOS,setDesicisionSPOS] = useState(false);
+
     const toast = useToast(toastConfig);
 
  
@@ -46,7 +49,16 @@ const App = ( ) => {
         setMAccept(true);
    } 
    actions[1].onclick = (item,i) => (e) => {
-    
+    setOAccept(item);
+    setDesicisionSPOS(true);
+    setMSellerPos(true);
+   }
+   actions[2].onclick = (item,i) => (e) => {
+    setOAccept(item);
+    setDesicisionSPOS(false);
+    setMSellerPos(true);
+   }
+   actions[3].onclick = (item,i) => (e) => {
     setOAccept(item);
     setMDown(true);
    } 
@@ -73,6 +85,35 @@ const App = ( ) => {
             });
             refetch();
             setMDown(false);
+        } catch (e) {
+            toast({
+                title: 'Error',
+                description: e.message,
+                status: 'error'
+            });
+        } finally {
+            setLoadingFetch(false);
+        }
+    }
+
+    const handleSellerPos = async (e,option) => {
+        setLoadingFetch(true);
+        const urlUp = url + '/' + oAccept.id;
+
+        try {
+            const response = await fetchQuery(key,urlUp,{method: 'PATCH',body: new URLSearchParams({seller_pos: option})},setLoadingFetch,setErrorFetch);
+            
+            if(!response.status){
+                throw Error(response.message);
+            }
+
+            toast({
+                title: 'Actualización',
+                description: 'Se actualizo con éxito el registro.',
+                status: 'success'
+            });
+            refetch();
+            setMSellerPos(false);
         } catch (e) {
             toast({
                 title: 'Error',
@@ -137,6 +178,42 @@ const App = ( ) => {
              msgBtnConfirm="Dar de Baja"
             >
             ¿ Desea continuar con la cancelación ?
+            </ConfirmDialog>
+            {/* Dialog for accept a user is seller pos */}
+            <ConfirmDialog 
+            title={desicisionSPOS ? 'Esta seguro de permitir ventas físicas.' : 'Esta seguro de retirar los permisos de ventas físicas.' }
+            open={mSellerPos}
+            handleClose={() => setMSellerPos(false)}
+            handleConfirm={(e) => handleSellerPos(e,desicisionSPOS)}
+            info={ desicisionSPOS }
+            msgBtnCancel="Regresar"
+            msgBtnConfirm={desicisionSPOS ? 'Dar Permisos' : 'Retirar Permisos'}
+            size="xl"
+            >
+                {
+                    desicisionSPOS ? 
+                    <div>
+                    <p>
+                        Esta sección le permite confirmar que un afiliado puede realizar 
+                        ventas físicas de boletos. <br />
+                    </p>
+                    <Alert status='warning'>
+                        <AlertIcon />
+                        Toda acción que realice en este proceso se realizara bajo su bajo responsabilidad.
+                    </Alert>
+                    </div>
+
+                    :
+                    <div>
+                    <p>
+                        
+                    </p>
+                    <Alert status='warning'>
+                        <AlertIcon />
+                        Toda acción que realice en este proceso se realizara bajo su bajo responsabilidad.
+                    </Alert>
+                    </div>
+                }
             </ConfirmDialog>
             <AppTable actionColumns={actionColumns} columns={columns} data={data} error={error} loading={loading} refetch={refetch}
              total={total} setPagePaginate={setPagePaginate} pagePaginate={pagePaginate} 

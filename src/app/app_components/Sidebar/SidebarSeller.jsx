@@ -12,6 +12,7 @@ import { FaMoneyBillTransfer } from "react-icons/fa6";
 import { MdOutlineRequestPage } from "react-icons/md";
 import { TfiMoney } from "react-icons/tfi";
 import { useAuth } from "../../store/app/userStore";
+import { FaThList } from "react-icons/fa";
 const SidebarSeller = () => {
     const user = useAuth(state => state.user);
     const [block, setBlock] = useState(false);
@@ -50,12 +51,19 @@ const SidebarSeller = () => {
                 <MdOutlineRequestPage className="text-xl mr-2" />
                  <span>Solicitud de afiliación</span>
             </NavLink>
-            <NavLink to={'pending'}
+            <NavLink to={ prefix + '/' + routes.sales_tickets }
             className={(props) => handleRoute(props)}
             >
                 <FaMoneyBillTransfer className="text-xl mr-2" />
                 <span className="text-white hover:text-gray-700">Venta de boletos</span>
             </NavLink>
+            <NavLink to={ prefix + '/' + routes.buys_tickets }
+            className={(props) => handleRoute(props)}
+            >
+                <FaThList className="text-xl mr-2" />
+                <span className="text-white hover:text-gray-700">Boletos vendidos</span>
+            </NavLink>
+            
             {/* <NavLink  to={'pending'}
             className={(props) => handleRoute(props)}
             >

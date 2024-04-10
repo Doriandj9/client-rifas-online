@@ -70,7 +70,7 @@ const App = () => {
             dataF.push(...data);
 
             setTimeout( () => ((data) => {
-                setDataTickets([...dataF,data])
+                setDataTickets([...dataF,data]);
             })(data),1);
 
             
@@ -95,7 +95,6 @@ const App = () => {
 
     },[]);
 
-    console.log(dataF);
 
     
 

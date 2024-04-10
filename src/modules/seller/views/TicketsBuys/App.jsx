@@ -4,6 +4,10 @@ import { credentials } from "../../../../app/config/app";
 import routesapi from "../../../../app/config/routesapi";
 import { useAccessToken, useAuth } from "../../../../app/store/app/userStore";
 import { useFetch } from "../../../../app/utilities/hooks/data/useFetch";
+import { Skeleton } from  "@chakra-ui/react";
+import { lottieOptions } from "../../../../app/utilities/web/configs";
+import Lottie from "react-lottie";
+import boxEmpty from '@app/assets/imgs/animations/box-empty.json';
 
 let url = credentials.server + routesapi.seller_sales;
 
@@ -42,11 +46,35 @@ const App = () => {
             &&
             dataDisplay.map(item => {
               return (
-                <AppTicket size={'sm'} ticket={item.ticket} key={item.id}  />
+                <AppTicket size={'sm'} ticket={item.ticket} key={item.id} download  />
               );
             })
           }
         </div>
+          {
+            loading && <>
+              <div className="flex gap-2 flex-wrap">
+                <Skeleton width={300} height={450} rounded={'xl'} />
+                <Skeleton width={300} height={450} rounded={'xl'} />
+                <Skeleton width={300} height={450} rounded={'xl'} />
+                <Skeleton width={300} height={450} rounded={'xl'} />
+                <Skeleton width={300} height={450} rounded={'xl'} />
+                <Skeleton width={300} height={450} rounded={'xl'} />
+                <Skeleton width={300} height={450} rounded={'xl'} />
+                <Skeleton width={300} height={450} rounded={'xl'} />
+
+              </div>
+            </>
+          }
+          {
+            dataDisplay.length <= 0 && !loading &&
+        <>
+        <Lottie  options={{animationData: boxEmpty, ...lottieOptions}}  width={400} height={400} />
+        <div>
+            <h4 className="text-xl text-primary font-black mt-4 text-center">De momento no contiene boletos vendidos por el proceso físico.</h4>
+        </div>
+        </>
+        }
         </>
     );
 

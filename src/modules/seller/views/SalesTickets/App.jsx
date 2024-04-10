@@ -7,6 +7,10 @@ import { useAccessToken, useAuth } from "../../../../app/store/app/userStore";
 import { useNavigate } from "react-router-dom";
 import routesweb from "../../../../app/config/routesweb";
 let url_comm = credentials.server + routesapi.seller_commissions_by_user;
+import { Skeleton } from  "@chakra-ui/react";
+import { lottieOptions } from "../../../../app/utilities/web/configs";
+import Lottie from "react-lottie";
+import boxEmpty from '@app/assets/imgs/animations/box-empty.json';
 
 const App = () => {
     //HOOKS
@@ -21,16 +25,18 @@ const App = () => {
     //EFFECTS
     useEffect(() => {
         if(data.length > 0){
-            const result = data.filter((item) => item.seller_pos);
+            const result = data.filter((item) => item.seller_pos && item.status === 'AC');
             setDataDisplay(result);
         }
     },[data]);
 
     return (
         <>
+        <div className="flex gap-2 flex-wrap">
+
             {dataDisplay.length > 0 
             &&
-            data.map((item) => (
+            dataDisplay.map((item) => (
                 <SaleTicketsDisplay
                 handleClick={(() => {
                    return () => navigate(
@@ -43,6 +49,32 @@ const App = () => {
                 />
             ))
             }
+        </div>
+
+
+            {
+            loading && <>
+              <div className="flex gap-2 flex-wrap">
+                <Skeleton width={300} height={200} rounded={'xl'} />
+                <Skeleton width={300} height={200} rounded={'xl'} />
+                <Skeleton width={300} height={200} rounded={'xl'} />
+                <Skeleton width={300} height={200} rounded={'xl'} />
+                <Skeleton width={300} height={200} rounded={'xl'} />
+                <Skeleton width={300} height={200} rounded={'xl'} />
+                <Skeleton width={300} height={200} rounded={'xl'} />
+                <Skeleton width={300} height={200} rounded={'xl'} />
+              </div>
+            </>
+          }
+          {
+            dataDisplay.length <= 0 && !loading &&
+        <>
+        <Lottie  options={{animationData: boxEmpty, ...lottieOptions}}  width={400} height={400} />
+        <div>
+            <h4 className="text-xl text-primary font-black mt-4 text-center">De momento no tiene ninguna afiliación que le haya permitido ventas físicas.</h4>
+        </div>
+        </>
+        }
         </>
     );
 }

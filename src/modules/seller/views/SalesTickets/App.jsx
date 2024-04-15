@@ -11,8 +11,10 @@ import { Skeleton } from  "@chakra-ui/react";
 import { lottieOptions } from "../../../../app/utilities/web/configs";
 import Lottie from "react-lottie";
 import boxEmpty from '@app/assets/imgs/animations/box-empty.json';
+import { useSetHeader } from "../../../../app/utilities/hooks/web/useSetHeader";
 
 const App = () => {
+    useSetHeader('Afiliaciones para ventas físicas')
     //HOOKS
     const navigate = useNavigate();
     const user = useAuth(state => state.user);

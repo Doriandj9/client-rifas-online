@@ -59,7 +59,7 @@ const SidebarRaffles = () => {
                     <BsTicketPerforated className="text-xl mr-2" />
                     <span className="text-white hover:text-gray-700">Crear rifas</span>
                 </NavLink>
-                <NavLink to={prefix + '/' + routes.confirm_payment}
+                <NavLink to={prefix + '/' + routes.confirm_payment.root}
                 className={(props) => handleRoute(props)}
                 >
                     <BiMoneyWithdraw className="text-xl mr-2" />

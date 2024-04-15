@@ -27,6 +27,9 @@ export default {
     raffle_bank_accounts:'/api/raffles/me/bank-accounts',
     raffle_custom_lottery_update: '/api/raffles/custom/update/{id}',
     raffle_commissions: '/api/raffles/commissions/seller',
+    raffle_payments_receipts: '/api/raffles/payments/receipts/{taxid}',
+    raffle_payments_receipts_resend_mail: '/api/raffles/payments/receipts/{receipt_id}',
+    
     //public
     public_raffles: '/api/public/raffles',
     public_tickets_by_raffles : '/api/public/raffles/tickets/{id}',

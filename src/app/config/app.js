@@ -2,14 +2,14 @@ const urlLocal = 'http://127.0.0.1:8000';
 const urlProduction = 'https://api.hayu24.ec';
 const urlPreprod = 'https://test.api.hayu24.ec';
 const credentials = {
-    server: urlPreprod,
+    server: urlProduction,
     dominio: 'https://test.hayu24.ec/'
 };
 
 const application =  {
     paginateCount: 10,
     paginateRaffles: 8,
-    environment: 'test',
+    environment: 'prod',
 }
 
 const colors = {

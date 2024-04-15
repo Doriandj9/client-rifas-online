@@ -69,7 +69,13 @@ export default {
                             list: 'list'
                         }
                     },
-                    confirm_payment: 'payment/confirm',
+                    confirm_payment: {
+                        root: 'payment/confirm',
+                        children: {
+                            authorization: 'authorization',
+                            payments: 'payments'
+                        }
+                    },
                     membership: 'membership/user',
                     payment_method: {
                         root: 'payment-method',

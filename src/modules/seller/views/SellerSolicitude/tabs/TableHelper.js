@@ -112,7 +112,7 @@ export default {
                         return `
                             <p class="text-center">
                              <span class="bg-white px-4 py-2 text-black shadow-lg rounded-xl">
-                              $${item.amount_paid}
+                              $${formatNumberTwoDigits(item.amount_paid)}
                              </span>  
                             </p>
                         `; 

@@ -56,9 +56,8 @@ const App = () => {
     const urlTickets = credentials.server  + routesapi.public_tickets_by_raffles.replace('{id}',params.id);
     const {data, error, loading,refetch} = useFetch(url,{method: 'GET'},null,false);
     const [dataTickets,setDataTickets] = useState([]);
-    const [totalTicket,setTotalTickets] = useState(0);
-    const [page,setPage] = useState(0);
-    const {data:tickets, error:ticketsError,total:tTickets, loading:ticketsLoading,refetch:ticketsRefetch} = useFetch(urlTickets,{method: 'GET'},'data',false,'',[page],true,page);
+    const [loadingTickets,setLoadingTickets] = useState(false);
+    
     let dataF = [];
 
     const fetchRecursive = async (lastPage,page) => {
@@ -74,7 +73,7 @@ const App = () => {
             })(data),1);
 
             
-            if(page === lastPage) return;
+            if(page === lastPageFetch) return;
             return fetchRecursive(lastPageFetch,response.current_page + 1);
         } catch (error) {
             toast({
@@ -88,9 +87,10 @@ const App = () => {
     }
 
     useEffect(() => {
+            setLoadingTickets(true);
             fetchRecursive(0,1)
             .finally(() => {
-                //setDataTickets(dataF);
+                setLoadingTickets(false);
             });
 
     },[]);
@@ -260,7 +260,11 @@ const App = () => {
 
             setMessageModal(response.message);
             setOpenSuccess(true);
-            ticketsRefetch();
+            setLoadingTickets(true);
+            fetchRecursive(0,1)
+            .finally(() => {
+                setLoadingTickets(false);
+            });
             formElement.querySelectorAll('input')
             .forEach(input => input.value = '');
             setTicketsSaved([]);
@@ -408,7 +412,7 @@ const App = () => {
                             }
                         })}
 
-                        {ticketsLoading && <>
+                        {loadingTickets && <>
                             {fakeTickets.map(ticket => {
                                 return (
                                     <Skeleton key={ticket} rounded={'xl'} width={'45px'} height={'35px'} />

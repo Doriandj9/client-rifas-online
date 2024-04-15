@@ -39,7 +39,7 @@ for(let i = 0 ; i<= 200 ; i++){
 }
 
 const Sales = () => {
-    useSetHeader('Compra un nuevo boleto');
+    useSetHeader('Venta de boletos');
     const navigate = useNavigate();
     const params = useParams();
     const user = useAuth(state => state.user);
@@ -59,7 +59,46 @@ const Sales = () => {
     const url = credentials.server + routesapi.public_raffles + `/${params.id}`
     const urlTickets = credentials.server  + routesapi.public_tickets_by_raffles.replace('{id}',params.id);
     const {data, error, loading,refetch} = useFetch(url,{method: 'GET'},null,false);
-    const {data:tickets, error:ticketsError, loading:ticketsLoading,refetch:ticketsRefetch} = useFetch(urlTickets,{method: 'GET'},null,false);
+    const [dataTickets,setDataTickets] = useState([]);
+    const [loadingTickets,setLoadingTickets] = useState(false);
+
+    let dataF = [];
+
+    const fetchRecursive = async (lastPage,page) => {
+        let lastPageFetch = 0;
+        try {
+            const response  = await initialFetch(urlTickets + `?page=${page}`,{method: 'GET'});
+            lastPageFetch = response.last_page;
+            const data = response.data;
+            dataF.push(...data);
+
+            setTimeout( () => ((data) => {
+                setDataTickets([...dataF,data]);
+            })(data),1);
+
+            
+            if(page === lastPageFetch) return;
+            return fetchRecursive(lastPageFetch,response.current_page + 1);
+        } catch (error) {
+            toast({
+                title: 'Error',
+                description: 'Error en el servidor.',
+                status: 'error'
+            });
+        }finally{
+            
+        }
+    }
+
+
+    useEffect(() => {
+        setLoadingTickets(true);
+        fetchRecursive(0,1)
+        .finally(() => {
+            setLoadingTickets(false);
+        });
+
+},[]);
     
     
     const handleImg = (e, img, item) => {
@@ -189,8 +228,11 @@ const Sales = () => {
         });
             setMessageModal(<ResponseModal tickets={ticketsSaved} /> );
             setOpenSuccess(true);
-            ticketsRefetch();
-            console.log(formElement);
+            setLoadingTickets(true);
+            fetchRecursive(0,1)
+            .finally(() => {
+                setLoadingTickets(false);
+            });
             setReset(true);
             setTicketsSaved([]);
             handleClosePayment();
@@ -322,7 +364,10 @@ const Sales = () => {
                     > <span className='text-xl font-bold text-green-700'>Total: </span>
                      <span className='text-xl font-black'> ${(data.data.price * ticketsSaved.length).toFixed(2)} </span>  <FaMoneyBillAlt className='w-6 h-6 text-green-500 -ml-1'  />  </p>
                     <div className='p-4 bg-white w-full h-[32rem] rounded-2xl overflow-auto flex flex-wrap gap-2'>
-                        {tickets && tickets.status && tickets.data.map((item,i) => {
+                        {dataTickets.length > 0 && dataTickets.map((item,i) => {
+                            if(!item.id){
+                                return null;
+                            }
                             return (
                                 <div key={item.id} onClick={(e) => handleSelectedTicket(e,item)}
                                 className={`${ticketsSaved.some(value => value === item.id) ? 'bg-primary text-white' : 'text-black shadow'} 
@@ -334,7 +379,7 @@ const Sales = () => {
                             );
                         })}
 
-                        {ticketsLoading && <>
+                        {loadingTickets && <>
                             {fakeTickets.map(ticket => {
                                 return (
                                     <Skeleton key={ticket} rounded={'xl'} width={'45px'} height={'35px'} />

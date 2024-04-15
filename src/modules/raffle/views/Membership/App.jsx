@@ -17,10 +17,12 @@ import { fetchQuery } from "../../../../app/utilities/web/fetchQuery";
 import ConfirmDialog from "../../../../app/app_components/Core/ConfirmDialog";
 import { toastConfig } from "../../../../app/utilities/web/configs";
 import {Alert, AlertIcon} from '@chakra-ui/react';
+import { useSetHeader } from "../../../../app/utilities/hooks/web/useSetHeader";
 
 let url = credentials.server + routesapi.raffle_commissions;
  
 const App = ( ) => {
+    useSetHeader('Afiliaciones')
     const key = useAccessToken(state => state.token);
     //states
     const [pagePaginate,setPagePaginate] = useState(1);//pagination

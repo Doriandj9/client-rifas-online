@@ -8,11 +8,13 @@ import { Skeleton } from  "@chakra-ui/react";
 import { lottieOptions } from "../../../../app/utilities/web/configs";
 import Lottie from "react-lottie";
 import boxEmpty from '@app/assets/imgs/animations/box-empty.json';
+import { useSetHeader } from "../../../../app/utilities/hooks/web/useSetHeader";
 
 let url = credentials.server + routesapi.seller_sales;
 
 const App = () => {
     // HOOKS
+    useSetHeader('Listado de boletos vendidos');
     const user = useAuth(state => state.user);
     const token = useAccessToken(state => state.token);
     const [dataDisplay,setDataDisplay] = useState([]);

@@ -27,6 +27,8 @@ import AppPaymentMethod from '../views/PaymentMethod/App';
 import NewAccount from "../views/PaymentMethod/tabs/NewAccount";
 import ListAccount from "../views/PaymentMethod/tabs/ListAccount";
 import AppMembership from "../views/Membership/App";
+import AuthorizationPayments from "../views/PaymentConfirm/tabs/AuthorizationPayments";
+import ListPayments from "../views/PaymentConfirm/tabs/ListPayments";
 
 const routes = routesweb.dashboard.children.raffles.children;
 
@@ -58,8 +60,19 @@ export default {
             ]
         },
         {
-            path: routes.confirm_payment,
-            element: <AppPayment />
+            path: routes.confirm_payment.root,
+            element: <AppPayment />,
+            handle:{'payment.default': true},
+            children: [
+                {
+                    path: routes.confirm_payment.children.authorization,
+                    element: <AuthorizationPayments />
+                },
+                {
+                    path: routes.confirm_payment.children.payments,
+                    element: <ListPayments />
+                }
+            ],
         },
         {
             path: routes.payment_method.root,

@@ -28,7 +28,7 @@
  .sidebar-active > *:first-child {
    @apply text-secondary;
  }
- .sidebar-active > *:last-child {
+ .sidebar-active > span.text-white {
    @apply text-primary;
  }
 

@@ -81,7 +81,6 @@ const PaymentTickets = ({openPayment, handleClosePayment, tickets, price, total,
 
     useEffect(() => {
             if(reset){
-                console.log('sisi');
                 setInputs({
                     email: '',
                     taxid: '',

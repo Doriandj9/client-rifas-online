@@ -29,6 +29,7 @@ export default {
     raffle_commissions: '/api/raffles/commissions/seller',
     raffle_payments_receipts: '/api/raffles/payments/receipts/{taxid}',
     raffle_payments_receipts_resend_mail: '/api/raffles/payments/receipts/{receipt_id}',
+    raffle_complete: '/api/raffles/complete/{id}',
     
     //public
     public_raffles: '/api/public/raffles',

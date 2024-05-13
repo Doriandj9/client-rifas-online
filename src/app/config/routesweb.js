@@ -83,7 +83,8 @@ export default {
                             create: 'create',
                             list: 'list'
                         }
-                    }
+                    },
+                    sorter_list: 'me/sorter',
                 }
             },
             seller: {
@@ -114,5 +115,8 @@ export default {
 
             }
         }
+    },
+    sorter: {
+        root: 'raffle/sorter/:id'
     }
 }

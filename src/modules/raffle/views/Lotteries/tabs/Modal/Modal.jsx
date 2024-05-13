@@ -50,6 +50,7 @@ const Modal = ({id, open,onClose, setUpdate, refetch}) => {
         commission_sellers: '',
         number_tickets: '',
         awards: '',
+        time: '',
     });
     const[awards, setAwards] = useState({
         title: 'Otro lugar',
@@ -67,6 +68,7 @@ const Modal = ({id, open,onClose, setUpdate, refetch}) => {
         if(!validationsInputs()){
             return;
         }
+        delete inputs.time;
 
         let awardsTotal = Array.from(document.querySelectorAll('div[data-item-content]'));
         const idFinal = parseInt(awardsTotal.sort((a,b) => a.id + b.id)[0].id) + 1;
@@ -146,7 +148,7 @@ const Modal = ({id, open,onClose, setUpdate, refetch}) => {
         const inputName = e.target.name;
         if(inputName === 'draw_date'){
            const date = moment(value);
-           value = date.format('YYYY-MM-DD hh:mm:ss');
+           value = date.format('YYYY-MM-DD');
         }
 
         if(inputName === 'number_tickets'){
@@ -268,6 +270,8 @@ const Modal = ({id, open,onClose, setUpdate, refetch}) => {
     }
 
     const validationsInputs = () => {
+
+        inputs.draw_date = inputs.draw_date  + ' ' + inputs.time;
         
         if(awards.title != 'Otro lugar' && awards.description === ''){
             toast({
@@ -312,7 +316,7 @@ const Modal = ({id, open,onClose, setUpdate, refetch}) => {
     //effects
     useEffect(() => {
         if(data !== null &&  data['id'] > 0){
-            setInputs({...data});
+            setInputs({...data, draw_date: data.draw_date.split(' ')[0],time: data.draw_date.split(' ')[1]});
             setImgRaffles(
                 data.logo_raffles === 'logo-raffle.png' ? logoRaffle : `${credentials.server}${data.logo_raffles}`
             )
@@ -366,7 +370,13 @@ const Modal = ({id, open,onClose, setUpdate, refetch}) => {
                                         name="draw_date"
                                         value={inputs.draw_date}
                                         onChange={handleInput}
-                                        type="datetime-local"
+                                        type="date"
+                                    />
+                                    <Input 
+                                        name="time"
+                                        value={inputs.time}
+                                        onChange={handleInput}
+                                        type="time"
                                     />
                                 </FormControl>
                                

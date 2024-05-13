@@ -29,6 +29,7 @@ import ListAccount from "../views/PaymentMethod/tabs/ListAccount";
 import AppMembership from "../views/Membership/App";
 import AuthorizationPayments from "../views/PaymentConfirm/tabs/AuthorizationPayments";
 import ListPayments from "../views/PaymentConfirm/tabs/ListPayments";
+import AppSorter from "../views/Sorter/App";
 
 const routes = routesweb.dashboard.children.raffles.children;
 
@@ -93,6 +94,10 @@ export default {
             path: routes.membership,
             element: <AppMembership />
 
+        },
+        {
+            path: routes.sorter_list,
+            element: <AppSorter />
         }
     ]
 }

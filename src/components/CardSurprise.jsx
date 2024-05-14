@@ -38,8 +38,8 @@ const CardSurprise = ({index=null}) => {
         }
 
         return valor;
-        
     }
+
 
     useEffect(() => {
         let interval = null;
@@ -52,15 +52,14 @@ const CardSurprise = ({index=null}) => {
             updateIsAttempt(true);
             interval= setInterval(() => {
                 let valor = recursiveAttempt(Math.round(Math.random() * ticketsRaffle.length));
-                setValue(valor)
+                setValue(valor);
                 setTicketRandom(ticketsRaffle.find((item) => item.order === valor));
-            },500)
+            },500);
             time = setTimeout(() => {
                 clearInterval(interval);
                 setFinalAttempt(true);
                 updateIsAttempt(false);
-
-            },1000 * 6)
+            },1000 * 6);
         }
         
     },[currentAttempts])

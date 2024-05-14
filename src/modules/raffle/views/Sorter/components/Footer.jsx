@@ -12,7 +12,7 @@ const Footer = () => {
         <div className="w-full text-center mt-2">
                 <span className="px-4 py-2 shadow-md shadow-red-200 text-3xl font-black text-secondary italic rounded-xl"
                 >
-                    Boletos descartados
+                    Boletos anulados
                 </span>
         </div>
         <div className="flex justify-start pt-4 pb-8">

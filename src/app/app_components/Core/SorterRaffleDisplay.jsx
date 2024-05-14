@@ -2,7 +2,7 @@ import { credentials } from "../../config/app";
 import logoRaffle from '@app/assets/imgs/biglietti-lotteria.png';
 
 import AppButton from "./AppButon";
-import { Avatar, Badge, IconButton, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverHeader, PopoverTrigger } from "@chakra-ui/react";
+import { Badge } from "@chakra-ui/react";
 import { ImInfo } from "react-icons/im";
 import { formatTimeDate } from "../../utilities/web/times/formatTimeFull";
 import { HiRocketLaunch } from "react-icons/hi2";
@@ -12,8 +12,8 @@ import { useEffect, useState } from "react";
 const SorterRaffleDisplay = ({raffle, handleClick}) => {
     const currentDate = moment();
     const drawDate = moment(raffle.draw_date);
-    const drawDateDiff = moment(raffle.draw_date).subtract(30, 'minutes');
-    let disabled = false;
+    const drawDateDiff = moment(raffle.draw_date).subtract(60, 'minutes');
+    let disabled = true;
    
     if(currentDate.isAfter(drawDateDiff) && currentDate.isBefore(drawDate)){
         disabled= false;
@@ -44,10 +44,10 @@ const SorterRaffleDisplay = ({raffle, handleClick}) => {
                     <img
                       src={raffle.logo_raffles !== 'logo-raffle.png' ? `${credentials.server}${raffle.logo_raffles}` : logoRaffle}
                       className="w-26 h-20"
-                        alt="Logo" />
+                      alt="Logo" />
                     <div className="mt-2">
                         <AppButton
-                        isDisabled={disabledButton}
+                        isDisabled={disabledButton || raffle.is_complete}
                          data-raffles-id={raffle.id}  onClick={handleClick} className="w-ful h-12" leftIcon={<HiRocketLaunch />}>
                             <span className="text-sm pointer-events-none">Iniciar sorteo </span>
                         </AppButton>

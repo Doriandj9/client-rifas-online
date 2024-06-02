@@ -69,7 +69,13 @@ export default {
                             list: 'list'
                         }
                     },
-                    confirm_payment: 'payment/confirm',
+                    confirm_payment: {
+                        root: 'payment/confirm',
+                        children: {
+                            authorization: 'authorization',
+                            payments: 'payments'
+                        }
+                    },
                     membership: 'membership/user',
                     payment_method: {
                         root: 'payment-method',
@@ -77,7 +83,8 @@ export default {
                             create: 'create',
                             list: 'list'
                         }
-                    }
+                    },
+                    sorter_list: 'me/sorter',
                 }
             },
             seller: {
@@ -89,7 +96,10 @@ export default {
                             reserve: 'reserve',
                             list: 'list'
                         }
-                    }
+                    },
+                    sales_tickets: 'sales-tickets',
+                    pos_sales_tickets: '/dashboard/seller/sales-tickets/pos/:id',
+                    buys_tickets: 'buys/tickets'
                 }
 
             },
@@ -105,5 +115,8 @@ export default {
 
             }
         }
+    },
+    sorter: {
+        root: 'raffle/sorter/:id'
     }
 }

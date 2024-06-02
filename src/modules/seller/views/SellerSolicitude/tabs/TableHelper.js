@@ -84,6 +84,39 @@ export default {
                             </p>
                         `; 
                     }
+                }, {
+                    header: 'Ventas digitales',
+                    render: (item,index) => {
+                        return `
+                            <p class="text-center">
+                             <span class="bg-white px-4 py-2 text-black shadow-lg rounded-xl">
+                              ${item.tickets_pos}
+                             </span>  
+                            </p>
+                        `; 
+                    }
+                }, {
+                    header: 'Ventas físicas',
+                    render: (item,index) => {
+                        return `
+                            <p class="text-center">
+                             <span class="bg-white px-4 py-2 text-black shadow-lg rounded-xl">
+                              ${item.sales_physicals}
+                             </span>  
+                            </p>
+                        `; 
+                    }
+                }, {
+                    header: 'Monto a retribuir',
+                    render: (item,index) => {
+                        return `
+                            <p class="text-center">
+                             <span class="bg-white px-4 py-2 text-black shadow-lg rounded-xl">
+                              $${formatNumberTwoDigits(item.amount_paid)}
+                             </span>  
+                            </p>
+                        `; 
+                    }
                 }
                 
             ],

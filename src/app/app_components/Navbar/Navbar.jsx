@@ -20,7 +20,7 @@ import { FiLogOut } from "react-icons/fi";
 
 const urlLogout = credentials.server +  routesapi.logout;
 
-const Navbar = () => {
+const Navbar = ({stick=false}) => {
   const token = useAccessToken(state => state.token);
   const toast = useToast(toastConfig);
   const user = useAuth(state => state.user);
@@ -65,7 +65,7 @@ const Navbar = () => {
               setDropDownOpen(false)
             }
           }}
-          className="sticky top-0 z-40">
+          className={`${stick ? '' : 'sticky top-0 z-40'}`}>
             <div className="w-full h-20 px-6 bg-gray-50 border-b flex items-center justify-between">
 
               <div className="flex">

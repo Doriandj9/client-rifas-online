@@ -21,6 +21,10 @@ import routesweb from "../../../app/config/routesweb";
 import AppSolicitude from "./../views/SellerSolicitude/App";
 import Reserve from "../views/SellerSolicitude/tabs/Reserve";
 import List from "../views/SellerSolicitude/tabs/List";
+import AppSalesTickets from "../views/SalesTickets/App";
+import Sales from "../views/SalesTickets/Sales";
+import AppBuyTickets from "../views/TicketsBuys/App";
+
 const routes = routesweb.dashboard.children.seller.children;
 
 /**
@@ -47,8 +51,16 @@ export default {
             ]
         },
         {
-            path: routes.confirm_payment,
-            element: <p>Hole</p> //<AppPayment />
+            path: routes.sales_tickets,
+            element: <AppSalesTickets  />, //<AppPayment />
         },
+        {
+            path: routes.pos_sales_tickets,
+            element: <Sales />
+        },
+        {
+            path: routes.buys_tickets,
+            element: <AppBuyTickets />
+        }
     ]
 }

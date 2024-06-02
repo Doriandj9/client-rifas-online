@@ -22,7 +22,6 @@ const SolicitudeReserve = ({raffle, handleClick}) => {
                     <h2 className="font-bold">{raffle.name}</h2>
                     <p className="text-gray-500 text-xs w-40">
                         {raffle.description}
-                        En beneficio de los más necesitados "Ayudemos a Ayudar". Envio de premios a los ganadores a cualquier parte del Ecuador
                     </p>
                     <div>
                         <AppButton data-raffles-id={raffle.id}  onClick={handleClick} className="w-16 h-12">

@@ -1,4 +1,4 @@
-import { Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableCaption, TableContainer,Button ,Icon } from "@chakra-ui/react";
+import { Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableCaption, TableContainer,Button ,Icon, Input } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useFetch } from "../../utilities/hooks/data/useFetch";
 import { withAPIFeedbackTable } from "../../utilities/web/withFeedback";
@@ -7,9 +7,11 @@ import AppButton from "./AppButon";
 import PaginateButtons from "./PaginateButtons";
 import { application } from "../../config/app";
 import noData from '@app/assets/imgs/no_data.svg';
+import AppSearch from "./AppSearch";
 
-const AppTable = ({columns, actionColumns,data,error,loading,total=0,pagePaginate=0,setPagePaginate =() => {},refetch = () => {}}) => {
+const AppTable = ({columns, actionColumns,data,error,loading,total=0,pagePaginate=0,setPagePaginate =() => {},refetch = () => {}, search =null}) => {
   // const [pagePaginate,setPagePaginate] = useState(1);
+  const [dataDisplay, setDataDisplay] = useState(data);
 
   // const {data,error,loading,total,refetch} = useFetch(url,options,keyData,auth,token,[pagePaginate],paginate,pagePaginate);
   const FillTableWithFeedback = withAPIFeedbackTable(FillTable);
@@ -25,8 +27,15 @@ const AppTable = ({columns, actionColumns,data,error,loading,total=0,pagePaginat
   return (
     <>
     <div className="text-end">
+        <div className="flex justify-between">
+          {
+            search !== null ? search : <>
+            <span className="opacity-0">...</span>
+            </>
+          }
           <AppButton className="mb-2" 
            onClick={handleClick}  leftIcon={<LuRefreshCcw />}> Refrescar </AppButton>        
+        </div>
          <FillTableWithFeedback {...{data:{data,columns,actionColumns}}} hasError={error} isLoading={loading} type='table' />
          <div className="mt-5">
           { total > application.paginateCount && <PaginateButtons total={total} page={pagePaginate} setPage={setPagePaginate}  />}
@@ -45,7 +54,7 @@ const FillTable =  ({data,columns, actionColumns}) => {
     return (
         <>
         <TableContainer>
-        <Table variant="striped" colorScheme="telegram">
+        <Table className="app-table" variant="striped" colorScheme="telegram">
         <Thead>
             <Tr>
                 {columns.map((info,index) => {

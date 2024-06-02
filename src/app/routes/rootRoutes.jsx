@@ -19,6 +19,7 @@ import termsAndConditions from "../../modules/home/routes/termsAndConditions";
 import misionAndVision from "../../modules/home/routes/misionAndVision";
 import benefits from "../../modules/home/routes/benefits";
 import completeRegister from "../../modules/home/routes/completeRegister";
+import sorter from "../../modules/raffle/routes/sorter";
 
 /**
  * @var {Array} rootRoutes rutas de todo el sistema
@@ -26,6 +27,6 @@ import completeRegister from "../../modules/home/routes/completeRegister";
 const rootRoutes = [home,admin,login, register,verify, confirmRegister, client, payRaffles,plans,terms,{
     path: '*',
     element: <NoAutorice />
-}, recoveryPassword, termsAndConditions,misionAndVision,benefits,completeRegister];
+}, recoveryPassword, termsAndConditions,misionAndVision,benefits,completeRegister,sorter];
 
 export default rootRoutes;

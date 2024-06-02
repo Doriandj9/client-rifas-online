@@ -9,7 +9,7 @@ import {
     Button,
   } from '@chakra-ui/react'
 
-const ConfirmDialog = ({title,msgBtnCancel='Cerrar'
+const ConfirmDialog = ({title,msgBtnCancel='Cerrar', size='md'
 ,msgBtnConfirm='De Acuerdo',open,handleClose,handleConfirm,info=true,
 children
 }) => {
@@ -19,6 +19,7 @@ children
         isOpen={open}
         onClose={handleClose}
         isCentered
+        size={size}
       >
         <AlertDialogOverlay>
           <AlertDialogContent>

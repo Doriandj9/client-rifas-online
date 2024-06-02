@@ -1,12 +1,10 @@
 
 const getAccessTokenFromCookie =  () => {
-    const cookies = document.cookie.split(';');
-    for (const cookie of cookies) {
-      const [name, value] = cookie.trim().split('=');
-      if (name === 'accessToken') {
-        return value;
-      }
+    if(localStorage.getItem('accessToken')){
+
+      return localStorage.accessToken;
     }
+    
     return null;
 }
 
@@ -22,6 +20,10 @@ const getKeyTokenFromCookie =  () => {
 }
 
 const deleteTokens = (name) => {
+  if(name === 'accessToken'){
+    localStorage.removeItem('accessToken');
+    return;
+  }
   document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 }
 export {getAccessTokenFromCookie,getKeyTokenFromCookie, deleteTokens};

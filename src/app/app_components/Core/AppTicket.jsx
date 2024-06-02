@@ -13,13 +13,47 @@ import routesweb from "../../config/routesweb";
 import { IoInformationCircle } from "react-icons/io5";
 import { BsFillCalendarDateFill } from "react-icons/bs";
 import { BsClockFill } from "react-icons/bs";
-
-const AppTicket = ({size, ticket}) => {
+import { useRef, useState } from "react";
+import {Button} from '@chakra-ui/react';
+import { FaCircleDown } from "react-icons/fa6";
+import html2canvas from 'html2canvas';
+import { BsShareFill } from "react-icons/bs";
+const AppTicket = ({size, ticket,download=false}) => {
     const url = '/' + routesweb.pay_raffles.replace(':id', ticket.raffle.id);
+    const refComponent = useRef(null);
+    const [imageUrl, setImageUrl] = useState('');
+
+    const captureComponent = () => {
+        
+      };
+    
+      const downloadImage = (e) => {
+        e.target.style.display = 'none';
+        html2canvas(refComponent.current).then(canvas => {
+            const dataUrl = canvas.toDataURL();
+            const link = document.createElement('a');
+            link.href = dataUrl;
+            link.download = 'generated_image.png';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            e.target.style.display = 'flex';
+          });
+
+        
+      };
 
     return (
         <>
-            <div className="bg-primaryop-500 pt-[0.25rem] px-[0.15rem] w-72 rounded-lg shadow-md shadow-black">
+            <div ref={refComponent}
+             className="bg-primaryop-500 pt-[0.25rem] px-[0.15rem] w-72 rounded-lg shadow-md shadow-black relative">
+                {
+                download &&
+                <button onClick={downloadImage}
+                 title="Compartir imagen" className="absolute py-3 px-5 top-1 right-0 bg-primary flex gap-2 text-white rounded-xl">
+                   <BsShareFill className="pointer-events-none w-7 h-7"/>
+                </button>
+                }
                 <section className="w-70 h-20 bg-white rounded-t-lg">
                         <div className="w-full flex justify-between items-center pt-2">
                             <GoAlertFill className="text-4xl text-primary ms-2" />

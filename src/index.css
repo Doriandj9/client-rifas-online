@@ -28,7 +28,7 @@
  .sidebar-active > *:first-child {
    @apply text-secondary;
  }
- .sidebar-active > *:last-child {
+ .sidebar-active > span.text-white {
    @apply text-primary;
  }
 
@@ -66,6 +66,20 @@
   transition: all 0.45s ease-in-out;
 }
 .card-animate:hover{
-  transform: scale(1.15);
-  
+  transform: scale(1.15); 
+}
+.app-table th:last-child,
+.app-table td:last-child{
+  position: sticky;
+  right: 0;
+  z-index: 1;
+  background-color: #f9fafb;
+}
+
+.css-12n168i-MuiPopper-root-MuiPickersPopper-root {
+  z-index: 9999 !important;  /* Ajusta el zIndex según sea necesario */
+}
+
+.css-3dah0e-MuiModal-root-MuiDialog-root{
+  z-index: 9999 !important;
 }

@@ -17,7 +17,7 @@ const Sidebar = () => {
             <div className="w-full h-28 border-b flex px-4 py items-center mb-8 bg-gray-50">
             <p className="font-semibold text-3xl text-blue-400 pl-4">
                <Link to={routesweb.dashboard.root}>
-               <img src={logo} className="w-44" alt="" />
+                <img src={logo} className="w-44" alt="" />
                </Link> 
                </p>
             </div>

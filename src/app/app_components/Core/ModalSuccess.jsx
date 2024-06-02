@@ -3,7 +3,7 @@ import AppModal from "./AppModal";
 
 
 
-const ModalSuccess = ({open,handleClose,message,children}) => {
+const ModalSuccess = ({open,handleClose,message,children,size='lg'}) => {
     
     const buttons = <> <Button onClick={handleClose} colorScheme="blue"> Entendido </Button> </>
     return (
@@ -13,7 +13,7 @@ const ModalSuccess = ({open,handleClose,message,children}) => {
             isOpen={open}
             onClose={handleClose}
             buttons={buttons}
-            size='lg'
+            size={size}
             motionPreset='slideInBottom'
             >
                 <div className="p-4">

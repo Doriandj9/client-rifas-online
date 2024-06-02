@@ -15,6 +15,10 @@ import { FcMoneyTransfer } from "react-icons/fc";
 import { BiMoneyWithdraw } from "react-icons/bi";
 import { useAuth } from "../../store/app/userStore";
 import { PiUsersFourFill } from "react-icons/pi";
+import { LuClover } from "react-icons/lu";
+import { Badge } from "@chakra-ui/react";
+import { TbArrowsRandom } from "react-icons/tb";
+
 const SidebarRaffles = () => {
     const user = useAuth((state) => state.user);
 
@@ -59,7 +63,16 @@ const SidebarRaffles = () => {
                     <BsTicketPerforated className="text-xl mr-2" />
                     <span className="text-white hover:text-gray-700">Crear rifas</span>
                 </NavLink>
-                <NavLink to={prefix + '/' + routes.confirm_payment}
+                <NavLink to={prefix + '/' + routes.sorter_list}
+                className={(props) => handleRoute(props)}
+                >
+                    <TbArrowsRandom className="text-xl mr-2" />
+                    <span className="text-white hover:text-gray-700">Sorteador</span>
+                    <Badge className="pointer-events-none" ml='1' variant='solid' fontSize='0.5rem' colorScheme='green'>
+                        New
+                    </Badge>
+                </NavLink>
+                <NavLink to={prefix + '/' + routes.confirm_payment.root}
                 className={(props) => handleRoute(props)}
                 >
                     <BiMoneyWithdraw className="text-xl mr-2" />

@@ -75,3 +75,11 @@
   z-index: 1;
   background-color: #f9fafb;
 }
+
+.css-12n168i-MuiPopper-root-MuiPickersPopper-root {
+  z-index: 9999 !important;  /* Ajusta el zIndex según sea necesario */
+}
+
+.css-3dah0e-MuiModal-root-MuiDialog-root{
+  z-index: 9999 !important;
+}

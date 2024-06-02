@@ -22,6 +22,8 @@ import { IoTicketOutline } from "react-icons/io5";
 import logoRaffle from '@app/assets/imgs/biglietti-lotteria.png';
 import moment from "moment";
 import gift from '@app/assets/imgs/gifts.png';
+import AppDateTimePicker from "../../../../../../app/app_components/Core/AppDateTimePicker";
+import dayjs from "dayjs";
 
 const Modal = ({id, open,onClose, setUpdate, refetch}) => {
     const [showObserver, setShowObserver] = useState(false);
@@ -41,7 +43,7 @@ const Modal = ({id, open,onClose, setUpdate, refetch}) => {
     //states
     const [inputs,setInputs] = useState({
         name: '',  
-        draw_date: '',
+        draw_date: null,
         is_complete: '',
         logo_raffles: '',
         description: '',
@@ -50,7 +52,6 @@ const Modal = ({id, open,onClose, setUpdate, refetch}) => {
         commission_sellers: '',
         number_tickets: '',
         awards: '',
-        time: '',
     });
     const[awards, setAwards] = useState({
         title: 'Otro lugar',
@@ -68,7 +69,7 @@ const Modal = ({id, open,onClose, setUpdate, refetch}) => {
         if(!validationsInputs()){
             return;
         }
-        delete inputs.time;
+        
 
         let awardsTotal = Array.from(document.querySelectorAll('div[data-item-content]'));
         const idFinal = parseInt(awardsTotal.sort((a,b) => a.id + b.id)[0].id) + 1;
@@ -143,12 +144,15 @@ const Modal = ({id, open,onClose, setUpdate, refetch}) => {
       </Button>
     </>;
     //handlers
-    const handleInput = (e) => {
-        let value = e.target.value;
-        const inputName = e.target.name;
-        if(inputName === 'draw_date'){
-           const date = moment(value);
-           value = date.format('YYYY-MM-DD');
+    const handleInput = (e,mui=false) => {
+        let value = '';
+        let inputName = '';
+        if(mui){
+           value = e.format('YYYY-MM-DD HH:mm');
+           inputName = 'draw_date'
+        } else {
+            value = e.target.value;
+            inputName = e.target.name;
         }
 
         if(inputName === 'number_tickets'){
@@ -159,7 +163,7 @@ const Modal = ({id, open,onClose, setUpdate, refetch}) => {
         setInputs(
             {
                 ...inputs,
-                [e.target.name]: e.target.name === 'logo_raffles' ?  changeImgRaffles(e.target.files[0]) : value,
+                [inputName]: inputName === 'logo_raffles' ?  changeImgRaffles(e.target.files[0]) : value,
             }
         )
     }
@@ -270,8 +274,6 @@ const Modal = ({id, open,onClose, setUpdate, refetch}) => {
     }
 
     const validationsInputs = () => {
-
-        inputs.draw_date = inputs.draw_date  + ' ' + inputs.time;
         
         if(awards.title != 'Otro lugar' && awards.description === ''){
             toast({
@@ -316,7 +318,7 @@ const Modal = ({id, open,onClose, setUpdate, refetch}) => {
     //effects
     useEffect(() => {
         if(data !== null &&  data['id'] > 0){
-            setInputs({...data, draw_date: data.draw_date.split(' ')[0],time: data.draw_date.split(' ')[1]});
+            setInputs({...data});
             setImgRaffles(
                 data.logo_raffles === 'logo-raffle.png' ? logoRaffle : `${credentials.server}${data.logo_raffles}`
             )
@@ -366,17 +368,10 @@ const Modal = ({id, open,onClose, setUpdate, refetch}) => {
                                     <FormLabel fontWeight={'bold'}>
                                     Escoja una fecha y hora del sorteo
                                     </FormLabel>
-                                    <Input className="shadow"
-                                        name="draw_date"
-                                        value={inputs.draw_date}
-                                        onChange={handleInput}
-                                        type="date"
-                                    />
-                                    <Input 
-                                        name="time"
-                                        value={inputs.time}
-                                        onChange={handleInput}
-                                        type="time"
+                                    <AppDateTimePicker 
+                                        handleChange={handleInput}
+                                        name='draw_date'
+                                        value={dayjs(inputs.draw_date)}
                                     />
                                 </FormControl>
                                

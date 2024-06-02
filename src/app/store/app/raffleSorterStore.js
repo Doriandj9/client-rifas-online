@@ -23,6 +23,13 @@ const useIsAttempt = create((set) => ({
     }))
 }))
 
+const useSynchronized = create((set) => ({
+    synchronized: false,
+    update: (payload) => set((state) => ({
+        synchronized: payload
+    }))
+}))
+
 const useRaffleStore = create((set) => ({
     raffle: defaultRaffle,
     update: (payload) => set((state) => ({
@@ -57,4 +64,4 @@ const useDrawDetails = create((set) => ({
     })
 }))
 
-export {useRaffleStore, useDrawParameters, useDrawDetails, useTicketsRaffleStore, useIsAttempt};
+export {useRaffleStore, useDrawParameters, useDrawDetails, useTicketsRaffleStore, useIsAttempt, useSynchronized};

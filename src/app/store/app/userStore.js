@@ -9,7 +9,7 @@ const useAuth = create((set) => ({
     login: accessToken ? true : false,
     save: (data) => set((state) => {
         const {token} = data;
-        document.cookie = `accessToken=${token}; Secure; SameSite=Strict; path=/`;
+        localStorage.setItem('accessToken',token);
         return {
             user: data.user,
             isLogin: true

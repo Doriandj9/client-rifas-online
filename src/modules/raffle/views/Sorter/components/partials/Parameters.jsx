@@ -9,7 +9,7 @@ import { CHARACTERS_LETTERS_SPECIALS } from "../../../../../../app/utilities/val
 import { MdRestore } from "react-icons/md";
 import { BsXbox } from "react-icons/bs";
 import { FaTrashRestore } from "react-icons/fa";
-import { defaultDrawParameters, useDrawDetails, useDrawParameters, useIsAttempt, useRaffleStore } from "../../../../../../app/store/app/raffleSorterStore";
+import { defaultDrawParameters, useDrawDetails, useDrawParameters, useIsAttempt, useRaffleStore, useSynchronized } from "../../../../../../app/store/app/raffleSorterStore";
 import { toastConfig } from "../../../../../../app/utilities/web/configs";
 import { useLocaleStorageFromDB } from "../../../../../../app/utilities/hooks/data/useStorageFromDB";
 import { credentials } from "../../../../../../app/config/app";
@@ -24,7 +24,6 @@ let url = credentials.server  + routesapi.raffles_lottery;
 
 
 const Parameters = () => {
-     
     const toast = useToast(toastConfig);
     const user = useAuth((state) => state.user);
     const navigate = useNavigate();
@@ -32,6 +31,7 @@ const Parameters = () => {
     const raffle = useRaffleStore((state) => state.raffle);
     const isClickAttempt = useIsAttempt((state) => state.isAttempt);
     const updateIsClickAttempt = useIsAttempt((state) => state.update);
+    const synchronized = useSynchronized((state) => state.synchronized);
     const {saveData, loading, error, success} = useLocaleStorageFromDB();
     const [isAttempts, setIsAttempts] = useState(true);
     const [attempts, setAttempts] = useState(0);
@@ -47,9 +47,13 @@ const Parameters = () => {
     const ticketSelected = JSON.parse(drawParameters).draw;
     const [loadingComplete, setLoadingComplete] = useState(false);
     const [errorComplete, setErrorComplete] = useState(null);
+    const [loadingSorter, setLoadingSorter] = useState(false);
+    const [errorSorter, setErrorSorter] = useState(false);
+
 
     const [inputs,setInputs] = useState({
-        number: ''
+        number: '',
+        summary: ''
     });
 
     const handleInput = (e) => {
@@ -75,6 +79,39 @@ const Parameters = () => {
                 [e.target.name]:  value,
             }
         )
+    }
+
+    const handleLink  = async (e) => {
+        e.preventDefault();
+        let body = {
+            summary: inputs.summary,
+            in_sorter: true
+        };
+        try {
+            const response = await fetchQuery(token,`${url}/${raffle.id}`,{
+                method: 'PUT', body: new URLSearchParams(body)
+            },setLoadingSorter,setErrorSorter);
+
+            if(!response.status){
+                throw new Error(response.message);
+            }
+            toast({
+                title: 'Notificación',
+                description: 'Se notifico correctamente a todos los usuarios el nuevo link de en vivo.',
+                status: 'success',
+                duration: 3000
+            });
+          
+        } catch (error) {
+            toast({
+                title: 'Error',
+                description: error.message,
+                duration: 5000,
+                status: 'error'
+            });
+        } finally {
+            setLoadingSorter(false);
+        }
     }
 
     const handleSubmit = (e) => {
@@ -164,7 +201,7 @@ const Parameters = () => {
         saveData(`${url}/${raffle.id}`,raffle,defaultDrawParameters,'draw_parameters','parameters');
         setIsComplete(false);
         updateIsClickAttempt(false);
-        
+        setOpenAll(false);
     }
 
 
@@ -174,6 +211,7 @@ const Parameters = () => {
             const form = new FormData();
             form.append('id', raffle.id);
             form.append('is_complete', true);
+            form.append('in_sorter',false);
             const response  = await fetchQuery(token,urlComplete,{method: 'POST', body: form},setLoadingComplete,setErrorComplete);
             if(!response.status){
                 throw Error(response.message);
@@ -249,10 +287,17 @@ const Parameters = () => {
             setIsComplete(false);
         }
     },[drawDetails])
+
+    useEffect(() => {
+        if(raffle){
+            setInputs({...inputs, summary: raffle.summary})
+        }
+    },[raffle])
     
     return (
         <>
         <Loader loading={loadingComplete} />
+        <Loader loading={loadingSorter} />
         <ConfirmDialog 
             open={openAll}
             handleClose={() => setOpenAll(false)}
@@ -284,11 +329,42 @@ const Parameters = () => {
             </Alert>
         </ConfirmDialog>
 
-            <div className="w-[24rem] h-[30rem] ps-8">
+            <div className="w-[24rem] h-[37rem] ps-8">
                 <div className="w-full h-full border-2 border-indigo-950 rounded-xl flex flex-col">
                     <h2 className="text-center text-indigo-950 border-b-2 border-b-indigo-950 py-2 font-bold
                     rounded-tr-xl rounded-tl-xl bg-gray-100
                     ">Parámetros de sorteo</h2>
+                    <div className="">
+                        <Form onSubmit={handleLink}>
+                            <FormControl className="">
+                                <FormLabel 
+                                fontWeight={'bold'}
+                                fontSize={'0.85rem'}
+                                textAlign={'center'}
+                                margin={0}
+                                >
+                                    Actualice el link del <span className="text-secondary">en vivo.</span>
+                                </FormLabel>
+                                <div className="flex gap-1 px-1">
+                                <Input 
+                                    name="summary"
+                                    value={inputs.summary}
+                                    onInput={handleInput}
+                                    fontSize={'0.75rem'}
+                                    height={'2rem'}
+                                    className="shadow"
+                                />
+                                <Button colorScheme="facebook"
+                                    fontSize={'0.75rem'}
+                                    height={'2rem'}
+                                    type="submit"
+                                >
+                                    Actualizar
+                                </Button>
+                                </div>
+                            </FormControl>
+                        </Form>
+                    </div>
                     <div className="w-full p-2 border-b-2 border-b-black/25">
                         <p className="text-md text-primary text-center"> {ticketSelected ? ticketSelected.title : '?'} - Seleccionado </p>
                     </div>
@@ -305,8 +381,8 @@ const Parameters = () => {
                         </AlertDescription>
                     </Box>
                     </Alert>
-                    <div className="w-full px-2 mt-2 flex-grow flex flex-col">
-                    <Form onSubmit={handleSubmit} className="flex flex-col flex-grow">
+                    <div className="w-full px-2 flex-grow flex flex-col">
+                    <Form onSubmit={handleSubmit} className="flex flex-col">
                         <div className="p-4">
                             <FormControl isDisabled={!isAttempts} isRequired>
                                     <FormLabel marginBottom={0} textAlign={'center'} fontSize={'1rem'} fontWeight={'bold'}>
@@ -328,7 +404,7 @@ const Parameters = () => {
                         <div className="flex-grow flex flex-col justify-end">
                             <div className="flex justify-center p-2 gap-2">
                                     <AppButton className="" type="submit" leftIcon={<FaSave className="text-md -mt-1" />}
-                                        isDisabled={inputs.number === ''  || !isAttempts || ticketSelected === null}
+                                        isDisabled={inputs.number === ''  || !isAttempts || ticketSelected === null || !synchronized}
                                     >
                                         <span className="text-sm">Guardar</span>
                                     </AppButton>

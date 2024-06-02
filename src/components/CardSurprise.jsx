@@ -78,7 +78,6 @@ const CardSurprise = ({index=null}) => {
                 });
                 let data = {...drawDetailsData};
                 data.tickets_winner = ticketsWinners;
-                saveData(`${url}/${raffle.id}`,raffle,JSON.stringify(data),'draw_details','details');
                 //restablecer parámetros
                 let params = {...parameters};
                 params.total_attempts = 0;
@@ -86,7 +85,10 @@ const CardSurprise = ({index=null}) => {
                 params.draw = null;
                 params.final = false;
                 params.assignation = false;
-                saveData(`${url}/${raffle.id}`,raffle,JSON.stringify(params),'draw_parameters','parameters');
+                setTimeout(() => {
+                    saveData(`${url}/${raffle.id}`,raffle,JSON.stringify(data),'draw_details','details');
+                    saveData(`${url}/${raffle.id}`,raffle,JSON.stringify(params),'draw_parameters','parameters');
+                },1000)
 
             }else{
                 const ticketsDescartes = drawDetailsData.tickets_discarded.map((item) =>{

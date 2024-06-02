@@ -18,7 +18,9 @@ import { useAccessToken, useAuth } from "../../../../../app/store/app/userStore"
 import { credentials } from "../../../../../app/config/app";
 import routesapi from "../../../../../app/config/routesapi";
 import Loader from "../../../../../app/app_components/Core/Loader";
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import moment from "moment";
+import AppDateTimePicker from "../../../../../app/app_components/Core/AppDateTimePicker";
 
 const url = credentials.server + routesapi.raffles_lottery;
 
@@ -38,13 +40,12 @@ const NewLottery = () => {
         name: '',
         description: '',
         summary: 'Facebook Live',
-        draw_date: '',
+        draw_date: null,
         logo_raffles: '',
         price: '',
         commission_sellers: '0.00',
         number_tickets: '',
         awards: '',
-        time: ''
     })
     const[awards, setAwards] = useState({
         title: 'Primer lugar',
@@ -83,7 +84,12 @@ const NewLottery = () => {
         reader.readAsDataURL(file);
         
     }
-    const handleInput = (e) => {
+    const handleInput = (e,mui=false) => {
+        if(mui){
+            setInputs({...inputs, draw_date: e});
+            return;
+        }
+
         setInputs(
             {
                 ...inputs,
@@ -133,7 +139,7 @@ const NewLottery = () => {
             return;
         }
         const commission_sellers = document.getElementById('commission');
-        setLoading(true);
+        //setLoading(true);
         const form = new FormData();
         let dataAwards = [{id:0, title: awards.title, description: awards.description, imgId: 'award0', img: awards.img, path: ''}];
         const awardsTotal = Array.from(document.querySelectorAll('div[data-content-items]'));
@@ -156,9 +162,8 @@ const NewLottery = () => {
 
         const dataInputs = {...inputs,awards: JSON.stringify(dataAwards),   
             subscription_id: user.subscription_id,
-            draw_date: inputs.draw_date + ' ' + inputs.time
+            draw_date: inputs.draw_date.format('YYYY-MM-DD HH:mm')
         };
-        delete dataInputs.time;
 
         if(logoRaffles){
             dataInputs.logo_raffles = logoRaffles;
@@ -167,6 +172,7 @@ const NewLottery = () => {
         for(let [key,value] of Object.entries(dataInputs) ){
             form.append(key,value);
         }
+
         try {
             const data = await fetchQuery(accToken,url,{method: 'POST',body: form},() => {},setError);
             if(data.status){
@@ -237,7 +243,8 @@ const NewLottery = () => {
             })
             return false;
         }
-        if(!moment(inputs.draw_date + ' ' + inputs.time).isAfter(moment())){
+
+        if(!inputs.draw_date || !moment(inputs.draw_date.format('YYYY-MM-DD HH:mm')).isAfter(moment())){
             toast({
                 title: 'Error',
                 description: 'No puede ingresar un fecha de sorteo menor a la fecha de hoy',
@@ -257,6 +264,7 @@ const NewLottery = () => {
         }
 
    },[itemDelete]);
+   
     return (
         <>
             <Loader loading={loading} />
@@ -282,12 +290,17 @@ const NewLottery = () => {
                                     placeholder="Por ejemplo: Rifa Solidaria"
                                 />
                             </FormControl>
+                         
                             <div className="flex xl:flex-row md:flex-row  flex-col gap-5 mt-4">
                                 <FormControl isRequired className="">
                                     <FormLabel fontWeight={'bold'}>
                                     Escoja una fecha y hora del sorteo
                                     </FormLabel>
-                                    <div className="flex gap-2 items-center flex-col">
+                                    <AppDateTimePicker 
+                                        name={'draw_date'}
+                                        handleChange={handleInput}
+                                    />
+                                    {/* <div className="flex gap-2 items-center flex-col">
                                         <Input className="shadow"
                                             name="draw_date"
                                             value={inputs.draw_date}
@@ -301,7 +314,7 @@ const NewLottery = () => {
                                             onChange={handleInput}
                                             type="time"
                                         />
-                                    </div>
+                                    </div> */}
                                 </FormControl>
                                 <FormControl  className="">
                                     <FormLabel fontWeight={'bold'}>

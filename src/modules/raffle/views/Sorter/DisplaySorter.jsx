@@ -7,7 +7,7 @@ import Footer from "./components/Footer";
 import Header from "./components/Header";
 import { useAccessToken, useAuth } from "../../../../app/store/app/userStore";
 import { credentials } from "../../../../app/config/app";
-import { useDrawDetails, useDrawParameters, useRaffleStore, useTicketsRaffleStore } from "../../../../app/store/app/raffleSorterStore";
+import { useDrawDetails, useDrawParameters, useRaffleStore, useSynchronized, useTicketsRaffleStore } from "../../../../app/store/app/raffleSorterStore";
 import { useEffect, useState } from "react";
 import { useLocaleStorageFromDB } from "../../../../app/utilities/hooks/data/useStorageFromDB";
 import Loader from "../../../../app/app_components/Core/Loader";
@@ -22,7 +22,7 @@ const DisplaySorter = () => {
     const user = useAuth((state) => state.user);
     const toast = useToast(toastConfig);
     const updateTicketsRaffle = useTicketsRaffleStore((state) => state.update);
-
+    const updateSync = useSynchronized((state) => state.update);
     const [dataTickets,setDataTickets] = useState([]);
     const [loadingTickets,setLoadingTickets] = useState(false);
     const [currentPage,setCurrentPage] = useState(null);
@@ -126,6 +126,7 @@ const DisplaySorter = () => {
         if(totalPages && currentPage && totalPages === currentPage){
             const dataFinalTickets = dataTickets.filter((item) => item.id);
             updateTicketsRaffle(dataFinalTickets);
+            updateSync(true);
         }
     },[totalPages,currentPage,dataTickets.length])
 

@@ -1,5 +1,5 @@
 const urlLocal = 'http://127.0.0.1:8000';
-const urlProduction = 'https://api.hayu24.ec';
+const urlProduction = 'https://server.hayu24.ec';
 const urlPreprod = 'https://test.api.hayu24.ec';
 const credentials = {
     server: urlProduction,

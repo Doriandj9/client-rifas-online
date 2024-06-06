@@ -27,7 +27,7 @@ const App = () => {
     //EFFECTS
     useEffect(() => {
         if(data.length > 0){
-            const result = data.filter((item) => item.seller_pos && item.status === 'AC');
+            const result = data.filter((item) => item.seller_pos && item.status === 'AC' && item.raffle.is_complete !== true);  
             setDataDisplay(result);
         }
     },[data]);

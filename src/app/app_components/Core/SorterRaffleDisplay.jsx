@@ -46,6 +46,8 @@ const SorterRaffleDisplay = ({raffle, handleClick}) => {
 
     return (
         <>
+           {
+            raffle.is_complete &&
             <AppModal
             header={<>
                 <div className="flex gap-2 items-center ">
@@ -78,7 +80,7 @@ const SorterRaffleDisplay = ({raffle, handleClick}) => {
                 </Thead>
                 <Tbody>
                 {
-                    awards.tickets_winner.map((item,i) => {
+                   awards && awards.tickets_winner.map((item,i) => {
                     if(!item.winner){
                         return null
                     }
@@ -97,6 +99,7 @@ const SorterRaffleDisplay = ({raffle, handleClick}) => {
             </TableContainer>
                 
             </AppModal>
+           } 
             <div className="flex w-auto shadow-md gap-2 items-center rounded-xl">
                 <div className="p-2">
                     <img

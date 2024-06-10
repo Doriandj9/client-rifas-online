@@ -22,7 +22,7 @@ const AppDisplayPlan = ({plan, handleClick = () => {} } ) => {
                 </p>
                 
                 <div className="md:w-[95%] w-[90%] border-b h-1 border-gray-300 mt-16 mx-auto max-w-[100%]"  />
-                <section className="mt-16">
+                <section className="mt-16 overflow-auto h-[20rem]">
                     <header>
                         <h3 className="text-green-800 font-semibold text-xl">Funciones principales</h3>
                     </header>

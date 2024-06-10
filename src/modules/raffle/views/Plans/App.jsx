@@ -1,4 +1,4 @@
-import { Alert, AlertIcon, Button, FormControl, FormLabel, Input, useToast } from "@chakra-ui/react";
+import { Alert, AlertIcon, Button, FormControl, FormLabel, Input, Tab, TabIndicator, TabList, TabPanel, TabPanels, Tabs, useToast } from "@chakra-ui/react";
 import { useAccessToken, useAuth } from "../../../../app/store/app/userStore";
 import { useEffect, useState } from "react";
 import { useFetch } from "../../../../app/utilities/hooks/data/useFetch";
@@ -15,10 +15,16 @@ import { GrMoney } from "react-icons/gr";
 import { Form } from "react-router-dom";
 import { credentials } from "../../../../app/config/app";
 import routesapi from "../../../../app/config/routesapi";
-import { FaPassport, FaPiggyBank } from "react-icons/fa6";
+import { FaCreditCard, FaPassport, FaPiggyBank } from "react-icons/fa6";
 import { useSetHeader } from "../../../../app/utilities/hooks/web/useSetHeader";
 import BankAccounts from "../../../../components/BankAccounts";
 import { FaCircleInfo } from "react-icons/fa6";
+import { FaMoneyBillAlt } from "react-icons/fa";
+import { HiOutlineTicket } from "react-icons/hi2";
+import { TfiMoney } from "react-icons/tfi";
+import { uuid } from "../../../../app/utilities/web/uuid";
+import AppPhonePayment from "../../../../app/app_components/Core/AppPhonePayment";
+
 const url  = credentials.server + routesapi.subscriptions;
 
 const App = () => {
@@ -35,8 +41,11 @@ const [loadingFetch, setLoadingFetch] = useState(false);
 const [errorFetch, setErrorFetch] = useState(null);
 const [openPayment, setOpenPayment] = useState(false);
 const [idPlan, setIdPlan] = useState('');
+const [dataPLan, setDataPlan] = useState(null);
 const [file, setFile] = useState('');
 const { data, error, loading,total, refetch: fetchData } = useFetch(url,{method: 'GET'},'data');
+const [transaction, setTransaction] = useState('123');
+
 
 //handlers
 const handleClosePayment = () => {
@@ -44,6 +53,7 @@ const handleClosePayment = () => {
 }
 const handleClick = (plan) => (e) => {
     setIdPlan(plan.id);
+    setDataPlan(plan);
     setOpenPayment(true);       
 } 
 const handleChange = (e) => {
@@ -116,13 +126,22 @@ const validations = () => {
         toast({});
     }
 }
+
+const handlePayment = (e, isPay) => {
+    if(isPay){
+        setTransaction(uuid());
+        localStorage.setItem('plan',idPlan);
+    }
+}
 //effects
 
 useEffect(() => {
+    setTransaction(uuid());
     if(user && user.is_new){
         setOpen(true);
     }
 },[]);
+
 
 return (
     <>
@@ -149,24 +168,69 @@ return (
             }
         </div>
         <AppModal header={<>
-            <div>
-                <MdOutlinePayments className="text-4xl text-green-600" /> 
-                <span className="text-primary">Completa la suscripción de tu nuevo plan.</span>
+            <div className="flex gap-2 items-center border-b-2 border-b-gray-300">
+            <MdOutlinePayments className="text-4xl text-primaryop-800" /> 
+            <h2 className="title-dynamic"
+                >Completa la suscripción de tu nuevo plan.</h2>
             </div>
         </>}  
         isOpen={openPayment} 
         onClose={handleClosePayment} 
         size='5xl'
         >
-                <p className="italic text-orange-900">
-                    Actualmente el sistema solo permite cancelar tu solicitud de pago por de medio de transferencia bancaria,
-                    próximamente se habilitaran nuevas formas de pago, lamentamos cualquier inconveniente que te causemos.
-                </p>
+                <div className='bg-white'>
+                <Tabs position="relative" variant="unstyled">
+                <TabList>
+                <Tab onClick={(e) => handlePayment(e,false)}>
+                <div className='flex items-center gap-2'>
+                    <FaMoneyBillAlt className='text-secondary w-6 h-6'  />
+                    Efectivo
+                    </div>
+                    </Tab>
+                <Tab onClick={(e) => handlePayment(e,true)}>
+                <div className='flex items-center gap-2'>
+                    <FaCreditCard className='text-secondary w-6 h-6'  />
+                    Tarjeta crédito/débito
+                    </div>
+                </Tab>
+                </TabList>
+                <TabIndicator
+                mt="-1.5px"
+                height="2px"
+                bg="blue.500"
+                borderRadius="1px"
+                />
+                <TabPanels>
+                <TabPanel>
                 
                 {data && data.length > 0 && <BankAccounts bankAccounts={data[0].user.bank_accounts} /> }
-                <article className="mt-6">
+                <article className="">
+                <div className="">
+                            <h2 className="text-xl font-bold text-primary">Datos de Pago</h2>
+                                <div className="flex">
+                                <section>
+                                    <p className="w-full flex gap-2  text-xl">
+                                        <span className="font-bold flex gap-2 block"> 
+                                            <HiOutlineTicket className="text-green-600" />Nombre del plan: 
+                                        </span> 
+                                        <span className="flex-grow text-primary">
+                                            {dataPLan?.title}
+                                        </span>
+                                    </p>
+                                    <p className="w-full flex gap-2 text-xl">
+                                        <span className="font-bold flex gap-2 block">
+                                        <TfiMoney className="text-green-600" />
+                                            Total a pagar: 
+                                        </span> 
+                                        <span className="flex-grow text-primary"> ${dataPLan?.price} </span>
+                                    </p>
+                                    
+                                </section>
+                                </div>
+
+                </div>
                     <div>
-                        <Alert className="mt-6" status='warning' variant='left-accent'>
+                        <Alert className="mt-2" status='warning' variant='left-accent'>
                             <AlertIcon />
                             Posterior a la realización de la transferencia adjuntar el comprobante de pago, caso contrario 
                             no se validara su suscripción y no dispondrá de acceso a los servicios de la plataforma.
@@ -192,6 +256,39 @@ return (
                         </div>
                     </div>
                 </article>
+                </TabPanel>
+                <TabPanel>
+                <AppPhonePayment parameters={{amount: parseFloat(dataPLan?.price) * 100 }}
+                        transactionId={transaction} >
+                            <div className="">
+                            <h2 className="text-xl font-bold text-primary text-center">Datos de Pago</h2>
+                                <div className="flex justify-center">
+                                <section>
+                                    <p className="w-full flex gap-2  text-xl">
+                                        <span className="font-bold flex gap-2 block"> 
+                                            <HiOutlineTicket className="text-green-600" />Nombre del plan: 
+                                        </span> 
+                                        <span className="flex-grow text-primary">
+                                            {dataPLan?.title}
+                                        </span>
+                                    </p>
+                                    <p className="w-full flex gap-2 text-xl">
+                                        <span className="font-bold flex gap-2 block">
+                                        <TfiMoney className="text-green-600" />
+                                            Total a pagar: 
+                                        </span> 
+                                        <span className="flex-grow text-primary"> ${dataPLan?.price} </span>
+                                    </p>
+                                    
+                                </section>
+                                </div>
+
+                            </div>
+                        </AppPhonePayment>
+                </TabPanel>
+                </TabPanels>
+                </Tabs>
+                </div>
         </AppModal>
     </>
 );

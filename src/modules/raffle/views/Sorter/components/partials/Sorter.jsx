@@ -12,10 +12,11 @@ const Sorter = () => {
     
     return (
         <>
-        <div className="flex-grow flex justify-center items-center gap-2">
+        <div className="flex-grow flex justify-center items-center gap-2 overflow-auto flex-wrap">
             {
             surprises.length > 0 
-            ? surprises.map((_,index) => (<CardSurprise key={index} index={index + 1} />)) 
+            ?
+            surprises.map((_,index) => (<CardSurprise key={index} index={index + 1} />)) 
             : <CardSurprise />
             }
         </div>

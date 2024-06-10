@@ -13,6 +13,7 @@ export default {
     register_success: '/security/complete-register',
     company_policy: '/company-policy',
     recovery_password: '/recovery/password',
+    payphone: '/payphone/credit-card',
     admin:{
         root: '/admin',
         children: {

@@ -5,16 +5,25 @@ const fetchQuery = async (apiKey,url, options = {}, setLoading = () => {}, setEr
     headers.append('Accept','application/json');
     headers.append('Authorization', `Bearer ${apiKey}`);
     
+    if(options.headers){
+        for(let [key,value] of Object.entries(options.headers)){
+            headers.append(key,value);
+        }
+    }
+    
     const optionsFetch = {...options,headers}
+    
     try{
         const query =  await fetch(url,optionsFetch);
         if(query.status === 401){
-            location.reload();
+           location.reload();
         }
         const response = await query.json();
         return response;
     }catch(e){
         setError(e);
+    }finally{
+        setLoading(false);
     }
 }
 

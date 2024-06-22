@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom";
+import { useDynamicUrl } from "../../../store/app/queriesStore";
 /**
  * 
  * @param {string} url 
@@ -11,25 +12,38 @@ import { useNavigate } from "react-router-dom";
  * @param {boolean} paginate informa si es hay datos para paginar
  * @returns {*} { data, error, loading,total, refetch: fetchData }
  */
-const useFetch = (url, options= {}, keyData= null, auth=false, apiKey='',dependencies=[], paginate=false, page=0) => {
+const useFetch = (url, options= {}, keyData= null, auth=false, apiKey='',dependencies=[], paginate=false, page=0, search = false) => {
     //hooks 
     const navigate = useNavigate();
+    const urlDynamic = useDynamicUrl((state) => state.url);
     const [data,setData] = useState([]);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(true);
     const [total, setTotal] = useState(0);
     const headers = new Headers();
+    
     if(auth){
         headers.append('Accept','application/json');
         headers.append('Authorization', `Bearer ${apiKey}`);
         options = {...options,headers}
     }
+
     const fetchData = async () => {
+        if(search){
+            url = urlDynamic;
+        }
         try{
             setLoading(true);
-            if(paginate && page > 1){
+            if(url === '') return;
+
+            if(paginate && page > 1 && !url.includes('filters')){
                 url = url + "?page=" + page;
             }
+
+            if(paginate && page > 1 && url.includes('filters')){
+                url = url + "&page=" + page;
+            }
+
             const res = await fetch(url, options);
             if(res.status !== 200){
                 navigate('/');
@@ -50,7 +64,7 @@ const useFetch = (url, options= {}, keyData= null, auth=false, apiKey='',depende
         fetchData();
       }, dependencies);
 
-    return { data, error, loading,total, refetch: fetchData }; 
+    return { data, error, loading,total,updateData: setData, refetch: fetchData }; 
 }
 
 export {useFetch};

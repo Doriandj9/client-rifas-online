@@ -2,7 +2,9 @@ import { Button, ButtonGroup, IconButton } from '@chakra-ui/react'
 import { GrFormPrevious, GrFormNext } from "react-icons/gr";
 import { application } from '../../config/app';
 import { useEffect, useState } from 'react';
+import { useDynamicUrl } from '../../store/app/queriesStore';
 const PaginateButtons = ({total, page , setPage, raffles = false}) => {
+    const urlDynamic = useDynamicUrl((state) => state.url);
     const [prev, setPrev] = useState(0);
     const [next, setNext] = useState(page);
     const pag = Math.ceil(total / (raffles ? application.paginateRaffles : application.paginateCount));
@@ -45,9 +47,14 @@ const PaginateButtons = ({total, page , setPage, raffles = false}) => {
 
     }, [page])
 
+    useEffect(() => {
+        setPage(1);
+    },[urlDynamic])
+
     // console.log('pag', prev, page, next);
     return (
         <>
+        <div className='w-full overflow-x-auto p-4'>
             <ButtonGroup variant='outline' spacing='2'>
             <IconButton
                 variant='outline'
@@ -67,6 +74,7 @@ const PaginateButtons = ({total, page , setPage, raffles = false}) => {
                 icon={<GrFormNext className='pointer-events-none' />}
                 />
             </ButtonGroup>
+        </div>
         </>
     );
 }

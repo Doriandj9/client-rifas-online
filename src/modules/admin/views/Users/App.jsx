@@ -11,16 +11,21 @@ import ResetPassword from './Modal/ResetPassword';
 import BlockUser from './Modal/BlockUser';
 import { useSetHeader } from '../../../../app/utilities/hooks/web/useSetHeader';
 import { useFetch } from '../../../../app/utilities/hooks/data/useFetch';
+import { useDynamicUrl } from '../../../../app/store/app/queriesStore';
 
-const url = credentials.server + routesapi.admin_users;
+const url_base = credentials.server + routesapi.admin_users;
 
 const App  = () => {
   const [pagePaginate,setPagePaginate] = useState(1);//pagination
+  const urlUpdate = useDynamicUrl((state) => state.update);
+  const urlBaseUpdate = useDynamicUrl((state) => state.updateBase);
+  const url = useDynamicUrl((state) => state.url);
+
 
     //hooks 
     useSetHeader('Usuarios de la plataforma');
     const token = useAccessToken((state) => state.token);
-    const { data, error, total, loading,refetch} = useFetch(url,{method: 'GET'},'data',true,token,[pagePaginate],true,pagePaginate)//pagination
+    const { data, error, total, loading,refetch} = useFetch(url,{method: 'GET'},'data',true,token,[pagePaginate,url],true,pagePaginate,true)//pagination
 
     //states 
     const [openModalUser,setOpenModalUser] = useState(false);
@@ -69,8 +74,10 @@ const App  = () => {
       }
     }, [resultUpdate])
     //jsx
-
-
+    useEffect(() => {
+      urlUpdate(url_base);
+      urlBaseUpdate(url_base);
+    },[])
      return (
         <>
           <ToastContainer className={'w-[32rem]'}  />
@@ -91,7 +98,8 @@ const App  = () => {
            {idItem && <ResetPassword id={idItem} open={openModal} onClose={handleCloseModal} setUpdate={setResultUpdate} refetch={refetch} />}
            {idUser && <BlockUser id={idUser} open={openModalUser} onClose={handleCloseModal} setUpdate={setResultUpdate} refetch={refetch} />}
            <AppTable actionColumns={actionColumns} columns={columns} data={data} error={error} loading={loading} refetch={refetch}
-             total={total} setPagePaginate={setPagePaginate} pagePaginate={pagePaginate}
+             total={total} setPagePaginate={setPagePaginate} pagePaginate={pagePaginate} search={true}
+             columnSearch={[{value:'taxid', name: 'Cédula', selected: true}, {value: 'search',name: 'Nombres o Apellidos'}]}
             />
         </>
         </div>

@@ -8,8 +8,9 @@ import PaginateButtons from "./PaginateButtons";
 import { application } from "../../config/app";
 import noData from '@app/assets/imgs/no_data.svg';
 import AppSearch from "./AppSearch";
+import AppSearchComponent from "./AppSearchComponent";
 
-const AppTable = ({columns, actionColumns,data,error,loading,total=0,pagePaginate=0,setPagePaginate =() => {},refetch = () => {}, search =null}) => {
+const AppTable = ({columns, actionColumns,data,error,loading,total=0,pagePaginate=0,setPagePaginate =() => {},refetch = () => {}, search =null, columnSearch=[]}) => {
   // const [pagePaginate,setPagePaginate] = useState(1);
   const [dataDisplay, setDataDisplay] = useState(data);
 
@@ -29,7 +30,7 @@ const AppTable = ({columns, actionColumns,data,error,loading,total=0,pagePaginat
     <div className="text-end">
         <div className="flex justify-between">
           {
-            search !== null ? search : <>
+            search !== null ? <AppSearchComponent columns={columnSearch} /> : <>
             <span className="opacity-0">...</span>
             </>
           }

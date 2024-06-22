@@ -60,6 +60,45 @@
   @apply py-2 pl-3 pr-4 text-secondaryop-700 bg-primary rounded lg:bg-transparent lg:p-0 dark:text-white flex items-center gap-1;
 }
 
+.app-select-search{
+  background-color: white !important;
+  border-color: transparent !important;
+  outline-color: transparent !important;
+  box-shadow: none;
+}
+.app-select-search:focus{
+  border-color: transparent !important;
+  outline-color: transparent !important;
+  box-shadow: none;
+}
+.app-search {
+  @apply rounded-xl shadow-md;
+  background-color: white;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.app-input-search{
+  border: none;
+  outline: none;
+  padding: 0 .25rem;
+  box-shadow: none;
+}
+
+.app-input-search:focus{
+  border: none;
+  outline: none;
+  box-shadow: none;
+  padding: 0 .25rem;
+
+}
+
+.btn-search{
+  @apply bg-primary rounded-tr-xl rounded-br-xl;
+  padding: .6rem;  
+}
+
 }
 
 .card-animate {

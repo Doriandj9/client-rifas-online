@@ -93,7 +93,7 @@ const NewAccount = () => {
         } catch (error) {
             toast({
                 title: 'Error',
-                description: error
+                description: error.message
             })
             
         } finally {

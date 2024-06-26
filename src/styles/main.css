@@ -1807,6 +1807,10 @@ input[type="range"]::-ms-fill-lower {
   width: 1.5rem;
 }
 
+.w-60 {
+  width: 15rem;
+}
+
 .w-64 {
   width: 16rem;
 }
@@ -2136,6 +2140,10 @@ input[type="range"]::-ms-fill-lower {
   border-bottom-left-radius: 1.5rem;
 }
 
+.rounded-bl-xl {
+  border-bottom-left-radius: 0.75rem;
+}
+
 .rounded-br-3xl {
   border-bottom-right-radius: 1.5rem;
 }
@@ -2158,10 +2166,6 @@ input[type="range"]::-ms-fill-lower {
 
 .rounded-tr-xl {
   border-top-right-radius: 0.75rem;
-}
-
-.rounded-bl-xl {
-  border-bottom-left-radius: 0.75rem;
 }
 
 .border {
@@ -2278,6 +2282,11 @@ input[type="range"]::-ms-fill-lower {
   border-bottom-color: rgb(255 255 255 / var(--tw-border-opacity));
 }
 
+.bg-amber-700 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(180 83 9 / var(--tw-bg-opacity));
+}
+
 .bg-black {
   --tw-bg-opacity: 1;
   background-color: rgb(0 0 0 / var(--tw-bg-opacity));
@@ -2383,6 +2392,11 @@ input[type="range"]::-ms-fill-lower {
   background-color: rgb(255 255 255 / 0.75);
 }
 
+.bg-yellow-900 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(113 63 18 / var(--tw-bg-opacity));
+}
+
 .bg-opacity-50 {
   --tw-bg-opacity: 0.5;
 }
@@ -2427,40 +2441,8 @@ input[type="range"]::-ms-fill-lower {
   padding: 2rem;
 }
 
-.p-5 {
-  padding: 1.25rem;
-}
-
-.p-3 {
-  padding: 0.75rem;
-}
-
-.p-\[1\.5rem\] {
-  padding: 1.5rem;
-}
-
-.p-\[\.75rem\] {
-  padding: .75rem;
-}
-
 .p-\[0\.75rem\] {
   padding: 0.75rem;
-}
-
-.p-\[1rem\] {
-  padding: 1rem;
-}
-
-.p-\[1\.30rem\] {
-  padding: 1.30rem;
-}
-
-.p-\[1\.50rem\] {
-  padding: 1.50rem;
-}
-
-.p-\[1\.25rem\] {
-  padding: 1.25rem;
 }
 
 .px-1 {
@@ -2566,6 +2548,10 @@ input[type="range"]::-ms-fill-lower {
 
 .ps-8 {
   padding-inline-start: 2rem;
+}
+
+.pt-1 {
+  padding-top: 0.25rem;
 }
 
 .pt-10 {
@@ -3405,6 +3391,10 @@ input[type="range"]::-ms-fill-lower {
     max-width: 1280px;
   }
 
+  .md\:flex-grow {
+    flex-grow: 1;
+  }
+
   .md\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -3423,6 +3413,10 @@ input[type="range"]::-ms-fill-lower {
 
   .md\:place-items-stretch {
     place-items: stretch;
+  }
+
+  .md\:items-center {
+    align-items: center;
   }
 
   .md\:justify-normal {

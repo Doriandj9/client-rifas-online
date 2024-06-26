@@ -18,6 +18,7 @@ import { PiUsersFourFill } from "react-icons/pi";
 import { LuClover } from "react-icons/lu";
 import { Badge } from "@chakra-ui/react";
 import { TbArrowsRandom } from "react-icons/tb";
+import { PiMoney } from "react-icons/pi";
 
 const SidebarRaffles = () => {
     const user = useAuth((state) => state.user);
@@ -84,6 +85,12 @@ const SidebarRaffles = () => {
                     {/* <Home_Medium className="text-secondary" /> */}
                     <MdCreditScore className="text-xl mr-2" />
                     <span>Métodos de cobros</span>
+                </NavLink>
+                <NavLink to={prefix + '/' + routes.income.root}
+                className={(props) => handleRoute(props)}
+                >
+                    <PiMoney className="text-xl mr-2" />
+                    <span className="text-white hover:text-gray-700">Ingresos</span>
                 </NavLink>
                 <NavLink to={prefix  + '/' + routes.membership} 
                 className={(props) => handleRoute(props)}

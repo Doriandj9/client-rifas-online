@@ -30,6 +30,9 @@ import AppMembership from "../views/Membership/App";
 import AuthorizationPayments from "../views/PaymentConfirm/tabs/AuthorizationPayments";
 import ListPayments from "../views/PaymentConfirm/tabs/ListPayments";
 import AppSorter from "../views/Sorter/App";
+import AppIncome from "../views/Income/App";
+import Solicitude from "../views/Income/tabs/Solicitude";
+import ListSolicitude from "../views/Income/tabs/ListSolicitude";
 
 const routes = routesweb.dashboard.children.raffles.children;
 
@@ -93,6 +96,22 @@ export default {
         {
             path: routes.membership,
             element: <AppMembership />
+
+        },
+        {
+            path: routes.income.root,
+            element: <AppIncome />,
+            handle:{'income.default': true},
+            children:[
+                {
+                    path: routes.income.children.solicitude,
+                    element: <Solicitude />
+                },
+                {
+                    path: routes.income.children.list,
+                    element: <ListSolicitude />
+                },
+            ]
 
         },
         {

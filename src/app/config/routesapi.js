@@ -21,6 +21,7 @@ export default {
     raffles_subscriptions_voucher: '/api/raffles/subscriptions/plans/voucher',
     raffles_lottery: '/api/raffles/lottery',
     raffles_list_raffles: '/api/raffles/list/raffles/{taxid}',
+    raffles_income: '/api/raffles/income',
     raffles_list_payment_confirm: '/api/raffles/list/confirm/payment/{taxid}',
     raffles_receipts: '/api/raffles/receipt',
     raffle_bank_accounts_by_user: '/api/raffles/bank-accounts/user/{user_id}',
@@ -31,6 +32,7 @@ export default {
     raffle_payments_receipts_resend_mail: '/api/raffles/payments/receipts/{receipt_id}',
     raffle_complete: '/api/raffles/complete/{id}',
     raffles_plans_card: '/api/card-transaction/plans',
+    raffles_me_income: '/api/raffles/me/income/{id}',
     //public
     public_raffles: '/api/public/raffles',
     public_tickets_by_raffles : '/api/public/raffles/tickets/{id}',

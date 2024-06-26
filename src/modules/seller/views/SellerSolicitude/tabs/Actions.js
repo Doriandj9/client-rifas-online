@@ -29,7 +29,6 @@ export default [
     color: 'gray.700',
     element: null,
     validation: (item) => {
-        console.log(item);
         return item.status === 'CO' ? 'animate animate-bounce' : ''
     },
     onclick: () => {

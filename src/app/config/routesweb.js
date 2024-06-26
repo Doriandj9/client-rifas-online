@@ -41,6 +41,7 @@ export default {
             profile: {
                 root: 'client/user/profile' 
             },
+            incomes: 'solicitude/incomes',
             dashboard: {
                 root: 'dashboard'
             },
@@ -78,6 +79,13 @@ export default {
                         }
                     },
                     membership: 'membership/user',
+                    income: {
+                        root: 'me/income',
+                        children: {
+                            solicitude: 'solicitude',
+                            list: 'list'
+                        }
+                    },
                     payment_method: {
                         root: 'payment-method',
                         children: {

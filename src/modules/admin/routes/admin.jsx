@@ -29,6 +29,7 @@ import ListAccount from "../../raffle/views/PaymentMethod/tabs/ListAccount";
 import AppPaymentMethod from "../views/PaymentMethod/App";
 import AppUsers from "../views/Users/App";
 import AppProfile from "../views/Profile/App";
+import AppIncomes from "../views/Incomes/App";
 
 
 
@@ -95,6 +96,10 @@ export default {
         {
             path: routesweb.admin.children.users.root,
             element: <AppUsers />
+        },
+        {
+            path: routesweb.admin.children.incomes,
+            element: <AppIncomes />
         },
         {
             path: routesweb.admin.children.passwords.root,

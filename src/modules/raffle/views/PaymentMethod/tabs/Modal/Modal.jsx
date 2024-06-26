@@ -38,6 +38,7 @@ const Modal = ({id, open,onClose, setUpdate, refetch}) => {
         qr_image: '',
         qr_image_update: '',
         taxid: '',
+        is_account_local: false
     })
 
     //code
@@ -153,7 +154,7 @@ const Modal = ({id, open,onClose, setUpdate, refetch}) => {
                         name="taxid"
                         value={inputs.taxid}/>
                     </FormControl>
-                    <FormControl className="flex items-center mt-3" >
+                    <FormControl isDisabled={!inputs.is_account_local} className="flex items-center mt-3" >
                         <FormLabel fontWeight={'bold'} margin={0} width={'25%'}>
                         Nombre de la cuenta
                         </FormLabel>
@@ -173,7 +174,7 @@ const Modal = ({id, open,onClose, setUpdate, refetch}) => {
                         name="account_number"
                         value={inputs.account_number}/>
                     </FormControl>
-                    <FormControl className="flex items-center mt-3" >
+                    <FormControl isDisabled={!inputs.is_account_local} className="flex items-center mt-3" >
                         <FormLabel fontWeight={'bold'} margin={0} width={'25%'}>
                         Tipo de cuenta
                         </FormLabel>
@@ -183,6 +184,7 @@ const Modal = ({id, open,onClose, setUpdate, refetch}) => {
                         name="type"
                         value={inputs.type}/>
                     </FormControl>
+                    { inputs.is_account_local && <>
                     <FormControl className="flex items-center mt-3" >
                         <FormLabel fontWeight={'bold'} margin={0} width={'25%'}>
                             Imagen QR
@@ -213,6 +215,8 @@ const Modal = ({id, open,onClose, setUpdate, refetch}) => {
                                         type="file"
                                     />
                     </FormControl>
+                    </>
+                    }
                 </Form>
             </AppModal>
         </>

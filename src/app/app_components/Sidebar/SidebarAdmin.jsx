@@ -11,6 +11,8 @@ import { RiLockPasswordLine } from "react-icons/ri";
 import { GiSecurityGate } from "react-icons/gi";
 import { RiBankCard2Line } from "react-icons/ri";
 import { MdOutlineCreditScore } from "react-icons/md";
+import { GrTransaction } from "react-icons/gr";
+
 const SidebarAdmin = () => {
     const [objRoutes, setObjRoutes] = useState({
         admin_plans: false,
@@ -59,7 +61,13 @@ const SidebarAdmin = () => {
                     {/* <Home_Medium className="text-secondary" /> */}
                     <RiBankCard2Line className="text-xl mr-2" />
                     <span>Métodos de pagos</span>
-                </NavLink>
+            </NavLink>
+            <NavLink to={routes.children.incomes}
+            className={(props) => handleRoute(props)}
+            >
+                <GrTransaction className="text-xl mr-2" />
+                <span className="text-white hover:text-gray-700">Solicitudes de retiro</span>
+            </NavLink>
             <NavLink to={routes.children.reports.root}
             className={(props) => handleRoute(props)}
             >

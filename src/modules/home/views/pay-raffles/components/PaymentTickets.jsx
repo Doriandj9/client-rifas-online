@@ -7,7 +7,7 @@ import ModalPayment from "./ModalPayment";
 import { CEDULA_REG_EXPRE, CHARACTERS_LETTERS_SPECIALS, CHARACTERS_NUMBERS_SPECIALS, DIGIT_REG_EXPRE, EMAIL_REG_EXPRE, NUMBER_REG_EXPRE } from '@app/app/utilities/validations/Expresions';
 
 
-const PaymentTickets = ({openPayment, handleClosePayment, tickets, price, total, onSubmit, bankAccounts}) => {
+const PaymentTickets = ({openPayment, handleClosePayment, tickets, price, total, onSubmit, bankAccounts, handleCardPayment}) => {
 
     const user = useAuth(state => state.user);
     const [paymentUser, setPaymentUser] = useState(true);
@@ -15,7 +15,7 @@ const PaymentTickets = ({openPayment, handleClosePayment, tickets, price, total,
     return (
         <>
         {user && paymentUser ? <PaymentAuth user={user}  setPaymentUser={setPaymentUser} /> : <PaymentNotAuth />}
-        <ModalPayment bankAccounts={bankAccounts} onSubmit={onSubmit} open={openPayment} handleClose={handleClosePayment} price={price} total={total} tickets={tickets} />
+        <ModalPayment handleCardPayment={handleCardPayment} bankAccounts={bankAccounts} onSubmit={onSubmit} open={openPayment} handleClose={handleClosePayment} price={price} total={total} tickets={tickets} />
         </>
         
     );

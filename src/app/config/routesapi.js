@@ -39,6 +39,7 @@ export default {
     public_recovery_password: '/api/public/recovery/password',
     //payment
     public_payment_raffles: '/api/payment/raffle',
+    payment_tickets_credit: '/api/payment/tickets/card-transaction',
     //config
     refresh_data_user: '/api/refresh/user',
 

@@ -8,6 +8,7 @@ import { MdOutlineKeyboardBackspace } from "react-icons/md";
 
 const PayphoneLayout = ({children}) => {
     const sideBarOpen = useMenuStore((state) => state.sideBarOpen);
+    const opTransaction = localStorage.getItem('type_of_transaction');
 
     return (
         <>
@@ -21,9 +22,12 @@ const PayphoneLayout = ({children}) => {
                             </Link> 
                             </p>
                     </div>
+                    {
+                    opTransaction === 't_plans' &&    
                     <div className='flex-grow'>
                         <Navbar stick />
                     </div>
+                    }
                     {/* <Link to={back}>
                         <div className='absolute -bottom-12 left-1 bg-primary rounded-xl'>
                             <MdOutlineKeyboardBackspace className='w-12 h-12 text-white cursor-pointer' />

@@ -5,7 +5,7 @@ import PayphoneLayout from "../app/layouts/PayphoneLayout";
 import routesweb from "../app/config/routesweb";
 import { Button, useToast } from "@chakra-ui/react";
 import { lottieOptions, toastConfig } from "../app/utilities/web/configs";
-import { fetchQuery } from "../app/utilities/web/fetchQuery";
+import { fetchQuery, initialFetch } from "../app/utilities/web/fetchQuery";
 import { application, credentials } from "../app/config/app";
 import loadingPayment from '@app/assets/imgs/animations/loading-payment.json';
 import Lottie from "react-lottie";
@@ -14,6 +14,11 @@ import { MdOutlineError } from "react-icons/md";
 import ModalSuccess from "../app/app_components/Core/ModalSuccess";
 import routesapi from "../app/config/routesapi";
 import { useAccessToken, useAuth } from "../app/store/app/userStore";
+import moment from "moment";
+import { formatNumberTwoDigits } from "../app/utilities/web/formatNumber";
+
+const urlPayment = credentials.server + routesapi.public_payment_raffles;
+
 
 const CreditPayment = () => {
     const navigate = useNavigate();
@@ -23,12 +28,33 @@ const CreditPayment = () => {
     const [error, setError] = useState(null);
     const toast = useToast(toastConfig);
     const url = new URL(window.location.href);
+    const [notUnique, setNotUnique] = useState(false);
     const params = url.searchParams;
     const idTransaction = params.get('id');
     const clientTransaction= params.get('clientTransactionId');
+    const opTransaction = localStorage.getItem('type_of_transaction');
     const [isSuccess, setIsSuccess] = useState(false);
 
     const confirmPayment = async (id,transaction) => {
+        if(opTransaction === 't_plans'){
+            requestPlansCredit(id, transaction);
+            return;
+        }
+        if(opTransaction === 't_tickets'){
+            requestTicketsCredit(id, transaction);
+            return;
+        }
+        
+        toast({
+            title: 'Error',
+            description: 'Error no se encontró un tipo de transacción',
+            status: 'error'
+        });
+        return navigate('/');
+    }
+
+    const requestPlansCredit = async (id, transaction) => {
+
         const url = 'https://pay.payphonetodoesposible.com/api/button/V2/Confirm';
         const payload = JSON.stringify({id, clientTxId: transaction});
         const urlCreditCard = credentials.server + routesapi.raffles_plans_card;
@@ -77,8 +103,88 @@ const CreditPayment = () => {
         }
     }
 
+    const requestTicketsCredit = async (id, transaction) => {
+        const url = 'https://pay.payphonetodoesposible.com/api/button/V2/Confirm';
+        const payload = JSON.stringify({id, clientTxId: transaction});
+        const urlCreditCard = credentials.server + routesapi.payment_tickets_credit;
+        try {
+            const response =  await fetchQuery(application.tokenPP,url,{
+                method: 'POST',
+                body: payload,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }, setLoading,setError);
+           const createResponse = await fetchQuery(token,urlCreditCard,{
+            method: 'POST',
+            body: JSON.stringify(response),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+           },setLoading, setError);
+
+           if(!createResponse.status){
+            throw Error(createResponse.message);
+           }
+
+           const requestCredit = JSON.parse(localStorage.getItem('request_transaction'));
+           const form = new FormData();
+           for(let[key,value] of Object.entries(requestCredit)){
+                form.append(key, value);
+           }
+
+           form.append('credit_transaction', true);
+
+           if(await requestCreditTickets(form)){
+            form.set('no_code', true);
+            await requestCreditTickets(form);
+        } else  {
+            setIsSuccess(true);
+        }
+
+        } catch (error) {
+           const requestCredit = JSON.parse(localStorage.getItem('request_transaction'));
+           const datetime = moment().add(2,'hours').unix();
+           Reflect.set(requestCredit,'time_expired',datetime);
+           Reflect.set(requestCredit,'credit_transaction',true);
+           localStorage.setItem('error_transaction',JSON.stringify(requestCredit));
+
+
+            setError(error)
+        }
+        
+    }
+
+    const requestCreditTickets =  async (form) => {
+
+        const response =  await initialFetch(urlPayment,{method: 'POST', body: form});
+
+            if(!response.status){
+                if(!response.error_unique){
+                    setNotUnique(true);
+                }
+                throw Error(response.message);
+            }
+
+            
+
+            if(response.invalid_code){
+                toast({
+                    title: 'Información',
+                    description: 'El código de afiliado/vendedor contiene error ' + response.message_code +
+                    ', se va realizar la transacción por temas de seguridad, pero el vendedor afiliado no recibirá su comisión.',
+                    status: 'warning',
+                    duration: 5000
+                });
+                return true;
+            }
+        return false;
+    }
+
+
     const redirect =  () => {
-        return navigate('/dashboard/raffles/update/plans')
+        let url = opTransaction === 't_plans' ?  '/dashboard/raffles/update/plans' : `/payment/raffles/${JSON.parse(localStorage.getItem('request_transaction')).raffles_id}`;
+        return navigate(url);
     }
 
     useEffect(() => {
@@ -88,6 +194,7 @@ const CreditPayment = () => {
 
         confirmPayment(idTransaction,clientTransaction);
     },[idTransaction,clientTransaction])
+    
     return (<>
         <PayphoneLayout>
         <div className="flex w-full h-full items-center justify-center flex-col mt-[5%]">
@@ -111,6 +218,14 @@ const CreditPayment = () => {
                 >
                  <div>
                     <p> {error.message} </p>
+                        {
+                        opTransaction  != 't_plans' && notUnique === true &&
+                            <p>
+                                Tiene permitido realizar una nueva compra con un saldo de 
+                                 (<strong>${formatNumberTwoDigits(parseFloat(JSON.parse(localStorage.getItem('request_transaction')).total))}</strong>)
+                                , la misma estará disponible por 2 horas a partir de ahora.
+                            </p>
+                        }
                     <p className="mt-4 text-gray-500 italic"> Póngase en contacto con el administrador del sistema para corregir el error.</p>
 
                  </div>
@@ -124,7 +239,16 @@ const CreditPayment = () => {
                     open={isSuccess}
                     handleClose={redirect}
                 >
-                    Transacción completada, disfruta de todas las funcionalidades del sistema.
+                    {
+                        opTransaction  == 't_plans' ?
+                        <p>
+                            Transacción completada, disfruta de todas las funcionalidades del sistema.
+                        </p>
+                        :
+                        <p>
+                            Transacción completada, y mucha suerte con tus nuevos boletos ganadores.
+                        </p>
+                    }
                 </ModalSuccess>
             </>
         }

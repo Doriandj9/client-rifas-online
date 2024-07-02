@@ -28,6 +28,9 @@ import { formatTimeDate, formatTimeDateHour } from '../../../../app/utilities/we
 import { BsClockFill } from "react-icons/bs";
 import { RiLiveFill } from "react-icons/ri";
 import ConfirmDialog from '../../../../app/app_components/Core/ConfirmDialog';
+import moment from 'moment';
+import { formatNumberTwoDigits } from '../../../../app/utilities/web/formatNumber';
+import PendingTransaction from './components/PendingTransaction';
 
 const urlPayment = credentials.server + routesapi.public_payment_raffles;
 
@@ -42,12 +45,17 @@ const App = () => {
     const params = useParams();
     const user = useAuth(state => state.user);
     const toast = useToast(toastConfig);
-
+    const [isHandlePayment, setIsHandlePayment] = useState(false);
     const [displayImg, setDImage] = useState(null);
     const [idImg, setIdImg] = useState('');
     const [openPayment, setOpenPayment] = useState(false);
     const [paymentLoading, setPaymentLoading] = useState(false);
     const [ticketsSaved, setTicketsSaved] = useState([]);
+    const [dataInfo, setDataInfo] = useState({
+        tickets: 0,
+        total: 0,
+        price: 0
+    })
     const [noCode,setNoCode] = useState(null);
     const [openSuccess, setOpenSuccess] = useState(false);
     const [messageModal, setMessageModal] = useState(null);
@@ -56,8 +64,11 @@ const App = () => {
     const urlTickets = credentials.server  + routesapi.public_tickets_by_raffles.replace('{id}',params.id);
     const {data, error, loading,refetch} = useFetch(url,{method: 'GET'},null,false);
     const [dataTickets,setDataTickets] = useState([]);
+    const [openPending, setOpenPending] = useState(false);
     const [loadingTickets,setLoadingTickets] = useState(false);
-    
+    const [isPendingTransaction, setIsPendingTransaction] = useState(false);
+    const errorTransaction = JSON.parse(localStorage.getItem('error_transaction'));
+        
     let dataF = [];
 
     const fetchRecursive = async (lastPage,page) => {
@@ -126,15 +137,21 @@ const App = () => {
         }
     }
 
-    const handleOpenModal = () => {
-        setOpenPayment(true);
-
+    const handleOpenModal = (isPending = false) => {
+        if(validFormAppend()){
+            if(isPending){
+                setOpenPending(true);
+            } else {
+                setOpenPayment(true);
+            }
+        }
+        
     }
     const handleClosePayment = () => {
         setOpenPayment(false);
     }
 
-    const handleSubmit = async (e,confirmCode) => {
+    const handleSubmit = async (e,confirmCode, isPendingT = false) => {
         e.preventDefault();
         const formElement = document.querySelector('form');
         const file = document.getElementById('voucher');
@@ -149,7 +166,7 @@ const App = () => {
             return;
         }
 
-        if(!file.files[0]){
+        if(isPendingT === false && !file.files[0]){
             toast({
                 title: 'Error',
                 description: 'Por favor ingrese el comprobante de pago.',
@@ -160,7 +177,7 @@ const App = () => {
             return;
         }
 
-        setPaymentLoading(true);
+        // setPaymentLoading(true);
         const form =new FormData(formElement);
         form.append('tickets',JSON.stringify(ticketsSaved));
         if(user && !form.has('email')){
@@ -172,11 +189,24 @@ const App = () => {
         const amount = ticketsSaved.length;
         const single_price = data.data.price;
 
+        if(isPendingT && total > errorTransaction.amount){
+            toast({
+                title: 'Error',
+                description: `No puede realizar una compra que sea mayor a su saldo disponible de la transacción anterior ($${formatNumberTwoDigits(errorTransaction.amount)})`,
+                status: 'error',
+                duration: 3500
+            });
+
+            return;
+        }
+
         form.append('subtotal', subtotal.toFixed(2));
         form.append('total', total.toFixed(2));
         form.append('amount', amount);
         form.append('single_price', single_price);
-        form.append('voucher',file.files[0]);
+        if(!isPendingT){
+            form.append('voucher',file.files[0]);
+        }
         form.append('no_code', confirmCode ? true : noCode);
 
         if(noCode !== null){
@@ -184,6 +214,10 @@ const App = () => {
             const params = url.searchParams;
             const valueP = params.get('seller_code');
             form.append('seller_code', valueP);
+        }
+
+        if(isPendingT){
+           form.append('credit_transaction', true);
         }
         
         if(form.get('code')?.length > 0){
@@ -245,7 +279,7 @@ const App = () => {
             }
             
         }
-
+            setPaymentLoading(true);
             const response =  await initialFetch(urlPayment,{method: 'POST', body: form});
 
             if(!response.status){
@@ -277,6 +311,12 @@ const App = () => {
             } else {
                 setNoCode(null);
             }
+
+            if(isPendingTransaction){
+                setIsPendingTransaction(false);
+                setOpenPending(false);
+                localStorage.removeItem('error_transaction');
+            }
             
         } catch (e) {
             toast({
@@ -299,9 +339,126 @@ const App = () => {
     const handleConfirm = (e) => {
         setNoCode(true);
         setMConfirm(false);
-        handleSubmit(e,true);
+        handleSubmit(e,true,isPendingTransaction);
+
     }
     
+
+    const validFormAppend = (confirmCode = false) => {
+        const formElement = document.querySelector('form');
+
+        if(ticketsSaved.length <= 0) {
+            toast({
+                title: 'Error',
+                description: 'Por favor seleccione por lo menos un boleto para realizar la compra',
+                status: 'error',
+                duration: 2500
+            })
+
+            return false;
+        }
+
+        const form =new FormData(formElement);
+
+        form.append('tickets',JSON.stringify(ticketsSaved));
+
+        if(user && !form.has('email')){
+            form.append('email',user.email);
+        }
+        const subtotal = (data.data.price * ticketsSaved.length)
+        const iva = subtotal * (0);
+        const total = (subtotal + iva);
+        const amount = ticketsSaved.length;
+        const single_price = data.data.price;
+
+        setDataInfo({
+            tickets: ticketsSaved.length,
+            price: single_price,
+            total: total
+        });
+
+        form.append('subtotal', subtotal.toFixed(2));
+        form.append('total', total.toFixed(2));
+        form.append('amount', amount);
+        form.append('single_price', single_price);
+        form.append('no_code', confirmCode ? true : noCode);
+
+        if(noCode !== null){
+            const url = new URL(window.location.href);
+            const params = url.searchParams;
+            const valueP = params.get('seller_code');
+            form.append('seller_code', valueP);
+        }
+        
+        if(form.get('code')?.length > 0){
+            form.append('seller_code', form.get('code'));
+           form.set('no_code', confirmCode ? true : false);
+        }
+        
+        if(document.querySelector('#terms') && !document.querySelector('#terms').checked){
+            toast({
+                title: 'Error',
+                description: 'Por favor marque la casilla [Aceptar términos y condiciones]',
+                status: 'error',
+                duration: 2500
+            })
+            return;
+        }
+        let objRequest = {};
+        for(let [key, value] of [...form]){
+            Reflect.set(objRequest,key,value);
+            if(value === '' && key !== 'code') {
+                toast({
+                    title: 'Error',
+                    description: 'Por favor ingrese todos los campos requeridos que encuentran marcados con [*].',
+                    status: 'error',
+                    duration: 2500
+                });
+                return false;
+            }
+
+
+            if(key === 'taxid' && !CEDULA_REG_EXPRE.test(value)){
+                toast({
+                    title: 'Error',
+                    description: 'Por favor ingrese un número de cédula valido.',
+                    status: 'error',
+                    duration: 2500
+                })
+                return false;
+            }
+
+            if(key === 'email' && !EMAIL_REG_EXPRE.test(value)){
+                toast({
+                    title: 'Error',
+                    description: 'Por favor ingrese un correo electrónico valido.',
+                    status: 'error',
+                    duration: 2500
+                })
+                return false;
+            }
+
+            if(key === 'phone' && !NUMBER_REG_EXPRE.test(value)){
+                toast({
+                    title: 'Error',
+                    description: 'Por favor ingres un número de celular valido.',
+                    status: 'error',
+                    duration: 2500
+                })
+                return false;
+            }
+            
+        }
+
+        localStorage.setItem('request_transaction', JSON.stringify(objRequest));
+
+        return true;
+    }
+
+    const handleCardPayment = (e) => {
+        e.preventDefault();
+    }
+
     useEffect(() => {
         const url = new URL(window.location.href);
         const params = url.searchParams;
@@ -310,9 +467,31 @@ const App = () => {
             setNoCode(false);
         }
     },[])
+
+    useEffect(() => {
+        if(errorTransaction){
+            const time = moment.unix(errorTransaction.time_expired);
+            const nowTime = moment();
+            if(nowTime.isBefore(time)){
+                setIsPendingTransaction(true)
+                toast({
+                    title: 'Informativo',
+                    description: `Tiene un transacción (compra) disponible con un monto máximo de $${errorTransaction.amount}.`,
+                    duration: 3000
+                })
+            }
+        }
+    },[])
+    
     return (
         <>
             <Layout>
+            <PendingTransaction
+                open={openPending}
+                handleClose={() => setOpenPending(false)}
+                handleSubmit={(e) => handleSubmit(e,false,true)}
+                {...dataInfo}
+            />
             <ConfirmDialog open={mConfirm} handleClose={() => {
                 setMConfirm(false);
             }}
@@ -422,13 +601,20 @@ const App = () => {
                     </div>
                     <div className='mt-8 bg-white p-4'>
                         <h3 className='text-center text-primary text-center font-black text-3xl mt-2'>Realiza el pago de tus boletos</h3>
-                        <Form onSubmit={handleSubmit} className=''>
+                        <Form data-pay-form onSubmit={isHandlePayment ? handleCardPayment : handleSubmit} className=''>
                             <Input type='hidden' name='raffles_id' value={data.data.id} />
-                            <PaymentTickets bankAccounts={data.data.user.bank_accounts} onSubmit={handleSubmit}  openPayment={openPayment} handleClosePayment={handleClosePayment}  tickets={ticketsSaved.length} price={data.data.price} total={(data.data.price * ticketsSaved.length).toFixed(2)} />
+                            <PaymentTickets handleCardPayment={setIsHandlePayment} bankAccounts={data.data.user.bank_accounts} onSubmit={handleSubmit}  openPayment={openPayment} handleClosePayment={handleClosePayment}  tickets={ticketsSaved.length} price={data.data.price} total={(data.data.price * ticketsSaved.length).toFixed(2)} />
                             <div className='text-center w-full'>
-                                <AppButton onClick={handleOpenModal} leftIcon={<CiSaveDown2 className='w-8 h-8 text-white' />} className='w-8/12 py-6 mt-6' type='button' >
-                                        <span className='mt-1'>Comprar mis boletos </span>
-                                </AppButton>
+                                {
+                                    !isPendingTransaction ?
+                                    <AppButton onClick={() =>handleOpenModal(false)} leftIcon={<CiSaveDown2 className='w-8 h-8 text-white' />} className='w-8/12 py-6 mt-6' type='button' >
+                                            <span className='mt-1'>Comprar mis boletos </span>
+                                    </AppButton> 
+                                    :
+                                    <AppButton onClick={() => handleOpenModal(true)} leftIcon={<CiSaveDown2 className='w-8 h-8 text-white' />} className='w-8/12 py-6 mt-6' type='button' >
+                                    <span className='mt-1'>Realizar compra con un saldo de (${formatNumberTwoDigits(errorTransaction.amount)}) </span>
+                                    </AppButton>
+                                }
                             </div>
                         </Form>
                     </div>

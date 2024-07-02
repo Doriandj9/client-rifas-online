@@ -131,6 +131,7 @@ const handlePayment = (e, isPay) => {
     if(isPay){
         setTransaction(uuid());
         localStorage.setItem('plan',idPlan);
+        localStorage.setItem('type_of_transaction','t_plans');
     }
 }
 //effects

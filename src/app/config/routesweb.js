@@ -48,6 +48,7 @@ export default {
             reports: {
                 root: 'reports'
             },
+            comments: 'comments',
             users: {
                 root: 'users'
             },

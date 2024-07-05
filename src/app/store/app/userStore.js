@@ -36,4 +36,12 @@ const useAccessToken = create((set) => ({
     })
 }))
 
-export {useAuth,useAccessToken};
+
+const useUserId = create((set) => ({
+    id: null,
+    update: (identifier) => set((state) => ({
+        id: identifier
+    }))
+}))
+
+export {useAuth,useAccessToken, useUserId};

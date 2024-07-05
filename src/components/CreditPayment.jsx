@@ -13,9 +13,10 @@ import AppModal from "../app/app_components/Core/AppModal";
 import { MdOutlineError } from "react-icons/md";
 import ModalSuccess from "../app/app_components/Core/ModalSuccess";
 import routesapi from "../app/config/routesapi";
-import { useAccessToken, useAuth } from "../app/store/app/userStore";
+import { useAccessToken, useAuth, useUserId } from "../app/store/app/userStore";
 import moment from "moment";
 import { formatNumberTwoDigits } from "../app/utilities/web/formatNumber";
+import RatingAndComments from "./RatingAndComments";
 
 const urlPayment = credentials.server + routesapi.public_payment_raffles;
 
@@ -34,6 +35,9 @@ const CreditPayment = () => {
     const clientTransaction= params.get('clientTransactionId');
     const opTransaction = localStorage.getItem('type_of_transaction');
     const [isSuccess, setIsSuccess] = useState(false);
+    const [openRating, setOpenRating] = useState(false);
+    const updateUserID = useUserId((state) => state.update);
+
 
     const confirmPayment = async (id,transaction) => {
         if(opTransaction === 't_plans'){
@@ -51,6 +55,10 @@ const CreditPayment = () => {
             status: 'error'
         });
         return navigate('/');
+    }
+
+    const handleCloseRating = () => {
+        setOpenRating(false);
     }
 
     const requestPlansCredit = async (id, transaction) => {
@@ -138,6 +146,7 @@ const CreditPayment = () => {
            if(await requestCreditTickets(form)){
             form.set('no_code', true);
             await requestCreditTickets(form);
+
         } else  {
             setIsSuccess(true);
         }
@@ -178,9 +187,16 @@ const CreditPayment = () => {
                 });
                 return true;
             }
+
+            updateUserID(response.user?.id);
+
         return false;
     }
 
+    const handleOpenRating = () => {
+        setIsSuccess(false);
+        setOpenRating(true);
+    }
 
     const redirect =  () => {
         let url = opTransaction === 't_plans' ?  '/dashboard/raffles/update/plans' : `/payment/raffles/${JSON.parse(localStorage.getItem('request_transaction')).raffles_id}`;
@@ -197,6 +213,16 @@ const CreditPayment = () => {
     
     return (<>
         <PayphoneLayout>
+        <RatingAndComments
+              open={openRating}
+              handleClose={handleCloseRating}
+              setOpen={(option) => {
+                setOpenRating(option);
+                return setTimeout(() => {
+                    return redirect();
+                },2500);
+              }}
+            />
         <div className="flex w-full h-full items-center justify-center flex-col mt-[5%]">
             <h4 className="title-dynamic text-3xl font-black">Completando la transacción de tu compra...</h4>
             <p className="text-gray-600">Por favor no salga de la pagina hasta que finalize el proceso.</p>
@@ -237,7 +263,7 @@ const CreditPayment = () => {
             isSuccess && <>
                 <ModalSuccess
                     open={isSuccess}
-                    handleClose={redirect}
+                    handleClose={handleOpenRating}
                 >
                     {
                         opTransaction  == 't_plans' ?

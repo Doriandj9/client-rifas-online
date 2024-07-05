@@ -13,6 +13,10 @@ import BankAccounts from "../../../../../components/BankAccounts";
 import { useState } from "react";
 import { uuid } from "../../../../../app/utilities/web/uuid";
 import AppPhonePayment from "../../../../../app/app_components/Core/AppPhonePayment";
+import Lottie from "react-lottie";
+import error_card from '@app/assets/imgs/animations/error-card.json';
+import { lottieOptions } from "../../../../../app/utilities/web/configs";
+
 
 const ModalPayment = ({open,handleClose,tickets,total,price, onSubmit, bankAccounts, handleCardPayment}) => {
     const [transaction, setTransaction] = useState('123');
@@ -37,7 +41,7 @@ const ModalPayment = ({open,handleClose,tickets,total,price, onSubmit, bankAccou
             <AppModal
             header={<>
              <div className="flex gap-2 items-center border-b-2 border-b-gray-300">
-            <MdOutlinePayments className="text-4xl text-primaryop-800" /> 
+            <MdOutlinePayments classNalottieOptionsme="text-4xl text-primaryop-800" /> 
             <h2 className="title-dynamic"
                 >Completa el pago de tus boletos ganadores.</h2>
             </div>
@@ -120,11 +124,11 @@ const ModalPayment = ({open,handleClose,tickets,total,price, onSubmit, bankAccou
                     </article>
                 </TabPanel>
                 <TabPanel>
+                {
+                    containsAccountPayphone ?
                 <AppPhonePayment parameters={{amount: parseFloat(total) * 100 }}
                         transactionId={uuid()}
                         >
-                            {
-                            containsAccountPayphone ?
                                 <div className="">
                                 <h2 className="text-xl font-bold text-primary text-center">Datos de Pago</h2>
                                 <div className="flex justify-center">
@@ -154,10 +158,18 @@ const ModalPayment = ({open,handleClose,tickets,total,price, onSubmit, bankAccou
                                     </section>
                                 </div>
                                 </div>
+                    </AppPhonePayment>
                                 :
-                            <p>No tiene payphone</p>
+                            <div className="flex flex-col">
+                                <Alert status="warning">
+                                    <AlertIcon />
+                                    Lo sentimos mucho, este usuario no tiene configurado una cuenta Payphone para cobros por tarjeta de crédito o débito.
+                                </Alert>
+
+                        <Lottie  options={{animationData: error_card, ...lottieOptions}}  width={200} height={200} />
+
+                            </div>
                             }
-                        </AppPhonePayment>
                 </TabPanel>
                 </TabPanels>
                 </Tabs>

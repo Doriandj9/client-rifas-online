@@ -11,6 +11,7 @@ import { lottieOptions } from '../../../../app/utilities/web/configs';
 import Plans from './components/Plans';
 import { Img } from '@chakra-ui/react';
 import { useSetHeader } from '../../../../app/utilities/hooks/web/useSetHeader';
+import ReviewHayu from '../../../../components/ReviewHayu';
 
 
 const url = credentials.server + routesapi.public_raffles;
@@ -41,7 +42,7 @@ function App() {
       <div className=" max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-2 lg:py-16 lg:pt-20">
         <div className='relative'>
           <div className='flex gap-6 mt-8'>
-          <div className="grid max-w-screen-xl pt-2 px-4 pb-2 mx-auto lg:gap-8 xl:gap-16 lg:py-2 lg:grid-cols-12 lg:pt-2">
+          <div className="grid max-w-screen-xl pt-2 px-4 pb-2 mx-auto lg:gap-4 xl:gap-6 lg:py-2 lg:grid-cols-12 lg:pt-2">
               <div className="mr-auto place-self-center lg:col-span-6">
                   <h1 className="max-w-2xl mb-4 text-4xl font-extrabold leading-none tracking-tight md:text-3xl xl:text-4xl dark:text-white text-primary"><br/>Sistema de Rifas Online  <span className='text-secondary'>HAYU24</span></h1>
                   <p className="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400 text-justify">
@@ -53,9 +54,9 @@ function App() {
                   Imaginen un espacio donde la ayuda social se moderniza, donde cada boleto adquirido es una contribución a proyectos humanitarios que tocan vidas de maneras inimaginables.
                   </p>
               </div>
-              <div className="hidden lg:mt-0 lg:col-span-6 lg:flex items-center justify-center">
+              <div className="hidden lg:mt-0 lg:col-span-6 lg:flex items-start justify-center flex-col">
                   {/* <img src={welcome} alt="hero image" className='rounded-3xl h-96 block mt-10' /> */}
-                  <iframe width="560" height="315" src="https://www.youtube.com/embed/W_oVH-iNUyI?si=5YzgmOqNN9rAEz-f" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                  <ReviewHayu />
               </div>  
           </div>
           </div>

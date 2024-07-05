@@ -14,7 +14,7 @@ import { IoTicket } from "react-icons/io5";
 import { FaMoneyBillAlt } from "react-icons/fa";
 import PaymentTickets from './components/PaymentTickets';
 import AppButton from '../../../../app/app_components/Core/AppButon';
-import { useAuth } from '../../../../app/store/app/userStore';
+import { useAuth, useUserId } from '../../../../app/store/app/userStore';
 import { Input, Skeleton, useToast } from '@chakra-ui/react';
 import { toastConfig } from '../../../../app/utilities/web/configs';
 import { fetchQuery, initialFetch } from '../../../../app/utilities/web/fetchQuery';
@@ -31,6 +31,7 @@ import ConfirmDialog from '../../../../app/app_components/Core/ConfirmDialog';
 import moment from 'moment';
 import { formatNumberTwoDigits } from '../../../../app/utilities/web/formatNumber';
 import PendingTransaction from './components/PendingTransaction';
+import RatingAndComments from '../../../../components/RatingAndComments';
 
 const urlPayment = credentials.server + routesapi.public_payment_raffles;
 
@@ -43,10 +44,12 @@ for(let i = 0 ; i<= 200 ; i++){
 const App = () => {
   useSetHeader('Compra un nuevo boleto');
     const params = useParams();
+    const updateUserID = useUserId((state) => state.update);
     const user = useAuth(state => state.user);
     const toast = useToast(toastConfig);
     const [isHandlePayment, setIsHandlePayment] = useState(false);
     const [displayImg, setDImage] = useState(null);
+    const [openRating, setOpenRating] = useState(false);
     const [idImg, setIdImg] = useState('');
     const [openPayment, setOpenPayment] = useState(false);
     const [paymentLoading, setPaymentLoading] = useState(false);
@@ -318,6 +321,7 @@ const App = () => {
                 localStorage.removeItem('error_transaction');
             }
             
+            updateUserID(response.user?.id);
         } catch (e) {
             toast({
                 title: 'Error',
@@ -331,8 +335,11 @@ const App = () => {
 
         
     }
-
+    const handleCloseRating = () => {
+        setOpenRating(false);
+    }
     const handleCloseModal = () => {
+        setOpenRating(true);
         setOpenSuccess(false);
     }
 
@@ -486,6 +493,11 @@ const App = () => {
     return (
         <>
             <Layout>
+            <RatingAndComments
+              open={openRating}
+              handleClose={handleCloseRating}
+              setOpen={setOpenRating}
+            />
             <PendingTransaction
                 open={openPending}
                 handleClose={() => setOpenPending(false)}

@@ -12,7 +12,7 @@ import { GiSecurityGate } from "react-icons/gi";
 import { RiBankCard2Line } from "react-icons/ri";
 import { MdOutlineCreditScore } from "react-icons/md";
 import { GrTransaction } from "react-icons/gr";
-
+import { FaCommentDots } from "react-icons/fa";
 const SidebarAdmin = () => {
     const [objRoutes, setObjRoutes] = useState({
         admin_plans: false,
@@ -67,6 +67,12 @@ const SidebarAdmin = () => {
             >
                 <GrTransaction className="text-xl mr-2" />
                 <span className="text-white hover:text-gray-700">Solicitudes de retiro</span>
+            </NavLink>
+            <NavLink to={routes.children.comments}
+            className={(props) => handleRoute(props)}
+            >
+                <FaCommentDots className="text-xl mr-2" />
+                <span className="text-white hover:text-gray-700">Comentarios</span>
             </NavLink>
             <NavLink to={routes.children.reports.root}
             className={(props) => handleRoute(props)}

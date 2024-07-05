@@ -16,6 +16,7 @@ export default {
     admin_users: '/api/admin/users',
     admin_user_raffles_auth: '/api/admin/user/raffles/auth',
     admin_auth_raffles: '/api/admin/user/authorization/raffles',
+    admin_rating: '/api/admin/rating',
     //acceso usuario rifas
     raffles_update_plans: '/api/raffles/subscriptions/plans',
     raffles_subscriptions_voucher: '/api/raffles/subscriptions/plans/voucher',
@@ -51,4 +52,5 @@ export default {
     seller_commissions: '/api/seller/me/commissions',
     seller_payment_tickets: '/api/seller/receipts',
     seller_sales: '/api/seller/sales/{taxid}',
+    rating: '/api/rating',
 };

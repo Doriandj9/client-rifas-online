@@ -98,6 +98,9 @@
   @apply bg-primary rounded-tr-xl rounded-br-xl;
   padding: .6rem;  
 }
+.app-textarea textarea{
+  box-shadow: none !important;
+}
 
 }
 

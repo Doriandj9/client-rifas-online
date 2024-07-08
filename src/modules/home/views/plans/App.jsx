@@ -10,16 +10,20 @@ import { lottieOptions } from '../../../../app/utilities/web/configs';
 import Plans from './components/Plans';
 import { Img } from '@chakra-ui/react';
 import { useSetHeader } from '../../../../app/utilities/hooks/web/useSetHeader';
+import ReviewHayu from '../../../../components/ReviewHayu';
+import ModalSorters from '../../../../components/ModalSorters';
 
 
 const url = credentials.server + routesapi.public_raffles;
 
 function App() {
   useSetHeader('Planes de suscripción');
-
    const [load,setLoad] = useState(false);
    const hash = new URL(location.href);
    const [plans, setPlans] = useState(null);
+
+   const [open, setOpen] = useState(true);
+
    useEffect(() => {
         setTimeout(() => {
             setLoad(true);
@@ -36,10 +40,9 @@ function App() {
   return (
     <>
       <Layout>
-
-      <section className="bg-white dark:bg-gray-900">
-
-    
+       <ModalSorters open={open} onClose={() => setOpen(false)}  />
+        
+      <section className="bg-white dark:bg-gray-900">    
       <div className=" max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-2 lg:py-16 lg:pt-20">
         <div className='relative'>
             {/* <div className='lg:-top-20 lg:left-40 lg:absolute relative -top-10'>
@@ -59,11 +62,10 @@ function App() {
                   Imaginen un espacio donde la ayuda social se moderniza, donde cada boleto adquirido es una contribución a proyectos humanitarios que tocan vidas de maneras inimaginables.
                   </p>
               </div>
-              <div className="hidden lg:mt-0 lg:col-span-6 lg:flex items-center justify-center">
+              <div className="hidden lg:mt-0 lg:col-span-6 lg:flex items-start justify-center flex-col">
                   {/* <img src={welcome} alt="hero image" className='rounded-3xl h-96 block mt-10' /> */}
-                  <iframe width="560" height="315" src="https://www.youtube.com/embed/W_oVH-iNUyI?si=5YzgmOqNN9rAEz-f" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-
-              </div>  
+                  <ReviewHayu />
+              </div> 
           </div>
           </div>
         </div>

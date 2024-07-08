@@ -12,6 +12,7 @@ import Plans from './components/Plans';
 import { Img } from '@chakra-ui/react';
 import { useSetHeader } from '../../../../app/utilities/hooks/web/useSetHeader';
 import ReviewHayu from '../../../../components/ReviewHayu';
+import ModalSorters from '../../../../components/ModalSorters';
 
 
 const url = credentials.server + routesapi.public_raffles;
@@ -19,8 +20,10 @@ const url = credentials.server + routesapi.public_raffles;
 function App() {
   useSetHeader('Inicio');
    const [load,setLoad] = useState(false);
+   const [open, setOpen] = useState(true);
    const hash = new URL(location.href);
    const [plans, setPlans] = useState(null);
+   
    useEffect(() => {
         setTimeout(() => {
             setLoad(true);
@@ -37,6 +40,8 @@ function App() {
   return (
     <>
       <Layout>
+       <ModalSorters open={open} onClose={() => setOpen(false)}  />
+
       <section id='home' className="bg-white dark:bg-gray-900">
     
       <div className=" max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-2 lg:py-16 lg:pt-20">

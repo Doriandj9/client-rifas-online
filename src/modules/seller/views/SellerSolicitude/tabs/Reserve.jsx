@@ -103,7 +103,7 @@ const Reserve = () => {
             </div>
         </ConfirmDialog>
         {data.length > 0 &&
-            data.map((raffle) => {
+            data.filter((item) => !item.is_complete).map((raffle) => {
                 return <SolicitudeReserve key={raffle.id} raffle={raffle} handleClick={handleClick}/>
             } )
         }

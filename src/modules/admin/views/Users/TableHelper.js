@@ -34,6 +34,11 @@ export default {
                     render: (item,index) => {
                         return formatTimeFull(item.created_at)
                     }
+                }, , {
+                    header: 'Fecha de actualización',
+                    render: (item,index) => {
+                        return formatTimeFull(item.updated_at)
+                    }
                 }
                 
             ],

@@ -14,6 +14,7 @@ export default {
     company_policy: '/company-policy',
     recovery_password: '/recovery/password',
     payphone: '/payphone/credit-card',
+    not_recibe_emails: '/not-recive/emails',
     admin:{
         root: '/admin',
         children: {

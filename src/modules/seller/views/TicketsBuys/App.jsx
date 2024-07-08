@@ -46,7 +46,7 @@ const App = () => {
           {
             dataDisplay && dataDisplay.length > 0
             &&
-            dataDisplay.map(item => {
+            dataDisplay.filter((item) => !item.ticket.raffle.is_complete).map(item => {
               return (
                 <AppTicket size={'sm'} ticket={item.ticket} key={item.id} download  />
               );

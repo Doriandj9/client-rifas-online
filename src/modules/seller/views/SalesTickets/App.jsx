@@ -38,7 +38,7 @@ const App = () => {
 
             {dataDisplay.length > 0 
             &&
-            dataDisplay.map((item) => (
+            dataDisplay.filter((item) => !item.raffle.is_complete).map((item) => (
                 <SaleTicketsDisplay
                 handleClick={(() => {
                    return () => navigate(

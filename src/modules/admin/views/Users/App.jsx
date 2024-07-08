@@ -12,6 +12,7 @@ import BlockUser from './Modal/BlockUser';
 import { useSetHeader } from '../../../../app/utilities/hooks/web/useSetHeader';
 import { useFetch } from '../../../../app/utilities/hooks/data/useFetch';
 import { useDynamicUrl } from '../../../../app/store/app/queriesStore';
+import EditProfile from './Modal/EditProfile';
 
 const url_base = credentials.server + routesapi.admin_users;
 
@@ -19,6 +20,7 @@ const App  = () => {
   const [pagePaginate,setPagePaginate] = useState(1);//pagination
   const urlUpdate = useDynamicUrl((state) => state.update);
   const urlBaseUpdate = useDynamicUrl((state) => state.updateBase);
+  const [openModalEdit, setOpenModalEdit] = useState(false);
   const url = useDynamicUrl((state) => state.url);
 
 
@@ -46,12 +48,18 @@ const App  = () => {
       setOpenModalUser(true);
       setIdUser(item.id);
   } 
+
+  actions[2].onclick = (item,i) => () => {
+    setOpenModalEdit(true);
+    setIdItem(item.id);
+  } 
     //actualizar funciones
     actionColumns.list = actions;
     //handlers
     const handleCloseModal = () => {
       setOpenModal(false)
       setOpenModalUser(false);
+      setOpenModalEdit(false);
     };
     const handleSaveModal = () => {
         document.dispatchEvent(reloadTable);
@@ -78,6 +86,7 @@ const App  = () => {
       urlUpdate(url_base);
       urlBaseUpdate(url_base);
     },[])
+
      return (
         <>
           <ToastContainer className={'w-[32rem]'}  />
@@ -95,7 +104,8 @@ const App  = () => {
         </nav>
         <div className="min-h-[67vh]">
         <>
-           {idItem && <ResetPassword id={idItem} open={openModal} onClose={handleCloseModal} setUpdate={setResultUpdate} refetch={refetch} />}
+        {idItem && <EditProfile id={idItem} open={openModalEdit} onClose={handleCloseModal} setUpdate={setResultUpdate} refetch={refetch} />}
+        {idItem && <ResetPassword id={idItem} open={openModal} onClose={handleCloseModal} setUpdate={setResultUpdate} refetch={refetch} />}
            {idUser && <BlockUser id={idUser} open={openModalUser} onClose={handleCloseModal} setUpdate={setResultUpdate} refetch={refetch} />}
            <AppTable actionColumns={actionColumns} columns={columns} data={data} error={error} loading={loading} refetch={refetch}
              total={total} setPagePaginate={setPagePaginate} pagePaginate={pagePaginate} search={true}

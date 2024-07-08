@@ -1,4 +1,5 @@
 import { createTheme } from '@mui/material/styles';
+
 import { colors } from './app';
 
 const appTheme = createTheme({
@@ -21,16 +22,43 @@ const appTheme = createTheme({
             },
           },
         },
-      },
-    components: {
+        MuiDialog: {
+          styleOverrides: {
+            root: {
+              zIndex: 9999
+            }
+          }
+        },
         MuiPopper: {
           styleOverrides: {
             root: {
-              zIndex: 1200,  // Ajusta el zIndex según sea necesario
-            },
-          },
+              zIndex: 9999
+            }
+          }
         },
+        MuiPopover: {
+          styleOverrides:{
+            root: {
+              zIndex: 9999
+            }
+          }
+        },
+        MuiPaper: {
+        styleOverrides: {
+          root: {
+            zIndex: 9999
+          }
+        }
+        },
+        MuiPickersPopper:{
+          styleOverrides: {
+            root: {
+              zIndex: 9999
+            }
+          }
+        }
       },
+    
 })
 
 

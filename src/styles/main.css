@@ -1323,10 +1323,6 @@ input[type="range"]::-ms-fill-lower {
   top: 5rem;
 }
 
-.top-8 {
-  top: 2rem;
-}
-
 .z-10 {
   z-index: 10;
 }
@@ -1351,6 +1347,10 @@ input[type="range"]::-ms-fill-lower {
   z-index: 99999;
 }
 
+.m-0 {
+  margin: 0px;
+}
+
 .m-auto {
   margin: auto;
 }
@@ -1373,11 +1373,6 @@ input[type="range"]::-ms-fill-lower {
 .my-4 {
   margin-top: 1rem;
   margin-bottom: 1rem;
-}
-
-.mx-2 {
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
 }
 
 .-ml-1 {
@@ -1876,6 +1871,10 @@ input[type="range"]::-ms-fill-lower {
   width: 32rem;
 }
 
+.w-\[35rem\] {
+  width: 35rem;
+}
+
 .w-\[360px\] {
   width: 360px;
 }
@@ -2039,6 +2038,10 @@ input[type="range"]::-ms-fill-lower {
 
 .justify-around {
   justify-content: space-around;
+}
+
+.gap-0 {
+  gap: 0px;
 }
 
 .gap-1 {
@@ -3044,15 +3047,6 @@ input[type="range"]::-ms-fill-lower {
   right: 0;
   z-index: 1;
   background-color: #f9fafb;
-}
-
-.css-12n168i-MuiPopper-root-MuiPickersPopper-root {
-  z-index: 9999 !important;
-  /* Ajusta el zIndex según sea necesario */
-}
-
-.css-3dah0e-MuiModal-root-MuiDialog-root{
-  z-index: 9999 !important;
 }
 
 .title-dynamic{

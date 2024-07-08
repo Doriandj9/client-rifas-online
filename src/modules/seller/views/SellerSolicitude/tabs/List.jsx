@@ -43,6 +43,16 @@ const List = () => {
         })
         return;
     }
+    
+    if(item.raffle.is_complete) {
+        toast({
+            title: 'Informativo',
+            description: 'No puede visualizar su código y link de ventas de una rifa finalizada.',
+            status: 'warning',
+            duration: 3000
+        })
+        return;
+    }
     setOLink(item);
     setMLink(true);
    } 

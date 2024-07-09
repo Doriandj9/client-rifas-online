@@ -44,8 +44,8 @@ const ReviewHayu = () => {
         <div className="flex w-full mt-6 relative">  
             <iframe width="300" height="180" src="https://www.youtube.com/embed/W_oVH-iNUyI?si=5YzgmOqNN9rAEz-f" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
             <div className="flex-grow">
-                    <h2 className="title-dynamic italic text-xl font-black text-center relative">
-                        RESEÑAS HAYU24
+                    <h2 className="title-dynamic italic text-md font-black text-center relative">
+                    <span className="uppercase">Reseñas de los clientes</span>
                         <div className="absolute top-0 left-0">
                         <Lottie  options={{animationData: start, ...option2}}  width={25} height={25} />
                         </div>   
@@ -62,7 +62,7 @@ const ReviewHayu = () => {
                         <ComponentMUI>
                             <div className="flex justify-center">
                                 <Stat className="pl-3 flex justify-center">
-                                    <StatLabel className="text-center"><span className="text-primaryop-900 italic">Rating</span></StatLabel>
+                                    <StatLabel className="text-center"><span className="text-primaryop-900 italic">Calificación de clientes</span></StatLabel>
                                     <StatNumber>
                                         <div className="flex items-center gap-1 flex-wrap">
                                             <span className="text-md mt-[0.15rem] italic font-normal">{value}</span>
@@ -75,7 +75,7 @@ const ReviewHayu = () => {
                                         </div>
                                     </StatNumber>
                                     <StatHelpText>
-                                    <span className="text-sm text-primary italic">{data?.length} calificaciones</span>
+                                    <span className="text-sm text-primary italic">{data?.length} Clientes satisfechos</span>
                                     </StatHelpText>
                                 </Stat>
 
@@ -85,7 +85,7 @@ const ReviewHayu = () => {
             </div>
         </div>
         <div className="flex-grow w-full text-primary">
-            <h3 className="mt-2 text-md text-start text-black font-bold">1 Comentarios sobre Hayu24</h3>
+            <h3 className="mt-2 text-md text-start text-black font-bold">{data.filter((item) => item.status === 'AC').length} Opiniones de los clientes</h3>
             <hr />
             <section className="h-48 overflow-y-auto">
                 {data && data.length > 0 && data.filter((item) => item.status === 'AC').map((item) => (<Comments key={item.id} rating={item} />))}

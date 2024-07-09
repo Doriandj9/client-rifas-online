@@ -105,6 +105,7 @@ const CreditPayment = () => {
             if(!responseFinal.status){
                 throw Error(responseFile.message);
             }
+            updateUserID(user?.id);
             setIsSuccess(true);
         } catch (error) {
             setError(error)
@@ -146,18 +147,26 @@ const CreditPayment = () => {
            if(await requestCreditTickets(form)){
             form.set('no_code', true);
             await requestCreditTickets(form);
+            localStorage.setItem('last_id_raffle_transaction',JSON.parse(localStorage.getItem('request_transaction')).raffles_id);
+            localStorage.removeItem('request_transaction');
+            setIsSuccess(true);
 
         } else  {
+            localStorage.setItem('last_id_raffle_transaction',JSON.parse(localStorage.getItem('request_transaction')).raffles_id);
+            localStorage.removeItem('request_transaction');
             setIsSuccess(true);
+
         }
 
         } catch (error) {
-           const requestCredit = JSON.parse(localStorage.getItem('request_transaction'));
-           const datetime = moment().add(2,'hours').unix();
-           Reflect.set(requestCredit,'time_expired',datetime);
-           Reflect.set(requestCredit,'credit_transaction',true);
-           localStorage.setItem('error_transaction',JSON.stringify(requestCredit));
+            if(localStorage.request_transaction){
+                const requestCredit = JSON.parse(localStorage.getItem('request_transaction'));
 
+                const datetime = moment().add(2,'hours').unix();
+                Reflect.set(requestCredit,'time_expired',datetime);
+                Reflect.set(requestCredit,'credit_transaction',true);
+                localStorage.setItem('error_transaction',JSON.stringify(requestCredit));
+            }
 
             setError(error)
         }
@@ -199,7 +208,7 @@ const CreditPayment = () => {
     }
 
     const redirect =  () => {
-        let url = opTransaction === 't_plans' ?  '/dashboard/raffles/update/plans' : `/payment/raffles/${JSON.parse(localStorage.getItem('request_transaction')).raffles_id}`;
+        let url = opTransaction === 't_plans' ?  '/dashboard/raffles/update/plans' : `/payment/raffles/${JSON.parse(localStorage.getItem('last_id_raffle_transaction'))}`;
         return navigate(url);
     }
 

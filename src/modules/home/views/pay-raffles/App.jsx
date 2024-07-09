@@ -192,10 +192,10 @@ const App = () => {
         const amount = ticketsSaved.length;
         const single_price = data.data.price;
 
-        if(isPendingT && total > errorTransaction.amount){
+        if(isPendingT && total != errorTransaction.amount){
             toast({
                 title: 'Error',
-                description: `No puede realizar una compra que sea mayor a su saldo disponible de la transacción anterior ($${formatNumberTwoDigits(errorTransaction.amount)})`,
+                description: `No puede realizar una compra mayor o menor, tiene que ser igual a su saldo disponible de la transacción anterior ($${formatNumberTwoDigits(errorTransaction.amount)})`,
                 status: 'error',
                 duration: 3500
             });

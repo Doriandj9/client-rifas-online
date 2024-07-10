@@ -42,7 +42,6 @@ const ReviewHayu = () => {
     return (
         <>
         <div className="flex w-full mt-6 relative">  
-            <iframe width="300" height="180" src="https://www.youtube.com/embed/W_oVH-iNUyI?si=5YzgmOqNN9rAEz-f" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
             <div className="flex-grow">
                     <h2 className="title-dynamic italic text-md font-black text-center relative">
                     <span className="uppercase">Reseñas de los clientes</span>
@@ -54,10 +53,8 @@ const ReviewHayu = () => {
                         </div>  
                     </h2>
                     <div>
-                        <p className="text-xs p-2 text-justify">
-                            Para nosotros es muy importante tu confianza, 
-                             puedes calificarnos a tu gusto cada vez que compres un
-                             boleto en tu plataforma de rifas <span className="font-semibold italic" >Hayu24</span> con la seguridad y confianza que te mereces.
+                        <p className="text-sm p-2 text-justify">
+                        Para nosotros, tu confianza es fundamental. Puedes calificarnos según tu experiencia cada vez que compres un boleto en nuestra plataforma de rifas <strong>HAYU24</strong>, con la seguridad y confianza que mereces.
                         </p>
                         <ComponentMUI>
                             <div className="flex justify-center">

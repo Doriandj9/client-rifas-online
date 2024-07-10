@@ -43,29 +43,29 @@ function App() {
        <ModalSorters open={open} onClose={() => setOpen(false)}  />
         
       <section className="bg-white dark:bg-gray-900">    
-      <div className=" max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-2 lg:py-16 lg:pt-20">
+      <div className=" max-w-screen-xl px-4 pt-8 pb-8 mx-auto lg:gap-8 xl:gap-2 lg:py-16 lg:pt-8">
         <div className='relative'>
-            {/* <div className='lg:-top-20 lg:left-40 lg:absolute relative -top-10'>
-                <Lottie options={{animationData: party, ...lottieOptions}}  width={125} height={125} />
-            </div>
-            <h1 className='text-xl italic font-bold text-primary text-center'> Encuentra la mejor rifa y cómprala para ganar muchos premios. </h1> */}
           <div className='flex gap-6 mt-8'>
-          <div className="grid max-w-screen-xl pt-2 px-4 pb-2 mx-auto lg:gap-8 xl:gap-16 lg:py-2 lg:grid-cols-12 lg:pt-2">
-              <div className="mr-auto place-self-center lg:col-span-6">
-                  <h1 className="max-w-2xl mb-4 text-4xl font-extrabold leading-none tracking-tight md:text-3xl xl:text-4xl dark:text-white text-primary"><br/>Sistema de Rifas Online  <span className='text-secondary'>HAYU24</span></h1>
-                  <p className="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400 text-justify">
+          <div className="grid max-w-screen-xl pt-0 px-4 pb-0 mx-auto lg:gap-0 xl:gap-0 lg:py-2 lg:grid-cols-12 lg:pt-0">
+              <div className="mr-auto place-self-center md:col-span-12">
+                  <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight md:text-3xl text-center xl:text-4xl dark:text-white text-primary"><br/>Sistema de Rifas Online  <span className='text-secondary'>HAYU24</span></h1>
+                  <p className="mb-2 font-light text-gray-500 lg:mb-0 md:text-lg lg:text-xl dark:text-gray-400 text-justify">
                   Modernizando la dinámica de sorteos como parte integral de una iniciativa de responsabilidad social.
-                  <br /> <br />
+                  <br />
                   El sistema de rifas online HAYU24 no solo es una plataforma para la emoción de ganar premios asombrosos, sino un vehículo directo para brindar apoyo tangible a aquellos que más lo necesitan, ofreciendo una forma conveniente y segura de organizar rifas, permitiendo una participación fácil desde cualquier lugar.
-                  <br /> <br />
-
+                  <br />
                   Imaginen un espacio donde la ayuda social se moderniza, donde cada boleto adquirido es una contribución a proyectos humanitarios que tocan vidas de maneras inimaginables.
                   </p>
               </div>
-              <div className="hidden lg:mt-0 lg:col-span-6 lg:flex items-start justify-center flex-col">
+              <div className="lg:mt-0 lg:col-span-6 md:col-span-6 lg:flex items-start justify-center flex-col">
+                  {/* <img src={welcome} alt="hero image" className='rounded-3xl h-96 block mt-10' /> */}
+                  <iframe className='w-[180] h-[100] md:w-[390px] md:h-[290px] lg:w-[575px] md:h-[315px] m-auto md:m-0' src="https://www.youtube.com/embed/W_oVH-iNUyI?si=5YzgmOqNN9rAEz-f" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+              </div>  
+              <div className="lg:mt-0 lg:col-span-6 md:col-span-6 lg:flex items-start justify-center flex-col mb-16 md:mb-2">
                   {/* <img src={welcome} alt="hero image" className='rounded-3xl h-96 block mt-10' /> */}
                   <ReviewHayu />
-              </div> 
+              </div>  
           </div>
           </div>
         </div>

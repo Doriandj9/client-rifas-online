@@ -17,6 +17,7 @@ export default {
     admin_user_raffles_auth: '/api/admin/user/raffles/auth',
     admin_auth_raffles: '/api/admin/user/authorization/raffles',
     admin_rating: '/api/admin/rating',
+    admin_winners: '/api/completed/raffles',
     //acceso usuario rifas
     raffles_update_plans: '/api/raffles/subscriptions/plans',
     raffles_subscriptions_voucher: '/api/raffles/subscriptions/plans/voucher',
@@ -39,6 +40,7 @@ export default {
     public_last_raffles: '/api/public/last-raffles',
     public_tickets_by_raffles : '/api/public/raffles/tickets/{id}',
     public_recovery_password: '/api/public/recovery/password',
+    public_winners: '/api/completed/raffles',
     //payment
     public_payment_raffles: '/api/payment/raffle',
     payment_tickets_credit: '/api/payment/tickets/card-transaction',

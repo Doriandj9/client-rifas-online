@@ -31,6 +31,7 @@ import AppUsers from "../views/Users/App";
 import AppProfile from "../views/Profile/App";
 import AppIncomes from "../views/Incomes/App";
 import AppComments from "../views/Comments/App";
+import AppWinners from "../views/Winners/App";
 
 
 
@@ -105,6 +106,10 @@ export default {
         {
             path: routesweb.admin.children.comments,
             element: <AppComments />
+        },
+        {
+            path: routesweb.admin.children.winners,
+            element: <AppWinners />
         },
         {
             path: routesweb.admin.children.passwords.root,

@@ -43,7 +43,7 @@ const AppSearchComponent = ({columns = []}) => {
 
     const search = (e) => {
         const filters = {key:inputs.key_search, value:inputs.data};
-        let newUrl = `${url_base}?filters=${JSON.stringify(filters)}`;
+        let newUrl = `${url_base}?${inputs.key_search}=${inputs.data}`;
         urlUpdate(newUrl);
     }
 

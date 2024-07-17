@@ -50,6 +50,7 @@ export default {
                 root: 'reports'
             },
             comments: 'comments',
+            winners: 'winners',
             users: {
                 root: 'users'
             },

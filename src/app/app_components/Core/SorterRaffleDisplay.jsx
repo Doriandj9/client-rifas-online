@@ -17,7 +17,7 @@ const SorterRaffleDisplay = ({raffle, handleClick}) => {
     const drawDate = moment(raffle.draw_date);
     const drawDateDiff = moment(raffle.draw_date).subtract(60, 'minutes');
     const [open, setOpen] = useState(false);
-    let disabled = true;
+    let disabled = false;
    
     if(currentDate.isAfter(drawDateDiff) && currentDate.isBefore(drawDate)){
         disabled= false;

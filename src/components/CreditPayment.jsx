@@ -59,6 +59,7 @@ const CreditPayment = () => {
 
     const handleCloseRating = () => {
         setOpenRating(false);
+        redirect();
     }
 
     const requestPlansCredit = async (id, transaction) => {

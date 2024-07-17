@@ -13,6 +13,8 @@ import { RiBankCard2Line } from "react-icons/ri";
 import { MdOutlineCreditScore } from "react-icons/md";
 import { GrTransaction } from "react-icons/gr";
 import { FaCommentDots } from "react-icons/fa";
+import { GiPodiumWinner } from "react-icons/gi";
+
 const SidebarAdmin = () => {
     const [objRoutes, setObjRoutes] = useState({
         admin_plans: false,
@@ -73,6 +75,12 @@ const SidebarAdmin = () => {
             >
                 <FaCommentDots className="text-xl mr-2" />
                 <span className="text-white hover:text-gray-700">Comentarios</span>
+            </NavLink>
+            <NavLink to={routes.children.winners}
+            className={(props) => handleRoute(props)}
+            >
+                <GiPodiumWinner className="text-xl mr-2" />
+                <span className="text-white hover:text-gray-700">Ganadores</span>
             </NavLink>
             <NavLink to={routes.children.reports.root}
             className={(props) => handleRoute(props)}

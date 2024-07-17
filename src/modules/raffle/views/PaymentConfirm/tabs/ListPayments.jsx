@@ -17,6 +17,7 @@ import { fetchQuery } from '../../../../../app/utilities/web/fetchQuery';
 import Loader from '../../../../../app/app_components/Core/Loader';
 import { useFetchFilter } from '../../../../../app/utilities/hooks/data/useFetchFilter';
 import AppSearch from '../../../../../app/app_components/Core/AppSearch';
+import { useDynamicUrl } from '../../../../../app/store/app/queriesStore';
 let actions = [
     {
         name: 'Información del comprobante de pago',
@@ -39,15 +40,23 @@ let actions = [
    ];
 
 
-let url = credentials.server + routesapi.raffle_payments_receipts;
+let url_base = credentials.server + routesapi.raffle_payments_receipts;
 let urlReceipt= credentials.server + routesapi.raffle_payments_receipts_resend_mail;
 
 const ListPayments = () => {
     const user = useAuth(state => state.user);
     const token = useAccessToken(state => state.token);
     const [pagePaginate,setPagePaginate] = useState(1);//pagination
-    url = url.replace('{taxid}',user.taxid);
-    const {data, error,loading, total, refetch,setData} = useFetchFilter(url,{method: 'GET'},'data',true,token,[pagePaginate],true,pagePaginate);
+    // filtros
+    const urlUpdate = useDynamicUrl((state) => state.update);
+    const urlBaseUpdate = useDynamicUrl((state) => state.updateBase);
+    
+    url_base = url_base.replace('{taxid}',user.taxid);
+
+    const url = useDynamicUrl((state) => state.url);
+
+
+    const {data, error,loading, total, refetch,setData} = useFetch(url,{method: 'GET'},'data',true,token,[pagePaginate, url],true,pagePaginate,true);
 
  //states 
  const [openModal,setOpenModal] = useState(false);
@@ -121,6 +130,10 @@ const ListPayments = () => {
  }, [resultUpdate])
  //jsx
 
+ useEffect(() => {
+  urlUpdate(url_base);
+  urlBaseUpdate(url_base);
+},[])
 
   return (
      <>
@@ -130,7 +143,8 @@ const ListPayments = () => {
      <>
         {idItem && <Modal id={idItem} open={openModal} onClose={handleCloseModal} setUpdate={setResultUpdate} refetch={refetch} />}
         <AppTable actionColumns={actionColumns} columns={columns} data={data} error={error} loading={loading} refetch={refetch}
-          total={total} setPagePaginate={setPagePaginate} pagePaginate={pagePaginate}
+          total={total} setPagePaginate={setPagePaginate} pagePaginate={pagePaginate} search={true}
+          columnSearch={[{value:'taxid', name: 'Cédula', selected: true}, {value: 'search',name: 'Nombres o Apellidos'}]}
            />
      </>
      </div>

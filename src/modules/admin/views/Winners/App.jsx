@@ -55,7 +55,7 @@ let actions = [{
       console.log('click | Editar');
   }
 }, {
-  name: 'Mostrar',
+  name: 'Ocultar para mi',
   icon: TbEyeX,
   color: 'purple.700',
   element: null,
@@ -188,7 +188,7 @@ actions[3].onclick = (item,i) => () => {
       const id = obj.winner.id;
       try{
                
-        const response = await fetchQuery(token,url_winner + '/' + id ,{method:'PATCH',body: new URLSearchParams(data)},setLoadingFetch,setErrorFetch);
+        const response = await fetchQuery(token,url + '/' + id ,{method:'PATCH',body: new URLSearchParams(data)},setLoadingFetch,setErrorFetch);
         if(!response.status){
           throw Error(response.message);
         }
@@ -257,7 +257,7 @@ actions[3].onclick = (item,i) => () => {
         >
           <Alert status='warning'>
             <AlertIcon />
-            Al aceptar se ocultara el registro para que yo se pueda ingresar a los ganadores usar solo en caso de que ya no quiera verlo en la lista.
+            Al aceptar se ocultara el registro para que ya no se muestre en la lista de reseñas de ganadores, no afecta al flujo en la plataforma.
           </Alert>
         </ConfirmDialog>
 

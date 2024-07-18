@@ -12,6 +12,8 @@ import { IoIosContacts } from "react-icons/io";
 import { FaAward } from "react-icons/fa";
 import { useEffect, useState } from 'react';
 import { useFocusEffect } from '@chakra-ui/react';
+import { FaUsersViewfinder } from "react-icons/fa6";
+
 const Header  = () => {
     const user = useAuth((state) => state.user);
     const navigate = useNavigate();
@@ -95,18 +97,14 @@ const Header  = () => {
                                         <span className='mt-2'> Planes de compra </span>
                                     </NavLink>
                                 </li>
-                                {/* <li>
-                                    <a href="#" className="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-secondarylite lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Marketplace</a>
-                                </li>
                                 <li>
-                                    <a href="#" className="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-secondarylite lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Features</a>
+                                    <NavLink to={routesweb.winners}
+                                    className={(props) => handleRoute(props)}
+                                    >
+                                        <FaUsersViewfinder className='w-6 h-6' />
+                                        <span className='mt-2'> Reseñas de ganadores </span>
+                                    </NavLink>
                                 </li>
-                                <li>
-                                    <a href="#" className="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-secondarylite lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Team</a>
-                                </li>
-                                <li>
-                                    <a href="#" className="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-secondarylite lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Contact</a>
-                                </li> */}
                             </ul>
                         </div>
                     </div>

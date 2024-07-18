@@ -22,6 +22,7 @@ import completeRegister from "../../modules/home/routes/completeRegister";
 import sorter from "../../modules/raffle/routes/sorter";
 import payphonePayment from "../../modules/home/routes/payphonePayment";
 import notify from "../../modules/home/routes/notify";
+import winners from "../../modules/home/routes/winners";
 
 /**
  * @var {Array} rootRoutes rutas de todo el sistema
@@ -29,6 +30,6 @@ import notify from "../../modules/home/routes/notify";
 const rootRoutes = [home,admin,login, register,verify, confirmRegister, client, payRaffles,plans,terms,{
     path: '*',
     element: <NoAutorice />
-}, recoveryPassword, termsAndConditions,misionAndVision,benefits,completeRegister,sorter, payphonePayment, notify];
+}, recoveryPassword, termsAndConditions,misionAndVision,benefits,completeRegister,sorter, payphonePayment, notify, winners];
 
 export default rootRoutes;

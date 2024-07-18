@@ -8,7 +8,7 @@ import { credentials } from '../../../../app/config/app';
 import { useAccessToken } from '../../../../app/store/app/userStore';
 import { useEffect, useState } from 'react';
 import Modal from './Modal/Modal';
-import { Button, useToast } from '@chakra-ui/react';
+import { Alert, AlertIcon, Button, useToast } from '@chakra-ui/react';
 import { reloadTable } from '../../../../app/utilities/events/customs';
 import { MdAddModerator } from "react-icons/md";
 import { ToastContainer,toast } from 'react-toastify';
@@ -21,7 +21,15 @@ import { toastConfig } from '../../../../app/utilities/web/configs';
 import { IoCheckmarkDoneSharp } from "react-icons/io5";
 import { MdInput } from "react-icons/md";
 import { FaEyeSlash } from "react-icons/fa";
+import { IoEye } from "react-icons/io5";
+import { TbEyeX } from "react-icons/tb";
+
+import Loader from '../../../../app/app_components/Core/Loader';
+
+
 const url = credentials.server + routesapi.admin_winners;
+const url_winner = credentials.server + routesapi.public_winners;
+
 let actions = [{
        name: 'Ingresar',
        icon: MdInput,
@@ -38,6 +46,22 @@ let actions = [{
     onclick: () => {
         console.log('click | Editar');
     }
+}, {
+  name: 'Mostrar',
+  icon: IoEye,
+  color: 'blue.700',
+  element: null,
+  onclick: () => {
+      console.log('click | Editar');
+  }
+}, {
+  name: 'Mostrar',
+  icon: TbEyeX,
+  color: 'purple.700',
+  element: null,
+  onclick: () => {
+      console.log('click | Editar');
+  }
 }];
 const App  = () => {
   const [pagePaginate,setPagePaginate] = useState(1);//pagination
@@ -50,7 +74,10 @@ const App  = () => {
     //states 
     const [openModal,setOpenModal] = useState(false);
     const [idItem, setIdItem] = useState(null);
+    const [obj, setObj] = useState(null);
     const [open, setOpen] = useState(false);
+    const [openView, setOpenView] = useState(false);
+    const [openAc, setOpenAc] = useState(false);
     const [loadingFetch, setLoadingFetch] = useState(false);
     const [errorFetch, setErrorFetch] = useState(null);
   
@@ -61,43 +88,128 @@ const App  = () => {
     //code
     let {columns,actionColumns} = TableHelper.data();
     actions[0].onclick = (item,i) => () => {
-        setIdItem(item.id);
+        setObj(item);
         setOpenModal(true);
     } 
+
+    actions[1].onclick = (item,i) => () => {
+      if(!item.winner){
+        toast({title: 'Error', description: 'No existe un registro de los ganadores',status: 'error'});
+        return;
+      }
+      setObj(item);
+      setOpen(true);
+  }
+
+  actions[2].onclick = (item,i) => () => {
+    if(!item.winner){
+      toast({title: 'Error', description: 'No existe un registro de los ganadores',status: 'error'});
+      return;
+    }
+    setObj(item);
+    setOpenView(true);
+}
+
+actions[3].onclick = (item,i) => () => {
+  setObj(item);
+  setOpenAc(true);
+}
+
     //actualizar funciones
     actionColumns.list = actions;
     //handlers
     const handleCloseModal = () => {
       setOpenModal(false)
-      setIdItem(null);
+      setObj(null);
     };
-   
-    const handleModal = async () => {
-      setOpenModal(true);
+
+    const handleHide = async () => {
+      const data = {state: 'IE'};
+      const id = obj.winner.id;
       try{
-          const response = await fetchQuery(token,`${url}/${idItem}`,{method: 'PUT', body: new URLSearchParams({status: "DO"})},setLoadingFetch,setErrorFetch)
-          if(!response.status){
-            throw Error(response.message);
-          }
-          refetch();
+               
+        const response = await fetchQuery(token,url_winner + '/' + id ,{method:'PATCH',body: new URLSearchParams(data)},setLoadingFetch,setErrorFetch);
+        if(!response.status){
+          throw Error(response.message);
+        }
+        
+        toast({
+          title:'Éxito',
+          description: 'Se actualizo correctamente.',
+          status: 'success'
+        });
+      setObj(null);
+       refetch();
+       setOpen(false);
+      }catch(e){
           toast({
-            title: 'Éxito',
-            description: 'Se actualizo correctamente el estado.',
-            status: 'success',
-          })
-
-          setOpen(false);
-
-        }catch(e){
-          toast({
-            title: 'Error',
-            description: e.message,
-            status: 'error',
-            duration: 3500
+              title:'Error',
+              description: e.message,
+              status: 'error',
+              duration: 3000
           });
-          setOpenModal(false);
-      } finally {
-        setLoadingFetch(false);
+      }finally{
+          setLoadingFetch(false);
+      }
+    }
+   
+    const handleShow = async () => {
+      const data = {state: 'AC'};
+      const id = obj.winner.id;
+      try{
+               
+        const response = await fetchQuery(token,url_winner + '/' + id ,{method:'PATCH',body: new URLSearchParams(data)},setLoadingFetch,setErrorFetch);
+        if(!response.status){
+          throw Error(response.message);
+        }
+        
+        toast({
+          title:'Éxito',
+          description: 'Se actualizo correctamente.',
+          status: 'success'
+        });
+      setObj(null);
+       refetch();
+       setOpenView(false);
+      }catch(e){
+          toast({
+              title:'Error',
+              description: e.message,
+              status: 'error',
+              duration: 3000
+          });
+      }finally{
+          setLoadingFetch(false);
+      }
+    }
+
+    const handleAc = async () => {
+      const data = {is_active: false};
+      const id = obj.winner.id;
+      try{
+               
+        const response = await fetchQuery(token,url_winner + '/' + id ,{method:'PATCH',body: new URLSearchParams(data)},setLoadingFetch,setErrorFetch);
+        if(!response.status){
+          throw Error(response.message);
+        }
+        
+        toast({
+          title:'Éxito',
+          description: 'Se actualizo correctamente.',
+          status: 'success'
+        });
+      setObj(null);
+       refetch();
+       setOpenAc(false);
+      }catch(e){
+          toast({
+              title:'Error',
+              description: e.message,
+              status: 'error',
+              duration: 3000
+          });
+      }finally{
+          setLoadingFetch(false);
       }
     }
     //jsx
@@ -105,6 +217,51 @@ const App  = () => {
 
      return (
         <>
+        <ConfirmDialog
+        open={open}
+        handleClose={() => setOpen(false)}
+        title={'¿ Esta seguro de ocular el registro ?'}
+        msgBtnCancel='Regresar'
+        msgBtnConfirm='Aceptar'
+        handleConfirm={handleHide}
+        >
+          <Alert status='warning'>
+            <AlertIcon />
+            Al aceptar se ocultara el registro en la plataforma.
+          </Alert>
+        </ConfirmDialog>
+
+        <ConfirmDialog
+        open={openView}
+        handleClose={() => setOpenView(false)}
+        title={'¿ Esta seguro de mostrar el registro ?'}
+        msgBtnCancel='Regresar'
+        msgBtnConfirm='Aceptar'
+        handleConfirm={handleShow}
+        >
+          <Alert status='info'>
+            <AlertIcon />
+            Al aceptar se mostrara el registro en la plataforma.
+          </Alert>
+        </ConfirmDialog>
+
+        <ConfirmDialog
+        open={openAc}
+        handleClose={() => setOpenAc(false)}
+        title={'¿ Esta seguro de ocular el registro solo para mi ?'}
+        msgBtnCancel='Regresar'
+        msgBtnConfirm='Aceptar'
+        handleConfirm={handleAc}
+        size='xl'
+        info={false}
+        >
+          <Alert status='warning'>
+            <AlertIcon />
+            Al aceptar se ocultara el registro para que yo se pueda ingresar a los ganadores usar solo en caso de que ya no quiera verlo en la lista.
+          </Alert>
+        </ConfirmDialog>
+
+        <Loader loading={loadingFetch} />
         <div id="home">
         <nav className="text-sm font-semibold mb-6" aria-label="Breadcrumb">
           <ol className="list-none p-0 inline-flex">
@@ -119,20 +276,8 @@ const App  = () => {
         </nav>
         <div className="min-h-[67vh]">
         <>
-          <ConfirmDialog
-            open={open}
-            handleClose={() => { setOpen(false) }}
-            title={'¿ Esta seguro de empezar de el proceso de respuesta ?'}
-            handleConfirm={handleModal}
-            msgBtnCancel='Regresar'
-            msgBtnConfirm='Aceptar'
-            size='2xl'
-          >
-            <p>
-              Si acepta seguir con el proceso el estado de la solicitud cambiara a <strong>En progreso</strong>
-            </p>
-          </ConfirmDialog>
-           {idItem && <Modal id={idItem} open={openModal} onClose={handleCloseModal} setUpdate={setResultUpdate} refetch={refetch} />}
+           {obj && <Modal obj={obj} open={openModal} onClose={handleCloseModal} setUpdate={setResultUpdate} refetch={refetch} />}
+
            <AppTable actionColumns={actionColumns} columns={columns} data={data} error={error} loading={loading} refetch={refetch}
              total={total} setPagePaginate={setPagePaginate} pagePaginate={pagePaginate}
             />

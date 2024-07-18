@@ -4,7 +4,7 @@ import { credentials } from "../../../../../app/config/app";
 import routesapi from "../../../../../app/config/routesapi";
 import { useAccessToken } from "../../../../../app/store/app/userStore";
 import { useFetch } from "../../../../../app/utilities/hooks/data/useFetch";
-import { Checkbox, FormControl, FormLabel, Input, Radio, RadioGroup, Stack,ButtonGroup, Button, Textarea, useToast, Box } from "@chakra-ui/react";
+import { Checkbox, FormControl, FormLabel, Input, Radio, RadioGroup, Stack,ButtonGroup, Button, Textarea, useToast, Box, Alert, AlertIcon } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { MdEditDocument } from "react-icons/md";
 import { FaCircleCheck, FaCode, FaRegCopy } from "react-icons/fa6";
@@ -16,58 +16,70 @@ import { reloadTable } from "../../../../../app/utilities/events/customs";
 import { FaUserCheck } from "react-icons/fa";
 import { formatNumberTwoDigits } from "../../../../../app/utilities/web/formatNumber";
 import { toastConfig } from "../../../../../app/utilities/web/configs";
-import { TbWorldCode } from "react-icons/tb";
+import { FaAward } from "react-icons/fa";
 
-const Modal = ({id, open,onClose, setUpdate, refetch}) => {
-    const [showObserver, setShowObserver] = useState(false);
+const url = credentials.server + routesapi.public_winners;
+
+const Modal = ({obj, open,onClose, setUpdate, refetch}) => {
     const [loadingFetch, setLoadingFetch] = useState(false);
     const [errorFetch, setErrorFetch] = useState(null);
     const toast = useToast(toastConfig);
+    const params = JSON.parse(obj.draw_details);
     const [buttonsClicks , setButtonsClick] = useState({
         accept: false,
         cancel: false
     })
     //states
-    const [inputs,setInputs] = useState({
-        full_name: '',
-        taxid: '',
-        comment: '',
-    });
+    const [inputs,setInputs] = useState(obj.winner ? {...obj.winner} : { 
+        payload: JSON.stringify(params.tickets_winner.map((item,i) => {
+        const obj = {};
+        Reflect.set(obj,'user', item.winner.user);
+        Reflect.set(obj,'description', item.description);
+        Reflect.set(obj,'comment', '');
+        Reflect.set(obj,'img_reference', 'winner_' + i);
+        Reflect.set(obj,'path', '');
+        return obj;
+    })),
+    raffles_id: obj.id
+});
+    
     //code
-    let url =  credentials.server + routesapi.admin_rating;
-    url = url + `/${id}`;
     const token = useAccessToken((state) => state.token);
-    const {data, error, loading } = useFetch(url,{method:'GET'},'data',true,token,[id]);
 
     const handleSubmit = async () => {
-        
-        if(buttonsClicks.accept === false && buttonsClicks.cancel === false){
-            toast({
-                title: 'Error',
-                description: 'Para continuar seleccione Aprobar o Negar',
-                status: 'error'                
-            });
-            return;
-        }
-       
 
-        let statusForm = 'CL';
-        let active = true;
-        if(buttonsClicks.accept){
-            statusForm = 'AC';
-            active = false;
-        }
-       
         try{
-          const params = {status: statusForm  , is_active: active};
-          const response = await fetchQuery(token,url,{method:'PATCH',body:new URLSearchParams(params)},setLoadingFetch,setErrorFetch);
+          const form = new FormData();
+          const files = Array.from(document.querySelectorAll('input[type=file]'))
+          .map((input) => {
+            const obj = {};
+            const file = input.files[0];
+            if(file){
+                Reflect.set(obj,'name', input.name);
+                Reflect.set(obj,'file', file);
+
+                return obj;
+            }
+            return null;
+          }).filter((item) => item);
+
+          for(let [key, value] of Object.entries(inputs)){
+            form.append(key, value);
+          }
+
+          files.forEach((item) => {
+             form.append(item.name,item.file);
+          })
+
+          
+          const response = await fetchQuery(token,url,{method:'POST',body: form},setLoadingFetch,setErrorFetch);
           if(!response.status){
             throw Error(response.message);
           }
           
           toast({
             title:'Éxito',
-            description: 'Se actualizo correctamente el estado de la solicitud',
+            description: 'Se actualizo correctamente.',
             status: 'success'
           });
           refetch();
@@ -85,21 +97,28 @@ const Modal = ({id, open,onClose, setUpdate, refetch}) => {
 
     }
 
-    const handleButtons = (option) => {
-        if(option === 'accept'){
-            setButtonsClick({
-                cancel: false,
-                accept: true
-            })
+    const handleChangeJson = (e,index) =>{
+        const name = e.target.name;
+        let value  = e.target.value;
+        let payloadData = JSON.parse(inputs.payload);
+        payloadData[index][name] = value;
+        setInputs({...inputs,payload: JSON.stringify(payloadData)})
+      }
+    
+    const handleImg = (e) => {
+        const file = e.target.files[0];
+        
+        if(file) {
+            const img = e.target.parentElement.querySelector('img');
+            console.log(file)
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const base64String = event.target.result;
+                img.src = base64String;
+            };
+            reader.readAsDataURL(file);
         }
-
-        if(option === 'reprove'){
-            setButtonsClick({
-                accept: false,
-                cancel: true
-            })
-        }
-    }
+    } 
 
     const buttons = <>
     <Button colorScheme='red' mr={3} onClick={onClose}>
@@ -109,88 +128,65 @@ const Modal = ({id, open,onClose, setUpdate, refetch}) => {
         Guardar
       </Button>
     </>;
-    //handlers
-    const handleChange = (e) => {
-        const op = e.target.dataset.info;
-        handleButtons(op);
-        if(op === 'accept'){
-            setInputs({...inputs, is_pending: false});
-            setShowObserver(false);
-            return;
-        }
 
-        setShowObserver(true);
-        setInputs({...inputs, is_pending: true});
-
-    }
   
-
-    //effects
-    useEffect(() => {
-        if(!Array.isArray(data) &&  data.id !== null){
-            setInputs({
-                ...inputs,
-                taxid: data?.user?.taxid,
-                email: data?.user?.email,
-                full_name: data?.user?.first_name + ' ' + data?.user?.last_name,
-                comment: data.comment
-            });   
-        }
-        
-    },[data])
-
     return (
         <>
             <Loader loading={loadingFetch} />
             <AppModal isOpen={open} onClose={onClose} scrollBehavior={'inside'}
-                header={<><FaUserCheck className="text-secondary text-3xl" />Realizar transaccion de retiro.</>}
+                header={<div className="flex items-center gap-4"><FaAward className="text-3xl text-primary" /> <h3 className="title-dynamic "> Ingresar datos de los ganadores</h3></div>}
                 buttons={buttons}
-                size='4xl'
+                size='full'
             >
-                <Form>
-                    <FormControl className="flex items-center mt-3" >
-                        <FormLabel fontWeight={'bold'} margin={0} width={'25%'}>
-                            Doc. Identidad
-                        </FormLabel>
-                        <Input 
-                        isDisabled 
-                        fontWeight={'bold'}
-                        opacity={'0.75 !important'}
-                        defaultValue={inputs.taxid}/>
-                    </FormControl>
-                    <FormControl className="flex items-center mt-3" >
-                        <FormLabel fontWeight={'bold'} margin={0} width={'25%'}>
-                            Nombres
-                        </FormLabel>
-                        <Input 
-                        isDisabled 
-                        fontWeight={'bold'}
-                        opacity={'0.75 !important'}
-                        defaultValue={inputs.full_name}/>
-                    </FormControl>
-                    <FormControl className="flex items-center mt-3" >
-                        <FormLabel fontWeight={'bold'} margin={0} width={'25%'}>
-                            Comentario
-                        </FormLabel>
-                        <p className="shadow p-2 w-full">
-                            {inputs.comment}
-                        </p>
-                    </FormControl>
-                    <ButtonGroup marginTop={15} gap='4'>
-                    <Button 
-                    isDisabled={buttonsClicks.cancel}
-                    onClick={handleChange}
-                    data-info='reprove'
-                    rightIcon={<MdCancel />} 
-                    colorScheme='red'>Negar</Button>
-                    <Button 
-                    isDisabled={buttonsClicks.accept}
-                    rightIcon={<FaCircleCheck />} 
-                    onClick={handleChange}
-                    data-info='accept'
-                    colorScheme='blue'>Aprobar</Button>
-                    </ButtonGroup>
-                </Form>
+                <div className="w-full md:w-10/12 md:m-auto">
+                <Alert>
+                    <AlertIcon />
+                    Ingrese los datos de los ganadores de esta según los premios, no son obligatorios ingresar todos los datos los participantes.
+                </Alert>
+                    <Form className="mt-4">
+                        <div className="flex flex-col gap-2">
+                            {JSON.parse(inputs.payload).map((item, i) => {
+
+                                return (
+                                    <div className="shadow px-1 py-4 rounded-md">
+                                <h3  className="text-lg"><span className="text-primary font-semibold">{item.description.title}:</span>  <span className="text-black text-sm">{item.description.description}</span></h3>
+                                <div className="w-11/12 m-auto">
+                                    <p className="text-md text-gray-600"><span className="text-lg font-semibold">Ganador:</span> {item.user.taxid} - {item.user.first_name} {item.user.last_name}</p>
+                                    <FormControl className="" >
+                                        <FormLabel margin={0} width={'25%'}>
+                                            <span className="text-lg text-gray-600 font-semibold text-sm">Comentarios del ganador</span>
+                                        </FormLabel>
+                                        <Textarea
+                                        onChange={(e) => handleChangeJson(e,i)}
+                                        name='comment'
+                                        value={item.comment}
+                                        resize={"none"}
+                                        
+                                        />
+                                    </FormControl>
+                                    <FormControl className="" >
+                                        <FormLabel margin={0} width={'25%'}>
+                                            <span className="text-lg text-gray-600 font-semibold text-sm">Imagen de constancia</span>
+                                        </FormLabel>
+                                        <div className="flex items-center gap-2">
+                                            <Input type='file'
+                                                onChange={handleImg} 
+                                                name={item.img_reference}
+                                                accept='image/*'
+                                                className='shadow' />
+                                            <img src={ item.path === '' ? '' : credentials.server + item.path }
+                                            className="w-20 h-20" alt="previsualización" />
+
+                                        </div>
+                                    </FormControl>
+                                </div>
+                            </div>
+                                )
+                            })}
+                        </div>
+                        
+                    </Form>
+                </div>
             </AppModal>
         </>
     );

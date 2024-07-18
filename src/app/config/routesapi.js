@@ -40,7 +40,7 @@ export default {
     public_last_raffles: '/api/public/last-raffles',
     public_tickets_by_raffles : '/api/public/raffles/tickets/{id}',
     public_recovery_password: '/api/public/recovery/password',
-    public_winners: '/api/completed/raffles',
+    public_winners: '/api/sorter/winners',
     //payment
     public_payment_raffles: '/api/payment/raffle',
     payment_tickets_credit: '/api/payment/tickets/card-transaction',

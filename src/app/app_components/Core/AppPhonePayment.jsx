@@ -33,8 +33,7 @@ const AppPhonePayment = ({handleClick = () => {}, children, transactionId, param
                 },500)
             }
         }
-
-        setTimeout(() => {
+        script.onload = (e) => {
             const ppb = new PPaymentButtonBox({
                 token: application.tokenPP,
                 // Amount = amountWithoutTax + AmountWithTax + AmountWithTax + Tax + service + tip
@@ -54,7 +53,8 @@ const AppPhonePayment = ({handleClick = () => {}, children, transactionId, param
                 extra: 'dasdad'
                 }).render('pp-button');
                 Promise.resolve(searchButton());
-        },500)
+        }
+        
         return () => {
             document.body.removeChild(script);
             document.head.removeChild(link);

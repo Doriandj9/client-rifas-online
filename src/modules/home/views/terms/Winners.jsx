@@ -49,7 +49,6 @@ useSetHeader('Reseñas de los Ganadores');
     setActiveStep(step);
   };
 
-
   return (
     <>
       <Layout>
@@ -95,41 +94,48 @@ useSetHeader('Reseñas de los Ganadores');
           axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
           index={activeStep}
           onChangeIndex={handleStepChange}
-          enableMouseEvents
-          interval={7000}
+          enableMouseEvents 
+          interval={10000}
         >
-          <div className="flex flex-col gap-2">
-                            {data.map((item) => {
-                           
-                            return JSON.parse(item.payload).map((item, i) => {
-                              
-                                return (
-                                    <div key={i} className="shadow px-1 py-4 rounded-md">
-                                <h3  className="text-sm md:text-lg"><span className="text-primary font-semibold">{item.description.title}:</span>  <span className="text-black text-sm">{item.description.description}</span></h3>
-                                <div className="w-11/12 m-auto">
-                                    <p className="text-xs text-gray-600"><span className="text-sm md:text-lg font-semibold">Ganador: </span>{item.user.first_name} {item.user.last_name}</p>
-                                    <div className='w-full flex gap-1 md:gap-8 md:flex-row flex-col' >
-                                      <p className='w-full'>{item.comment}</p>
-                                      <div className='w-full'>
-                                      <Box
-                                          component="img"
-                                          sx={{
-                                            height: 255,
-                                            display: 'block',
-                                            maxWidth: 400,
-                                            overflow: 'hidden',
-                                            width: '100%',
-                                          }}
-                                          src={ item.path === '' ? '' : credentials.server + item.path }
-                                          alt={'-fotografía'}
-                                        />
-                                      </div>
+          {data.map((item, index) => {
+
+                            return (
+                              <div className='flex gap-2 flex-col'>
+                                  {
+                                    JSON.parse(item.payload).map((item, i) => {
+                                        return item.comment === '' && item.path === '' ? null :   (
+                                        <div  className="shadow px-1 py-4 rounded-md">
+                                        <h3  className="text-sm md:text-lg"><span className="text-primary font-semibold">{item.description.title}:</span>  <span className="text-black text-sm">{item.description.description}</span></h3>
+                                        <div className="w-11/12 m-auto">
+                                            <p className="text-xs text-gray-600"><span className="text-sm md:text-lg font-semibold">Ganador: </span>{item.user.first_name} {item.user.last_name}</p>
+                                            <div className='w-full flex gap-1 md:gap-8 md:flex-row flex-col' >
+                                              <p className='w-full'>{item.comment}</p>
+                                              <div className='w-full'>
+                                              <Box
+                                                  component="img"
+                                                  sx={{
+                                                    height: 255,
+                                                    display: 'block',
+                                                    maxWidth: 400,
+                                                    overflow: 'hidden',
+                                                    width: '100%',
+                                                  }}
+                                                  src={ item.path === '' ? '' : credentials.server + item.path }
+                                                  alt={'-fotografía'}
+                                                />
+                                              </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                                )
-                            })})}
-                        </div>
+                                        )
+                                    })                            
+                                  }
+                              </div>
+                            )
+                            
+                            }
+            )}
+                        
                         
         </AutoPlaySwipeableViews>
         <MobileStepper
@@ -174,7 +180,7 @@ useSetHeader('Reseñas de los Ganadores');
         !loading && Array.isArray(data) && data.length <= 0 &&
         <div className='flex w-full justify-center items-center flex-col gap-4'>
           <p className='title-dynamic'>
-            De momento reseñas disponibles.
+            De momento no hay reseñas disponibles.
           </p>
             <MdDoNotDisturbAlt className='w-20 h-20 text-secondary' />
         </div>

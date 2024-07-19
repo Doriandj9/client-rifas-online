@@ -446,6 +446,18 @@ const AccountPayphone = () => {
                  <span onClick={() => setOpen(true)} className="text-primary cursor-pointer">Conocer más</span>
             </div>
         </Alert>
+        <Alert status="info" className="mt-2">
+            <AlertIcon />
+            <div>
+            Al disponer de una cuenta <strong>Payphone</strong>, tus ventas se realizar con un descuento del 5% más el IVA de ese porcentaje. <br />
+            <strong>Ejemplo:</strong> <br />
+            Tienes un boleto que lo vendes en $1 y recibes $0,94 <br />
+            [ (5% de $1) $0,05 + (IVA de $0,05) $0.0075 = $0.0575 = $0,06 ] = $1 - $0,06 = $0,94
+            <br />
+            Tenga en cuenta que esto no lo hace la plataforma <strong>Hayu24</strong>, lo implementa Payphone según sus políticas. <br />
+            <Link to={'https://www.payphone.app/#w-slider-mask-0'} target="__blank" className="text-primary underline">Mas información</Link>
+            </div>
+        </Alert>
         <div className="xl:w-8/12 lg:w-full md:w-full m-auto">
     
         <div>

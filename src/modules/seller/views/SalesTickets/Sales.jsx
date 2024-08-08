@@ -374,7 +374,8 @@ const Sales = () => {
                                 ${item.user_taxid && item.is_buy ? 'bg-black text-white cursor-none pointer-events-none' : ''}
                                 ${item.user_taxid && !item.is_buy ? 'bg-secondary text-white pointer-events-none' : ''}
                                 font-semibold w-12 h-7 rounded-xl  cursor-pointer flex justify-center items-center`}>
-                                        <span className='mt-1 text-sm'>{item.order}</span>     
+                                        <span className='mt-1 text-sm'>{Intl.NumberFormat('es',{ minimumIntegerDigits: `${data.data.number_tickets}`.length})
+                                            .format(item.order)}</span>
                                 </div>
                             );
                         })}

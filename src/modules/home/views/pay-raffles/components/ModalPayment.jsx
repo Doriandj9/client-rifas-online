@@ -21,7 +21,7 @@ import { lottieOptions } from "../../../../../app/utilities/web/configs";
 const ModalPayment = ({open,handleClose,tickets,total,price, onSubmit, bankAccounts, handleCardPayment}) => {
     const [transaction, setTransaction] = useState('123');
     const [isCredit, setIsCredit] = useState(false);
-    const buttons = <> <Button onClick={onSubmit} type="submit" colorScheme="blue"> Entendido </Button> </>
+    const buttons = <> <Button onClick={onSubmit} type="submit" colorScheme="blue"> Pagar </Button> </>
     const containsAccountPayphone = bankAccounts.find((item) => item.type === 'Payphone' && item.is_account_local === false);
     const handlePayment = (e, isPay) => {
         if(isPay){
@@ -58,7 +58,7 @@ const ModalPayment = ({open,handleClose,tickets,total,price, onSubmit, bankAccou
                 <Tab onClick={(e) => handlePayment(e,false)}>
                 <div className='flex items-center gap-2'>
                     <FaMoneyBillAlt className='text-secondary w-6 h-6'  />
-                    Efectivo
+                    Deposito/Transferencia
                     </div>
                     </Tab>
                 <Tab onClick={(e) => handlePayment(e,true)}>

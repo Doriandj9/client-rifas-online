@@ -2,15 +2,15 @@ const urlLocal = 'http://127.0.0.1:8000';
 const urlProduction = 'https://server.hayu24.ec';
 const urlPreprod = 'https://test.api.hayu24.ec';
 const credentials = {
-    server: urlPreprod,
+    server: urlLocal,
     dominio: 'https://test.hayu24.ec/'
 };
 
 const application =  {
     paginateCount: 10,
     paginateRaffles: 8,
-    environment: 'test',
-    tokenPP: 'rARBcXXKXH5n4lTbimn3vogn-Dndh9YHMjTJv7Fw2ctVKSxVstw-mNO5I8b6knLT4l4xE1TWSdyKYZwSJqHIoP49vb51sR15tRDpohAl1mbpMmTCiIpZfekakMm9weo7CE-gXNowZO1qsXg1ueR1ygbZhXVGgC0f3SiRKyQ-OvM8mgBNHEuLVgIMFZdAt8Eqb4orLfYgoRvGRVU6IhCDjZDTdvnUWjA66vZvJvdGqbuuR9WBFrFkZrm-YNpCdkKW_42DwF9mssNfwn6JrgF1Nk1KCPb77EECISbCLm5enTFMaH8rkgHKk1eBR8eDn4wMMoypXEJ5HOePdLX6h5Mp4zxjdAQ'
+    environment: 'prod',
+    tokenPP: 'NpwSvbZywEi6bVNaF4iq3O3RTr7Ls2Pkm8Q0wNR0G10dOpNBZEADluVu0EvX13mUHpPaUdX1gRbV_r4RVtO63uiD6OlhrywRSDmW5ZCanYs2gxXPt6J9AlFXL0FN3o65jlJko3gTZI53TIXk7fcqQhm8b-GXYr4XsT4-MLnjAPipLv48tkVIKnk855CtFm7qBT680A3T1nLIbDtT-foY78UJB9xyaF1aJy_4-vuHLwXsOg3FID05YwDYCXVAWq83Aw0Lp2rXyIZM6VgKZLdo04OQHa2gunRTo5pvlqiMsBzJ4JnT8I4DmNilJrnRAIEdTunETPwSQp7YvFM1P17c0EZZRzA'
 }
 
 const colors = {

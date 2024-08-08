@@ -454,7 +454,7 @@ const AccountPayphone = () => {
             Tienes un boleto que lo vendes en $1 y recibes $0,94 <br />
             [ (5% de $1) $0,05 + (IVA de $0,05) $0.0075 = $0.0575 = $0,06 ] = $1 - $0,06 = $0,94
             <br />
-            Tenga en cuenta que esto no lo hace la plataforma <strong>Hayu24</strong>, lo implementa Payphone según sus políticas. <br />
+            Tenga en cuenta que esto no lo hace la plataforma <strong>Hayu24</strong>, lo implementa Payphone según sus políticas internas de cobros con tarjeta de crédito o débito. <br />
             <Link to={'https://www.payphone.app/#w-slider-mask-0'} target="__blank" className="text-primary underline">Mas información</Link>
             </div>
         </Alert>

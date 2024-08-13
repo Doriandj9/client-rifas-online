@@ -60,6 +60,10 @@
   @apply py-2 pl-3 pr-4 text-secondaryop-700 bg-primary rounded lg:bg-transparent lg:p-0 dark:text-white flex items-center gap-1;
 }
 
+.app-phone-cel input {
+  @apply py-3 outline-none shadow-md rounded-xl border border-black/5;
+}
+
 .app-select-search{
   background-color: white !important;
   border-color: transparent !important;

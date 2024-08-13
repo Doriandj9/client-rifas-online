@@ -271,15 +271,15 @@ const App = () => {
                 return;
             }
 
-            if(key === 'phone' && !NUMBER_REG_EXPRE.test(value)){
-                toast({
-                    title: 'Error',
-                    description: 'Por favor ingres un número de celular valido.',
-                    status: 'error',
-                    duration: 2500
-                })
-                return;
-            }
+            // if(key === 'phone' && !NUMBER_REG_EXPRE.test(value)){
+            //     toast({
+            //         title: 'Error',
+            //         description: 'Por favor ingres un número de celular valido.',
+            //         status: 'error',
+            //         duration: 2500
+            //     })
+            //     return;
+            // }
             
         }
             setPaymentLoading(true);
@@ -445,15 +445,15 @@ const App = () => {
                 return false;
             }
 
-            if(key === 'phone' && !NUMBER_REG_EXPRE.test(value)){
-                toast({
-                    title: 'Error',
-                    description: 'Por favor ingres un número de celular valido.',
-                    status: 'error',
-                    duration: 2500
-                })
-                return false;
-            }
+            // if(key === 'phone' && !NUMBER_REG_EXPRE.test(value)){
+            //     toast({
+            //         title: 'Error',
+            //         description: 'Por favor ingres un número de celular valido.',
+            //         status: 'error',
+            //         duration: 2500
+            //     })
+            //     return false;
+            // }
             
         }
 

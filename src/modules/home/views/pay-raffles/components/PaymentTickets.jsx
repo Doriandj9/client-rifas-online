@@ -5,7 +5,8 @@ import { FaPersonCircleCheck } from "react-icons/fa6";
 import routesweb from "../../../../../app/config/routesweb";
 import ModalPayment from "./ModalPayment";
 import { CEDULA_REG_EXPRE, CHARACTERS_LETTERS_SPECIALS, CHARACTERS_NUMBERS_SPECIALS, DIGIT_REG_EXPRE, EMAIL_REG_EXPRE, NUMBER_REG_EXPRE } from '@app/app/utilities/validations/Expresions';
-
+import PhoneInput from 'react-phone-number-input';
+import 'react-phone-number-input/style.css';
 
 const PaymentTickets = ({openPayment, handleClosePayment, tickets, price, total, onSubmit, bankAccounts, handleCardPayment}) => {
 
@@ -111,7 +112,7 @@ const PaymentNotAuth = () => {
         phone:'',
         code: '',
     });
-
+    const [value, setValue] = useState('');
     const [validations,setValidations] = useState({
         taxid: false,
         phone: false,
@@ -168,7 +169,11 @@ const PaymentNotAuth = () => {
         if(params.has('seller_code')){
             setInputs({...inputs,code: valueP});
         }
-    },[])
+    },[]);
+
+    useEffect(() => {
+        setInputs({...inputs, phone: value});
+    },[value])
 
     return (
         <>
@@ -219,8 +224,20 @@ const PaymentNotAuth = () => {
                                 focusBorderColor={validations.phone ? 'red.500' : null }
                                 _hover={validations.phone ? 'red.500' : null}
                                 onInput={handleInput}
-                                 className='shadow' height={50} placeholder='Por ejemplo: 0901234567' />
+                                 className='shadow' height={50} placeholder='Por ejemplo: 0901234567' 
+                                 type="hidden"
+                                 />
+                                 <div className="app-phone-cel">
+                                    <PhoneInput
+                                        defaultCountry="EC" // Puedes cambiar el país predeterminado
+                                        value={value}
+                                        onChange={setValue}
+                                        international={true} // Permite ingresar números internacionales
+                                        />
+                                 </div>
                             </FormControl>
+
+
                             <FormControl isDisabled={params.has('seller_code') && valueP.length > 0} marginTop={15}>
                                 <FormLabel fontWeight={'bold'}>Código de afiliado vendedor </FormLabel>
                                 <Input name='code'

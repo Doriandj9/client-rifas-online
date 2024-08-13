@@ -83,7 +83,7 @@ const DisplaySorters = () => {
           enableMouseEvents
         >
           {data.map((step, index) => (
-            <div key={step.id}>
+            <div className='mt-6' key={step.id}>
               {Math.abs(activeStep - index) <= 2 ? (
                 <Box
                   component="img"
@@ -93,6 +93,7 @@ const DisplaySorters = () => {
                     maxWidth: 400,
                     overflow: 'hidden',
                     width: '100%',
+                    maxHeight: 225
                   }}
                   src={step.logo_raffles !== 'logo-raffle.png' ? `${credentials.server}${step.logo_raffles}` : logoRaffle}
                   alt={step.name  + '-logo'}

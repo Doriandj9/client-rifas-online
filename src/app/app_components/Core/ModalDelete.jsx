@@ -3,7 +3,7 @@ import AppModal from "./AppModal";
 
 
 
-const ModalDelete = ({open,handleClose,handleSave,message}) => {
+const ModalDelete = ({open,handleClose,handleSave,message, component=null}) => {
     
     const buttons = <> 
     <div className="flex gap-4">
@@ -22,7 +22,12 @@ const ModalDelete = ({open,handleClose,handleSave,message}) => {
             motionPreset='slideInBottom'
             >
                 <div className="p-4">
-                    <Alert
+                {
+                component &&
+                    component
+                }
+                    {
+                       !component && <Alert
                         status='warning'
                         variant='subtle'
                         flexDirection='column'
@@ -35,11 +40,11 @@ const ModalDelete = ({open,handleClose,handleSave,message}) => {
                             <AlertTitle mt={4} mb={1} fontSize='lg'>
                                 Advertencia!
                             </AlertTitle>
-                            <AlertDescription dangerouslySetInnerHTML={{ __html: message }}>
-                        
-                            </AlertDescription>
+
+                                <AlertDescription dangerouslySetInnerHTML={{ __html: message }}></AlertDescription>
+                            
                     </Alert>
-                    
+                    }
                 </div>
 
             </AppModal>

@@ -35,6 +35,7 @@ export default {
     raffle_complete: '/api/raffles/complete/{id}',
     raffles_plans_card: '/api/card-transaction/plans',
     raffles_me_income: '/api/raffles/me/income/{id}',
+    raffle_cancel: '/api/raffles/cancel/raffle/{id}',
     //public
     public_raffles: '/api/public/raffles',
     public_last_raffles: '/api/public/last-raffles',
@@ -56,5 +57,6 @@ export default {
     seller_payment_tickets: '/api/seller/receipts',
     seller_sales: '/api/seller/sales/{taxid}',
     rating: '/api/rating',
-    not_notify : '/api/not-recibe/notify'
+    not_notify : '/api/not-recibe/notify',
+
 };
